@@ -1,120 +1,191 @@
-<section class="container mx-auto px-4 md:px-8 py-10">
-  <div class="mb-8">
-    <h1 class="text-2xl md:text-3xl font-semibold text-white">Clients</h1>
-    <p class="text-neutral-400">Manage your client directory.</p>
-  </div>
+<div class="section-minimal">
+  <!-- Header -->
+  <h1 class="hero-title-minimal mb-large-minimal" style="font-size: 48px;">Clients</h1>
 
-  <div class="grid md:grid-cols-2 gap-8">
-    <div class="chrome-surface chrome-border rounded-lg p-6">
-      <h2 class="text-lg font-medium text-white mb-4">Add Client</h2>
+  <div class="grid-minimal grid-2-minimal">
+    <!-- Add Client Form -->
+    <div class="interface-pod-minimal">
+      <h2 class="pod-title-minimal">Add Client</h2>
+
       @if (error()) {
-      <div class="mb-4 text-sm text-red-300">
-        {{ error() }}
+      <div style="padding: 20px; margin-bottom: 40px; border: 0.5px solid rgba(255, 100, 100, 0.3); background: rgba(255, 100, 100, 0.05);">
+        <p style="color: rgba(255, 100, 100, 0.8); font-size: 12px;">{{ error() }}</p>
       </div>
       }
-      <form [formGroup]="form" (ngSubmit)="submit()" class="space-y-4">
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-          <label class="form-control">
-            <span class="label-text">Name</span>
+
+      <form [formGroup]="form" (ngSubmit)="submit()" class="form-grid-minimal">
+        <div class="grid-minimal grid-2-minimal">
+          <div class="form-field-minimal">
+            <label class="form-label-minimal">Name</label>
             <input
-              class="input"
               type="text"
+              class="form-input-minimal"
               formControlName="name"
-              required
-              aria-label="Client name"
+              placeholder="Acme Restaurant"
             />
-          </label>
-          <label class="form-control">
-            <span class="label-text">Email</span>
-            <input
-              class="input"
-              type="email"
-              formControlName="email"
-              required
-              aria-label="Client email"
-            />
-          </label>
-          <label class="form-control">
-            <span class="label-text">Phone</span>
-            <input class="input" type="tel" formControlName="phone" aria-label="Client phone" />
-          </label>
-          <label class="form-control">
-            <span class="label-text">Website</span>
-            <input class="input" type="url" formControlName="website" aria-label="Client website" />
-          </label>
-          <label class="form-control md:col-span-2">
-            <span class="label-text">Street</span>
-            <input class="input" type="text" formControlName="street" aria-label="Street address" />
-          </label>
-          <label class="form-control">
-            <span class="label-text">City</span>
-            <input class="input" type="text" formControlName="city" aria-label="City" />
-          </label>
-          <label class="form-control">
-            <span class="label-text">State</span>
-            <input class="input" type="text" formControlName="state" aria-label="State" />
-          </label>
-          <label class="form-control">
-            <span class="label-text">ZIP</span>
-            <input class="input" type="text" formControlName="zip" aria-label="ZIP code" />
-          </label>
-          <div class="flex items-center gap-3 md:col-span-2">
-            <input id="taxExempt" type="checkbox" formControlName="isTaxExempt" class="checkbox" />
-            <label for="taxExempt" class="label-text">Tax Exempt</label>
           </div>
-          <label class="form-control">
-            <span class="label-text">Default Discount (0-1)</span>
+
+          <div class="form-field-minimal">
+            <label class="form-label-minimal">Email</label>
             <input
-              class="input"
+              type="email"
+              class="form-input-minimal"
+              formControlName="email"
+              placeholder="contact@acme.com"
+            />
+          </div>
+
+          <div class="form-field-minimal">
+            <label class="form-label-minimal">Phone</label>
+            <input
+              type="tel"
+              class="form-input-minimal"
+              formControlName="phone"
+              placeholder="(555) 123-4567"
+            />
+          </div>
+
+          <div class="form-field-minimal">
+            <label class="form-label-minimal">Website</label>
+            <input
+              type="url"
+              class="form-input-minimal"
+              formControlName="website"
+              placeholder="https://acme.com"
+            />
+          </div>
+        </div>
+
+        <div class="form-field-minimal">
+          <label class="form-label-minimal">Address</label>
+          <input
+            type="text"
+            class="form-input-minimal"
+            formControlName="street"
+            placeholder="123 Main Street"
+          />
+        </div>
+
+        <div class="grid-minimal grid-3-minimal">
+          <div class="form-field-minimal">
+            <label class="form-label-minimal">City</label>
+            <input
+              type="text"
+              class="form-input-minimal"
+              formControlName="city"
+              placeholder="San Francisco"
+            />
+          </div>
+
+          <div class="form-field-minimal">
+            <label class="form-label-minimal">State</label>
+            <input
+              type="text"
+              class="form-input-minimal"
+              formControlName="state"
+              placeholder="CA"
+            />
+          </div>
+
+          <div class="form-field-minimal">
+            <label class="form-label-minimal">ZIP</label>
+            <input
+              type="text"
+              class="form-input-minimal"
+              formControlName="zip"
+              placeholder="94102"
+            />
+          </div>
+        </div>
+
+        <div class="grid-minimal grid-2-minimal">
+          <div class="form-field-minimal">
+            <label class="form-label-minimal">Discount Rate</label>
+            <input
               type="number"
               step="0.01"
               min="0"
               max="1"
+              class="form-input-minimal"
               formControlName="defaultDiscountRate"
-              aria-label="Default discount rate"
+              placeholder="0.05"
             />
-          </label>
-          <label class="form-control md:col-span-2">
-            <span class="label-text">Notes</span>
-            <textarea
-              class="textarea"
-              rows="3"
-              formControlName="notes"
-              aria-label="Notes"
-            ></textarea>
-          </label>
+          </div>
+
+          <div class="form-field-minimal" style="display: flex; align-items: center; gap: 16px; margin-top: 40px;">
+            <input
+              id="taxExempt"
+              type="checkbox"
+              formControlName="isTaxExempt"
+              style="width: 16px; height: 16px; background: transparent; border: 0.5px solid rgba(255,255,255,0.2);"
+            />
+            <label for="taxExempt" class="form-label-minimal" style="margin-bottom: 0;">Tax Exempt</label>
+          </div>
         </div>
-        <div class="pt-2">
-          <button type="submit" class="btn btn-primary" [disabled]="form.invalid || submitting()">
-            Add Client
+
+        <div class="form-field-minimal">
+          <label class="form-label-minimal">Notes</label>
+          <textarea
+            class="form-textarea-minimal"
+            formControlName="notes"
+            placeholder="Special instructions..."
+          ></textarea>
+        </div>
+
+        <div style="margin-top: 80px; text-align: center;">
+          <button
+            type="submit"
+            class="btn-minimal"
+            [disabled]="form.invalid || submitting()"
+          >
+            {{ submitting() ? 'Adding...' : 'Add Client' }}
           </button>
         </div>
       </form>
     </div>
 
-    <div class="chrome-surface chrome-border rounded-lg p-6">
-      <h2 class="text-lg font-medium text-white mb-4">Client List</h2>
-      <div class="divide-y divide-white/5">
-        @for (c of clients(); track c.id) {
-        <div class="flex items-start justify-between py-4">
-          <div>
-            <div class="text-white font-medium">{{ c.name }}</div>
-            <div class="text-neutral-400 text-sm">{{ c.email }} • {{ c.phone }}</div>
-            <div class="text-neutral-500 text-xs">
-              {{ c.street }}, {{ c.city }}, {{ c.state }} {{ c.zip }}
-            </div>
+    <!-- Client List -->
+    <div>
+      <h2 class="data-title-minimal">Active Clients</h2>
+      
+      <div class="data-grid-minimal" style="grid-template-columns: 1fr; gap: 40px;">
+        @for (client of clients(); track client.id) {
+        <div class="data-item-minimal" style="text-align: left; padding: 40px;">
+          <div class="data-name-minimal">{{ client.name }}</div>
+          <div class="data-meta-minimal">{{ client.email }} • {{ client.phone }}</div>
+          @if (client.street || client.city || client.state) {
+          <div class="data-meta-minimal" style="margin-top: 8px;">
+            {{ client.street }}{{ client.street && (client.city || client.state) ? ', ' : '' }}
+            {{ client.city }}{{ client.city && client.state ? ', ' : '' }}
+            {{ client.state }} {{ client.zip }}
           </div>
-          <div class="flex items-center gap-2">
-            <a class="btn btn-ghost" [href]="c.website" target="_blank" rel="noopener noreferrer"
-              >Site</a
-            >
-            <button class="btn btn-outline" (click)="remove(c.id)">Delete</button>
+          }
+          
+          <div style="margin-top: 20px; display: flex; gap: 20px; align-items: center;">
+            @if (client.defaultDiscountRate > 0) {
+            <span class="badge-minimal">{{ (client.defaultDiscountRate * 100) | number:'1.0-1' }}% discount</span>
+            }
+            @if (client.isTaxExempt) {
+            <span class="badge-success-minimal">tax exempt</span>
+            }
+          </div>
+
+          <div style="margin-top: 30px; display: flex; gap: 20px;">
+            @if (client.website) {
+            <a [href]="client.website" target="_blank" class="btn-ghost-minimal">Website</a>
+            }
+            <a [href]="'mailto:' + client.email" class="btn-ghost-minimal">Email</a>
+            <a [href]="'tel:' + client.phone" class="btn-ghost-minimal">Call</a>
+            <button (click)="remove(client.id)" class="btn-ghost-minimal" style="color: rgba(255, 100, 100, 0.7);">Delete</button>
           </div>
         </div>
         } @empty {
-        <div class="text-neutral-400">No clients yet.</div>
+        <div class="data-item-minimal">
+          <div class="data-name-minimal">No clients yet</div>
+          <div class="data-meta-minimal">Add your first client above</div>
+        </div>
         }
       </div>
     </div>
   </div>
-</section>
+</div>

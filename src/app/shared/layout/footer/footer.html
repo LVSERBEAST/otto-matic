@@ -1,8 +1,3019 @@
-<footer class="w-full chrome-surface chrome-border">
-  <div
-    class="container mx-auto px-4 md:px-8 py-6 text-xs text-neutral-400 flex items-center justify-between"
-  >
-    <p>&copy; {{ currentYear }} Otto Matic. All rights reserved.</p>
-    <p class="hidden sm:block">Built with Angular 20</p>
+<footer class="header-minimal" style="position: relative; margin-top: auto;">
+  <div class="header-content" style="height: 60px;">
+    <p class="data-meta-minimal">
+      © {{ currentYear }} Otto Matic. Professional print quoting.
+    </p>
+    <div style="display: flex; align-items: center; gap: 40px;">
+      <p class="data-meta-minimal">
+        Built with Angular
+      </p>
+      <a 
+        #!/usr/bin/env pwsh
+
+# Otto Matic - Post-Modern Minimal Design System Implementation
+# This script completely transforms the app with ultra-minimalist, post-modern design
+
+Write-Host "🖤 Starting Otto Matic Post-Modern Design Transformation..." -ForegroundColor Cyan
+Write-Host ""
+
+# Check if we're in the right directory
+if (-not (Test-Path "package.json")) {
+    Write-Host "❌ Error: package.json not found. Please run this script from the project root directory." -ForegroundColor Red
+    exit 1
+}
+
+Write-Host "✅ Found package.json - proceeding with post-modern transformation..." -ForegroundColor Green
+Write-Host ""
+
+# Phase 1: Update global styles with post-modern system
+Write-Host "🎨 Phase 1: Implementing post-modern design system..." -ForegroundColor Yellow
+
+$newGlobalStyles = @"
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600&family=JetBrains+Mono:wght@100;200;300;400&display=swap');
+
+:root {
+  /* Post-modern void palette */
+  --void: #070707;
+  --surface: #0e0e0e;
+  --elevation: #141414;
+  --whisper: #383838;
+  --ghost: #686868;
+  --text: #e6e6e6;
+  --accent: #ffffff;
+  --glow: rgba(255, 255, 255, 0.015);
+}
+
+/* Global reset with precision */
+*, *::before, *::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+::selection {
+  background: rgba(255, 255, 255, 0.1);
+  color: var(--accent);
+}
+
+/* Ultra-minimal body */
+html, body {
+  font-family: "Inter", -apple-system, sans-serif;
+  background: var(--void);
+  color: var(--text);
+  font-weight: 200;
+  line-height: 1.75;
+  letter-spacing: 0.02em;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+  font-feature-settings: "kern" 1, "liga" 1, "tnum" 1;
+  overflow-x: hidden;
+  min-height: 100vh;
+}
+
+/* Floating minimal elements */
+.floating-element {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  background: var(--accent);
+  opacity: 0.3;
+}
+
+.element-1 {
+  top: 20%;
+  left: 15%;
+  animation: float 20s infinite;
+}
+
+.element-2 {
+  top: 60%;
+  right: 20%;
+  animation: float 25s infinite reverse;
+}
+
+.element-3 {
+  bottom: 30%;
+  left: 80%;
+  animation: float 30s infinite;
+}
+
+@keyframes float {
+  0%, 100% { 
+    opacity: 0.1; 
+    transform: translateY(0); 
+  }
+  50% { 
+    opacity: 0.3; 
+    transform: translateY(-20px); 
+  }
+}
+
+/* Ultra minimal header system */
+.header-minimal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 100;
+  background: rgba(7, 7, 7, 0.8);
+  backdrop-filter: blur(40px);
+  -webkit-backdrop-filter: blur(40px);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.03);
+}
+
+.header-content {
+  max-width: 1600px;
+  margin: 0 auto;
+  padding: 0 80px;
+  height: 80px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.logo-minimal {
+  font-family: "JetBrains Mono", monospace;
+  font-size: 9px;
+  font-weight: 300;
+  letter-spacing: 8px;
+  text-transform: uppercase;
+  color: var(--accent);
+  text-decoration: none;
+  opacity: 0.85;
+  transition: all 0.6s cubic-bezier(0.23, 1, 0.32, 1);
+  font-feature-settings: "tnum" 1, "zero" 1;
+}
+
+.logo-minimal:hover {
+  opacity: 1;
+  letter-spacing: 12px;
+}
+
+.nav-minimal {
+  display: flex;
+  gap: 80px;
+}
+
+.nav-link-minimal {
+  font-size: 11px;
+  font-weight: 200;
+  color: var(--ghost);
+  text-decoration: none;
+  transition: all 0.6s cubic-bezier(0.23, 1, 0.32, 1);
+  position: relative;
+  letter-spacing: 0.05em;
+  font-feature-settings: "ss01" 1;
+}
+
+.nav-link-minimal:hover {
+  color: var(--accent);
+  letter-spacing: 0.15em;
+}
+
+.nav-link-minimal.active {
+  color: var(--accent);
+  letter-spacing: 0.1em;
+}
+
+.nav-link-minimal.active::after {
+  content: '';
+  position: absolute;
+  bottom: -3px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 1px;
+  height: 1px;
+  background: var(--accent);
+  box-shadow: 0 0 8px rgba(255, 255, 255, 0.4);
+}
+
+.user-indicator-minimal {
+  font-family: "JetBrains Mono", monospace;
+  font-size: 8px;
+  font-weight: 200;
+  color: var(--whisper);
+  letter-spacing: 6px;
+  text-transform: uppercase;
+  font-feature-settings: "tnum" 1;
+}
+
+/* Main layout system */
+.main-minimal {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 120px 80px 80px;
+}
+
+.container-minimal {
+  max-width: 1200px;
+  width: 100%;
+  margin: 0 auto;
+}
+
+/* Hero section with precise spacing */
+.hero-section-minimal {
+  text-align: center;
+  margin-bottom: 200px;
+}
+
+.hero-title-minimal {
+  font-family: "Inter", sans-serif;
+  font-size: 84px;
+  font-weight: 100;
+  letter-spacing: 0.08em;
+  color: var(--accent);
+  margin-bottom: 60px;
+  line-height: 0.95;
+  font-feature-settings: "ss01" 1, "ss02" 1;
+  text-rendering: geometricPrecision;
+}
+
+.hero-subtitle-minimal {
+  font-family: "JetBrains Mono", monospace;
+  font-size: 12px;
+  font-weight: 200;
+  color: var(--ghost);
+  letter-spacing: 0.6em;
+  text-transform: lowercase;
+  font-feature-settings: "tnum" 1, "zero" 1;
+}
+
+/* Floating interface pod */
+.interface-pod-minimal {
+  background: linear-gradient(145deg, var(--surface), var(--elevation));
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  border-radius: 2px;
+  padding: 60px;
+  margin: 0 auto;
+  max-width: 600px;
+  box-shadow: 
+    0 40px 100px rgba(0, 0, 0, 0.5),
+    inset 0 1px 0 rgba(255, 255, 255, 0.03);
+  position: relative;
+}
+
+.interface-pod-minimal::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: var(--glow);
+  border-radius: 2px;
+  pointer-events: none;
+}
+
+.pod-title-minimal {
+  font-family: "JetBrains Mono", monospace;
+  font-size: 10px;
+  font-weight: 300;
+  color: var(--accent);
+  letter-spacing: 0.6em;
+  text-transform: uppercase;
+  margin-bottom: 80px;
+  text-align: center;
+  font-feature-settings: "tnum" 1, "zero" 1;
+}
+
+/* Form system */
+.form-grid-minimal {
+  display: grid;
+  gap: 60px;
+}
+
+.form-field-minimal {
+  position: relative;
+}
+
+.form-label-minimal {
+  font-family: "JetBrains Mono", monospace;
+  font-size: 8px;
+  font-weight: 300;
+  color: var(--whisper);
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  margin-bottom: 24px;
+  display: block;
+  font-feature-settings: "tnum" 1;
+}
+
+.form-input-minimal,
+.form-select-minimal,
+.form-textarea-minimal {
+  width: 100%;
+  background: transparent;
+  border: none;
+  border-bottom: 0.5px solid rgba(255, 255, 255, 0.06);
+  color: var(--text);
+  font-family: "Inter", sans-serif;
+  font-size: 18px;
+  font-weight: 200;
+  padding: 20px 0;
+  transition: all 0.8s cubic-bezier(0.23, 1, 0.32, 1);
+  letter-spacing: 0.01em;
+  font-feature-settings: "tnum" 1, "liga" 1;
+}
+
+.form-input-minimal:focus,
+.form-select-minimal:focus,
+.form-textarea-minimal:focus {
+  outline: none;
+  border-bottom-color: rgba(255, 255, 255, 0.2);
+  letter-spacing: 0.02em;
+}
+
+.form-input-minimal::placeholder {
+  color: var(--whisper);
+  font-weight: 200;
+  letter-spacing: 0.01em;
+}
+
+.form-textarea-minimal {
+  resize: vertical;
+  min-height: 120px;
+}
+
+/* Button system */
+.btn-minimal {
+  background: transparent;
+  border: 0.5px solid rgba(255, 255, 255, 0.08);
+  color: var(--accent);
+  padding: 24px 80px;
+  font-family: "JetBrains Mono", monospace;
+  font-size: 9px;
+  font-weight: 300;
+  letter-spacing: 0.5em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: all 0.8s cubic-bezier(0.23, 1, 0.32, 1);
+  font-feature-settings: "tnum" 1, "zero" 1;
+  text-decoration: none;
+  display: inline-block;
+}
+
+.btn-minimal:hover {
+  border-color: rgba(255, 255, 255, 0.2);
+  background: rgba(255, 255, 255, 0.01);
+  letter-spacing: 0.7em;
+}
+
+.btn-outline-minimal {
+  background: transparent;
+  border: 0.5px solid rgba(255, 255, 255, 0.1);
+  color: var(--ghost);
+  padding: 16px 40px;
+  font-family: "JetBrains Mono", monospace;
+  font-size: 8px;
+  font-weight: 300;
+  letter-spacing: 0.4em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: all 0.6s cubic-bezier(0.23, 1, 0.32, 1);
+  text-decoration: none;
+  display: inline-block;
+}
+
+.btn-outline-minimal:hover {
+  border-color: rgba(255, 255, 255, 0.3);
+  color: var(--accent);
+  letter-spacing: 0.6em;
+}
+
+.btn-ghost-minimal {
+  background: transparent;
+  border: none;
+  color: var(--ghost);
+  padding: 12px 20px;
+  font-family: "Inter", sans-serif;
+  font-size: 11px;
+  font-weight: 200;
+  letter-spacing: 0.05em;
+  cursor: pointer;
+  transition: all 0.6s cubic-bezier(0.23, 1, 0.32, 1);
+  text-decoration: none;
+  display: inline-block;
+}
+
+.btn-ghost-minimal:hover {
+  color: var(--accent);
+  letter-spacing: 0.1em;
+}
+
+/* Data presentation system */
+.data-section-minimal {
+  margin-top: 300px;
+  text-align: center;
+}
+
+.data-title-minimal {
+  font-family: "JetBrains Mono", monospace;
+  font-size: 9px;
+  font-weight: 300;
+  color: var(--whisper);
+  letter-spacing: 0.8em;
+  text-transform: uppercase;
+  margin-bottom: 120px;
+  font-feature-settings: "tnum" 1, "zero" 1;
+}
+
+.data-grid-minimal {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 120px;
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+.data-item-minimal {
+  text-align: center;
+  opacity: 0.6;
+  transition: all 0.8s cubic-bezier(0.23, 1, 0.32, 1);
+  padding: 40px 20px;
+  border: 0.5px solid rgba(255, 255, 255, 0.03);
+  background: rgba(255, 255, 255, 0.005);
+}
+
+.data-item-minimal:hover {
+  opacity: 1;
+  transform: translateY(-2px);
+  border-color: rgba(255, 255, 255, 0.08);
+}
+
+.data-name-minimal {
+  font-family: "Inter", sans-serif;
+  font-size: 16px;
+  font-weight: 200;
+  color: var(--text);
+  margin-bottom: 12px;
+  letter-spacing: 0.01em;
+  font-feature-settings: "ss01" 1;
+}
+
+.data-meta-minimal {
+  font-family: "JetBrains Mono", monospace;
+  font-size: 9px;
+  font-weight: 200;
+  color: var(--whisper);
+  letter-spacing: 0.2em;
+  text-transform: lowercase;
+  font-feature-settings: "tnum" 1;
+}
+
+.data-value-minimal {
+  font-family: "JetBrains Mono", monospace;
+  font-size: 20px;
+  font-weight: 300;
+  color: var(--accent);
+  margin-top: 24px;
+  letter-spacing: 0.05em;
+  font-feature-settings: "tnum" 1, "zero" 1;
+  font-variant-numeric: tabular-nums;
+}
+
+/* Status badges */
+.badge-minimal {
+  font-family: "JetBrains Mono", monospace;
+  font-size: 7px;
+  font-weight: 300;
+  color: var(--whisper);
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  padding: 8px 16px;
+  border: 0.5px solid rgba(255, 255, 255, 0.1);
+  background: rgba(255, 255, 255, 0.02);
+  display: inline-block;
+  font-feature-settings: "tnum" 1;
+}
+
+.badge-success-minimal {
+  color: rgba(255, 255, 255, 0.8);
+  border-color: rgba(255, 255, 255, 0.2);
+}
+
+.badge-warning-minimal {
+  color: var(--whisper);
+  border-color: rgba(255, 255, 255, 0.1);
+}
+
+/* Layout utilities */
+.section-minimal {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 80px;
+}
+
+.grid-minimal {
+  display: grid;
+  gap: 80px;
+}
+
+.grid-2-minimal {
+  grid-template-columns: repeat(2, 1fr);
+}
+
+.grid-3-minimal {
+  grid-template-columns: repeat(3, 1fr);
+}
+
+.flex-minimal {
+  display: flex;
+  gap: 40px;
+  align-items: center;
+}
+
+.text-center-minimal {
+  text-align: center;
+}
+
+.mb-large-minimal {
+  margin-bottom: 120px;
+}
+
+.mb-medium-minimal {
+  margin-bottom: 80px;
+}
+
+.mb-small-minimal {
+  margin-bottom: 40px;
+}
+
+/* Responsive design */
+@media (max-width: 1200px) {
+  .header-content {
+    padding: 0 60px;
+  }
+  
+  .main-minimal {
+    padding: 100px 60px 80px;
+  }
+  
+  .interface-pod-minimal {
+    padding: 50px;
+  }
+  
+  .data-grid-minimal {
+    gap: 80px;
+  }
+}
+
+@media (max-width: 768px) {
+  .header-content {
+    padding: 0 40px;
+  }
+
+  .main-minimal {
+    padding: 100px 40px 60px;
+  }
+
+  .hero-title-minimal {
+    font-size: 48px;
+    letter-spacing: 0.05em;
+  }
+
+  .interface-pod-minimal {
+    padding: 40px;
+  }
+
+  .nav-minimal {
+    gap: 30px;
+  }
+
+  .data-grid-minimal {
+    grid-template-columns: 1fr;
+    gap: 60px;
+  }
+  
+  .grid-2-minimal,
+  .grid-3-minimal {
+    grid-template-columns: 1fr;
+  }
+  
+  .flex-minimal {
+    flex-direction: column;
+    gap: 20px;
+  }
+}
+
+/* Accessibility */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+@media (prefers-contrast: high) {
+  :root {
+    --text: #ffffff;
+    --ghost: #cccccc;
+    --whisper: #999999;
+  }
+}
+"@
+
+$newGlobalStyles | Set-Content "src/styles.scss"
+Write-Host "   ✅ Updated global post-modern design system" -ForegroundColor Green
+
+# Phase 2: Update Header Component
+Write-Host "🏠 Phase 2: Updating Header with minimal aesthetic..." -ForegroundColor Yellow
+
+$newHeaderTemplate = @"
+<!-- Floating minimal elements -->
+<div class="floating-element element-1"></div>
+<div class="floating-element element-2"></div>
+<div class="floating-element element-3"></div>
+
+<!-- Ultra minimal header -->
+<header class="header-minimal">
+  <div class="header-content">
+    <a routerLink="/" class="logo-minimal">Otto Matic</a>
+    <nav class="nav-minimal">
+      @if (isLoggedIn()) {
+      <a
+        routerLink="/quotes"
+        routerLinkActive="active"
+        class="nav-link-minimal"
+        >Quotes</a
+      >
+      <a
+        routerLink="/clients"
+        routerLinkActive="active"
+        class="nav-link-minimal"
+        >Clients</a
+      >
+      }
+    </nav>
+    <div class="user-indicator-minimal">
+      @if (isLoggedIn()) {
+      {{ userRole() }}
+      } @else {
+      Guest
+      }
+    </div>
+  </div>
+</header>
+
+<!-- Login Modal -->
+<app-login-modal
+  [open]="openLogin()"
+  [requestRole]="requestedRole()"
+  (close)="openLogin.set(false)"
+/>
+"@
+
+$newHeaderStyles = @"
+/* Header styles are now in global styles.scss */
+/* This file can be empty or removed */
+"@
+
+$newHeaderTemplate | Set-Content "src/app/shared/layout/header/header.html"
+$newHeaderStyles | Set-Content "src/app/shared/layout/header/header.scss"
+Write-Host "   ✅ Updated Header component" -ForegroundColor Green
+
+# Phase 3: Update Landing Page
+Write-Host "🏠 Phase 3: Updating Landing page with post-modern hero..." -ForegroundColor Yellow
+
+$newLandingTemplate = @"
+<!-- Post-modern main content -->
+<main class="main-minimal">
+  <div class="container-minimal">
+    <!-- Hero with precise spacing -->
+    <section class="hero-section-minimal">
+      <h1 class="hero-title-minimal">precision</h1>
+      <p class="hero-subtitle-minimal">professional print quoting</p>
+    </section>
+
+    <!-- Floating interface pod -->
+    <section class="interface-pod-minimal">
+      <h2 class="pod-title-minimal">New Specification</h2>
+      
+      <form class="form-grid-minimal">
+        <div class="form-field-minimal">
+          <label class="form-label-minimal">Client</label>
+          <select class="form-select-minimal">
+            <option>Select client</option>
+            <option>Acme Restaurant</option>
+            <option>Local Brewery</option>
+          </select>
+        </div>
+
+        <div class="form-field-minimal">
+          <label class="form-label-minimal">Material</label>
+          <input type="text" class="form-input-minimal" placeholder="Crane Lettra 220gsm">
+        </div>
+
+        <div class="form-field-minimal">
+          <label class="form-label-minimal">Quantity</label>
+          <input type="number" class="form-input-minimal" placeholder="500">
+        </div>
+
+        <div class="form-field-minimal">
+          <label class="form-label-minimal">Process</label>
+          <select class="form-select-minimal">
+            <option>Letterpress</option>
+            <option>Foil Stamping</option>
+            <option>Embossing</option>
+          </select>
+        </div>
+
+        <div style="margin-top: 120px; text-align: center;">
+          <button type="submit" class="btn-minimal">Calculate</button>
+        </div>
+      </form>
+    </section>
+
+    <!-- Minimal data presentation -->
+    <section class="data-section-minimal">
+      <h2 class="data-title-minimal">Recent Work</h2>
+      
+      <div class="data-grid-minimal">
+        <div class="data-item-minimal">
+          <div class="data-name-minimal">Acme Restaurant</div>
+          <div class="data-meta-minimal">letterpress • 2 colors</div>
+          <div class="data-value-minimal">$2,450</div>
+        </div>
+        
+        <div class="data-item-minimal">
+          <div class="data-name-minimal">Local Brewery</div>
+          <div class="data-meta-minimal">foil stamp • gold</div>
+          <div class="data-value-minimal">$1,850</div>
+        </div>
+        
+        <div class="data-item-minimal">
+          <div class="data-name-minimal">Design Studio</div>
+          <div class="data-meta-minimal">emboss • blind</div>
+          <div class="data-value-minimal">$3,200</div>
+        </div>
+      </div>
+    </section>
+  </div>
+</main>
+"@
+
+$newLandingTemplate | Set-Content "src/app/features/landing/landing.html"
+Write-Host "   ✅ Updated Landing page" -ForegroundColor Green
+
+# Phase 4: Update Quotes Page
+Write-Host "💰 Phase 4: Updating Quotes page with minimal aesthetic..." -ForegroundColor Yellow
+
+$newQuotesTemplate = @"
+<div class="section-minimal">
+  <!-- Header -->
+  <div class="flex-minimal mb-large-minimal" style="justify-content: space-between;">
+    <h1 class="hero-title-minimal" style="font-size: 48px; margin-bottom: 0;">Quotes</h1>
+    <button type="button" class="btn-outline-minimal">Export</button>
+  </div>
+
+  <!-- Quote Form -->
+  <div class="interface-pod-minimal mb-large-minimal">
+    <h2 class="pod-title-minimal">New Quote</h2>
+    
+    <form (ngSubmit)="createQuote(quoteForm.value)" #quoteForm="ngForm" class="form-grid-minimal">
+      <div class="grid-minimal grid-3-minimal">
+        <div class="form-field-minimal">
+          <label class="form-label-minimal">Client</label>
+          <select 
+            class="form-select-minimal" 
+            name="clientId" 
+            ngModel 
+            required
+          >
+            <option value="">Select client</option>
+            <option value="1">Acme Restaurant</option>
+            <option value="2">Local Brewery</option>
+            <option value="3">Design Studio</option>
+          </select>
+        </div>
+
+        <div class="form-field-minimal">
+          <label class="form-label-minimal">Material</label>
+          <input 
+            type="text" 
+            class="form-input-minimal" 
+            placeholder="Crane Lettra 220gsm"
+            name="material"
+            ngModel
+          >
+        </div>
+
+        <div class="form-field-minimal">
+          <label class="form-label-minimal">Quantity</label>
+          <input 
+            type="number" 
+            class="form-input-minimal" 
+            placeholder="500"
+            name="quantity"
+            ngModel
+          >
+        </div>
+
+        <div class="form-field-minimal">
+          <label class="form-label-minimal">Price Per Unit</label>
+          <input 
+            type="number" 
+            step="0.01"
+            class="form-input-minimal" 
+            placeholder="2.50"
+            name="pricePerUnit"
+            ngModel
+          >
+        </div>
+
+        <div class="form-field-minimal">
+          <label class="form-label-minimal">Size</label>
+          <input 
+            type="text" 
+            class="form-input-minimal" 
+            placeholder="5.5 × 8.5 inches"
+            name="size"
+            ngModel
+          >
+        </div>
+
+        <div class="form-field-minimal">
+          <label class="form-label-minimal">Process</label>
+          <select 
+            class="form-select-minimal"
+            name="finishType"
+            ngModel
+          >
+            <option value="">Select process</option>
+            <option value="Letterpress">Letterpress</option>
+            <option value="Foil Stamping">Foil Stamping</option>
+            <option value="Embossing">Embossing</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="form-field-minimal">
+        <label class="form-label-minimal">Notes</label>
+        <textarea 
+          class="form-textarea-minimal" 
+          placeholder="Special instructions..."
+          name="notes"
+          ngModel
+        ></textarea>
+      </div>
+
+      <div style="margin-top: 80px; text-align: center;">
+        <button type="submit" class="btn-minimal">Calculate Quote</button>
+      </div>
+    </form>
+  </div>
+
+  <!-- Quotes List -->
+  <div>
+    <h2 class="data-title-minimal">Recent Quotes</h2>
+    
+    <div class="data-grid-minimal">
+      @for (quote of quotes(); track quote.quoteId) {
+      <div class="data-item-minimal">
+        <div class="data-name-minimal">{{ quote.clientName }}</div>
+        <div class="data-meta-minimal">{{ quote.material }} • {{ quote.finishType }}</div>
+        <div class="data-value-minimal">{{ quote.totalPrice | currency }}</div>
+        <div style="margin-top: 20px;">
+          <span class="badge-minimal">{{ quote.status }}</span>
+        </div>
+      </div>
+      } @empty {
+      <div class="data-item-minimal" style="grid-column: 1 / -1;">
+        <div class="data-name-minimal">No quotes yet</div>
+        <div class="data-meta-minimal">Create your first quote above</div>
+      </div>
+      }
+    </div>
+  </div>
+</div>
+"@
+
+$newQuotesTemplate | Set-Content "src/app/features/quotes/quotes.html"
+Write-Host "   ✅ Updated Quotes page" -ForegroundColor Green
+
+# Phase 5: Update Clients Page
+Write-Host "👥 Phase 5: Updating Clients page with minimal design..." -ForegroundColor Yellow
+
+$newClientsTemplate = @"
+<div class="section-minimal">
+  <!-- Header -->
+  <h1 class="hero-title-minimal mb-large-minimal" style="font-size: 48px;">Clients</h1>
+
+  <div class="grid-minimal grid-2-minimal">
+    <!-- Add Client Form -->
+    <div class="interface-pod-minimal">
+      <h2 class="pod-title-minimal">Add Client</h2>
+
+      @if (error()) {
+      <div style="padding: 20px; margin-bottom: 40px; border: 0.5px solid rgba(255, 100, 100, 0.3); background: rgba(255, 100, 100, 0.05);">
+        <p style="color: rgba(255, 100, 100, 0.8); font-size: 12px;">{{ error() }}</p>
+      </div>
+      }
+
+      <form [formGroup]="form" (ngSubmit)="submit()" class="form-grid-minimal">
+        <div class="grid-minimal grid-2-minimal">
+          <div class="form-field-minimal">
+            <label class="form-label-minimal">Name</label>
+            <input
+              type="text"
+              class="form-input-minimal"
+              formControlName="name"
+              placeholder="Acme Restaurant"
+            />
+          </div>
+
+          <div class="form-field-minimal">
+            <label class="form-label-minimal">Email</label>
+            <input
+              type="email"
+              class="form-input-minimal"
+              formControlName="email"
+              placeholder="contact@acme.com"
+            />
+          </div>
+
+          <div class="form-field-minimal">
+            <label class="form-label-minimal">Phone</label>
+            <input
+              type="tel"
+              class="form-input-minimal"
+              formControlName="phone"
+              placeholder="(555) 123-4567"
+            />
+          </div>
+
+          <div class="form-field-minimal">
+            <label class="form-label-minimal">Website</label>
+            <input
+              type="url"
+              class="form-input-minimal"
+              formControlName="website"
+              placeholder="https://acme.com"
+            />
+          </div>
+        </div>
+
+        <div class="form-field-minimal">
+          <label class="form-label-minimal">Address</label>
+          <input
+            type="text"
+            class="form-input-minimal"
+            formControlName="street"
+            placeholder="123 Main Street"
+          />
+        </div>
+
+        <div class="grid-minimal grid-3-minimal">
+          <div class="form-field-minimal">
+            <label class="form-label-minimal">City</label>
+            <input
+              type="text"
+              class="form-input-minimal"
+              formControlName="city"
+              placeholder="San Francisco"
+            />
+          </div>
+
+          <div class="form-field-minimal">
+            <label class="form-label-minimal">State</label>
+            <input
+              type="text"
+              class="form-input-minimal"
+              formControlName="state"
+              placeholder="CA"
+            />
+          </div>
+
+          <div class="form-field-minimal">
+            <label class="form-label-minimal">ZIP</label>
+            <input
+              type="text"
+              class="form-input-minimal"
+              formControlName="zip"
+              placeholder="94102"
+            />
+          </div>
+        </div>
+
+        <div class="grid-minimal grid-2-minimal">
+          <div class="form-field-minimal">
+            <label class="form-label-minimal">Discount Rate</label>
+            <input
+              type="number"
+              step="0.01"
+              min="0"
+              max="1"
+              class="form-input-minimal"
+              formControlName="defaultDiscountRate"
+              placeholder="0.05"
+            />
+          </div>
+
+          <div class="form-field-minimal" style="display: flex; align-items: center; gap: 16px; margin-top: 40px;">
+            <input
+              id="taxExempt"
+              type="checkbox"
+              formControlName="isTaxExempt"
+              style="width: 16px; height: 16px; background: transparent; border: 0.5px solid rgba(255,255,255,0.2);"
+            />
+            <label for="taxExempt" class="form-label-minimal" style="margin-bottom: 0;">Tax Exempt</label>
+          </div>
+        </div>
+
+        <div class="form-field-minimal">
+          <label class="form-label-minimal">Notes</label>
+          <textarea
+            class="form-textarea-minimal"
+            formControlName="notes"
+            placeholder="Special instructions..."
+          ></textarea>
+        </div>
+
+        <div style="margin-top: 80px; text-align: center;">
+          <button
+            type="submit"
+            class="btn-minimal"
+            [disabled]="form.invalid || submitting()"
+          >
+            {{ submitting() ? 'Adding...' : 'Add Client' }}
+          </button>
+        </div>
+      </form>
+    </div>
+
+    <!-- Client List -->
+    <div>
+      <h2 class="data-title-minimal">Active Clients</h2>
+      
+      <div class="data-grid-minimal" style="grid-template-columns: 1fr; gap: 40px;">
+        @for (client of clients(); track client.id) {
+        <div class="data-item-minimal" style="text-align: left; padding: 40px;">
+          <div class="data-name-minimal">{{ client.name }}</div>
+          <div class="data-meta-minimal">{{ client.email }} • {{ client.phone }}</div>
+          @if (client.street || client.city || client.state) {
+          <div class="data-meta-minimal" style="margin-top: 8px;">
+            {{ client.street }}{{ client.street && (client.city || client.state) ? ', ' : '' }}
+            {{ client.city }}{{ client.city && client.state ? ', ' : '' }}
+            {{ client.state }} {{ client.zip }}
+          </div>
+          }
+          
+          <div style="margin-top: 20px; display: flex; gap: 20px; align-items: center;">
+            @if (client.defaultDiscountRate > 0) {
+            <span class="badge-minimal">{{ (client.defaultDiscountRate * 100) | number:'1.0-1' }}% discount</span>
+            }
+            @if (client.isTaxExempt) {
+            <span class="badge-success-minimal">tax exempt</span>
+            }
+          </div>
+
+          <div style="margin-top: 30px; display: flex; gap: 20px;">
+            @if (client.website) {
+            <a [href]="client.website" target="_blank" class="btn-ghost-minimal">Website</a>
+            }
+            <a [href]="'mailto:' + client.email" class="btn-ghost-minimal">Email</a>
+            <a [href]="'tel:' + client.phone" class="btn-ghost-minimal">Call</a>
+            <button (click)="remove(client.id)" class="btn-ghost-minimal" style="color: rgba(255, 100, 100, 0.7);">Delete</button>
+          </div>
+        </div>
+        } @empty {
+        <div class="data-item-minimal">
+          <div class="data-name-minimal">No clients yet</div>
+          <div class="data-meta-minimal">Add your first client above</div>
+        </div>
+        }
+      </div>
+    </div>
+  </div>
+</div>
+"@
+
+$newClientsTemplate | Set-Content "src/app/features/clients/clients.html"
+Write-Host "   ✅ Updated Clients page" -ForegroundColor Green
+
+# Phase 6: Update Quote Form Component
+Write-Host "📝 Phase 6: Updating Quote Form component..." -ForegroundColor Yellow
+
+$newQuoteFormTemplate = @"
+<div class="interface-pod-minimal">
+  <h3 class="pod-title-minimal">Job Specification</h3>
+
+  <form [formGroup]="form" (ngSubmit)="onSubmit()" class="form-grid-minimal">
+    <div class="grid-minimal grid-3-minimal">
+      <div class="form-field-minimal">
+        <label class="form-label-minimal" for="client">Client</label>
+        <select id="client" formControlName="clientId" class="form-select-minimal">
+          <option value="" disabled>Select a client</option>
+          @for (c of clients(); track c.id) {
+          <option [value]="c.id">{{ c.name }}</option>
+          } @empty {
+          <option value="" disabled>No clients available</option>
+          }
+        </select>
+      </div>
+
+      <div class="form-field-minimal">
+        <label class="form-label-minimal" for="material">Material</label>
+        <input 
+          id="material" 
+          type="text" 
+          class="form-input-minimal" 
+          formControlName="material"
+          placeholder="Crane Lettra 220gsm"
+        />
+      </div>
+
+      <div class="form-field-minimal">
+        <label class="form-label-minimal" for="quantity">Quantity</label>
+        <input 
+          id="quantity" 
+          type="number" 
+          class="form-input-minimal" 
+          formControlName="quantity"
+          placeholder="500"
+        />
+      </div>
+
+      <div class="form-field-minimal">
+        <label class="form-label-minimal" for="pricePerUnit">Price Per Unit</label>
+        <input 
+          id="pricePerUnit" 
+          type="number" 
+          step="0.01" 
+          class="form-input-minimal" 
+          formControlName="pricePerUnit"
+          placeholder="2.50"
+        />
+      </div>
+
+      <div class="form-field-minimal">
+        <label class="form-label-minimal" for="size">Size</label>
+        <input 
+          id="size" 
+          type="text" 
+          class="form-input-minimal" 
+          formControlName="size"
+          placeholder="5.5 × 8.5 inches"
+        />
+      </div>
+
+      <div class="form-field-minimal">
+        <label class="form-label-minimal" for="finishType">Process</label>
+        <select id="finishType" formControlName="finishType" class="form-select-minimal">
+          <option value="">Select process</option>
+          <option value="Letterpress">Letterpress</option>
+          <option value="Foil Stamping">Foil Stamping</option>
+          <option value="Embossing">Embossing</option>
+          <option value="Letterpress + Foil">Letterpress + Foil</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="form-field-minimal">
+      <label class="form-label-minimal" for="notes">Notes</label>
+      <textarea 
+        id="notes" 
+        class="form-textarea-minimal" 
+        formControlName="notes"
+        placeholder="Special instructions, colors, finishing details..."
+      ></textarea>
+    </div>
+
+    <div class="grid-minimal grid-2-minimal">
+      <div class="form-field-minimal">
+        <label class="form-label-minimal" for="setupFee">Setup Fee</label>
+        <input 
+          id="setupFee" 
+          type="number" 
+          step="0.01" 
+          class="form-input-minimal" 
+          formControlName="setupFee"
+          placeholder="75.00"
+        />
+      </div>
+
+      <div class="form-field-minimal">
+        <label class="form-label-minimal" for="discountRate">Discount Rate</label>
+        <input 
+          id="discountRate" 
+          type="number" 
+          step="0.01" 
+          min="0" 
+          max="1" 
+          class="form-input-minimal" 
+          formControlName="discountRate"
+          placeholder="0.10"
+        />
+      </div>
+    </div>
+
+    <div style="margin-top: 80px; text-align: center; display: flex; gap: 40px; justify-content: center;">
+      <button type="button" class="btn-outline-minimal" (click)="resetForm()">
+        Reset
+      </button>
+      <button 
+        type="submit" 
+        [disabled]="form.invalid" 
+        class="btn-minimal"
+      >
+        Calculate Quote
+      </button>
+    </div>
+  </form>
+</div>
+"@
+
+$newQuoteFormTemplate | Set-Content "src/app/features/quotes/components/quote-form.html"
+Write-Host "   ✅ Updated Quote Form component" -ForegroundColor Green
+
+# Phase 7: Update Login Modal
+Write-Host "🔐 Phase 7: Updating Login Modal..." -ForegroundColor Yellow
+
+$newLoginModalTemplate = @"
+@if (open()) {
+<div style="position: fixed; inset: 0; z-index: 100; display: flex; align-items: center; justify-content: center; padding: 40px;">
+  <!-- Backdrop -->
+  <div 
+    style="position: absolute; inset: 0; background: rgba(0, 0, 0, 0.8); backdrop-filter: blur(20px);" 
+    (click)="onClose()"
+  ></div>
+  
+  <!-- Modal -->
+  <div style="position: relative; width: 100%; max-width: 500px;">
+    <div class="interface-pod-minimal">
+      <div style="display: flex; align-items: start; justify-content: space-between; margin-bottom: 60px;">
+        <div>
+          <h3 class="pod-title-minimal" style="text-align: left; margin-bottom: 0;">Sign In</h3>
+        </div>
+        <button 
+          class="btn-ghost-minimal" 
+          (click)="onClose()" 
+          aria-label="Close"
+          style="padding: 8px;"
+        >
+          ✕
+        </button>
+      </div>
+
+      @if (error()) {
+      <div style="padding: 20px; margin-bottom: 40px; border: 0.5px solid rgba(255, 100, 100, 0.3); background: rgba(255, 100, 100, 0.05);">
+        <p style="color: rgba(255, 100, 100, 0.8); font-size: 12px;">{{ error() }}</p>
+      </div>
+      }
+
+      <form [formGroup]="form" (ngSubmit)="onSubmit()" class="form-grid-minimal">
+        <div class="form-field-minimal">
+          <label class="form-label-minimal" for="email">Email</label>
+          <input 
+            id="email" 
+            type="email" 
+            class="form-input-minimal" 
+            formControlName="email"
+            placeholder="admin@example.com"
+            autocomplete="email"
+          />
+        </div>
+        
+        <div class="form-field-minimal">
+          <label class="form-label-minimal" for="password">Password</label>
+          <input 
+            id="password" 
+            type="password" 
+            class="form-input-minimal" 
+            formControlName="password"
+            placeholder="Enter your password"
+            autocomplete="current-password"
+          />
+        </div>
+
+        <div style="margin-top: 80px; text-align: center;">
+          <button
+            class="btn-minimal"
+            type="submit"
+            [disabled]="form.invalid || signingIn()"
+            style="width: 100%;"
+          >
+            {{ signingIn() ? 'Signing in...' : 'Sign In' }}
+          </button>
+        </div>
+
+        @if (requestRole()) {
+        <p class="data-meta-minimal" style="text-align: center; margin-top: 40px;">
+          Signing in as {{ requestRole() }}
+        </p>
+        }
+      </form>
+    </div>
+  </div>
+</div>
+}
+"@
+
+$newLoginModalTemplate | Set-Content "src/app/shared/auth/login-modal/login-modal.html"
+Write-Host "   ✅ Updated Login Modal" -ForegroundColor Green
+
+# Phase 8: Update Layout Components
+Write-Host "🏗️ Phase 8: Updating Layout components..." -ForegroundColor Yellow
+
+$newLayoutTemplate = @"
+<div style="min-height: 100vh; display: flex; flex-direction: column;">
+  <app-header />
+  <main style="flex-grow: 1;">
+    <router-outlet />
+  </main>
+  <app-footer />
+</div>
+"@
+
+$newFooterTemplate = @"
+<footer class="header-minimal" style="position: relative; margin-top: auto;">
+  <div class="header-content" style="height: 60px;">
+    <p class="data-meta-minimal">
+      © {{ currentYear }} Otto Matic. Professional print quoting.
+    </p>
+    <div style="display: flex; align-items: center; gap: 40px;">
+      <p class="data-meta-minimal">
+        Built with Angular
+      </p>
+      <a 
+        href="mailto:support@ottomatic.com" 
+        class="btn-ghost-minimal"
+        style="padding: 4px 0;"
+      >
+        Support
+      </a>
+    </div>
+  </div>
+</footer>
+"@
+
+$newLayoutTemplate | Set-Content "src/app/shared/layout/layout.html"
+$newFooterTemplate | Set-Content "src/app/shared/layout/footer/footer.html"
+Write-Host "   ✅ Updated Layout components" -ForegroundColor Green
+
+# Phase 9: Update TypeScript Components
+Write-Host "⚙️ Phase 9: Updating component TypeScript files..." -ForegroundColor Yellow
+
+$newQuoteFormTS = @"
+import { ChangeDetectionStrategy, Component, OnInit, inject, output, signal } from '@angular/core';
+import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
+import { FirebaseService } from '../../../core/firebase.service';
+import { Client } from '../../../core/models/client.model';
+
+interface QuoteFormValue {
+  clientId: string;
+  clientName: string;
+  material: string;
+  quantity: number;
+  pricePerUnit: number;
+  size: string;
+  finishType: string;
+  notes: string;
+  setupFee: number;
+  discountRate: number;
+}
+
+@Component({
+  selector: 'app-quote-form',
+  standalone: true,
+  imports: [ReactiveFormsModule],
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  templateUrl: './quote-form.html',
+})
+export class QuoteForm implements OnInit {
+  private readonly fb = inject(FormBuilder);
+  private readonly firebase = inject(FirebaseService);
+
+  readonly clients = signal<ReadonlyArray<Client>>([]);
+
+  readonly form = this.fb.nonNullable.group({
+    clientId: this.fb.nonNullable.control<string>('', { validators: [Validators.required] }),
+    clientName: this.fb.nonNullable.control<string>(''),
+    material: this.fb.nonNullable.control<string>('', { validators: [Validators.required] }),
+    quantity: this.fb.nonNullable.control<number>(1, {
+      validators: [Validators.required, Validators.min(1)],
+    }),
+    pricePerUnit: this.fb.nonNullable.control<number>(0, {
+      validators: [Validators.required, Validators.min(0.01)],
+    }),
+    size: this.fb.nonNullable.control<string>(''),
+    finishType: this.fb.nonNullable.control<string>(''),
+    notes: this.fb.nonNullable.control<string>(''),
+    setupFee: this.fb.nonNullable.control<number>(0),
+    discountRate: this.fb.nonNullable.control<number>(0),
+  });
+
+  readonly submitted = output<QuoteFormValue>();
+
+  ngOnInit(): void {
+    this.firebase.fetchClients().subscribe((list) => this.clients.set(list));
+    this.form.controls.clientId.valueChanges.subscribe((id) => {
+      const match = this.clients().find((c) => c.id === id);
+      this.form.controls.clientName.setValue(match?.name ?? '', { emitEvent: false });
+    });
+  }
+
+  onSubmit() {
+    if (this.form.invalid) return;
+    this.submitted.emit(this.form.getRawValue());
+    this.resetForm();
+  }
+
+  resetForm() {
+    this.form.reset({
+      clientId: '',
+      clientName: '',
+      material: '',
+      quantity: 1,
+      pricePerUnit: 0,
+      size: '',
+      finishType: '',
+      notes: '',
+      setupFee: 0,
+      discountRate: 0,
+    });
+  }
+}
+"@
+
+$newQuoteFormTS | Set-Content "src/app/features/quotes/components/quote-form.ts"
+
+$newFooterTS = @"
+import { ChangeDetectionStrategy, Component } from '@angular/core';
+
+@Component({
+  selector: 'app-footer',
+  standalone: true,
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  templateUrl: './footer.html',
+})
+export class Footer {
+  readonly currentYear = new Date().getFullYear();
+}
+"@
+
+$newFooterTS | Set-Content "src/app/shared/layout/footer/footer.ts"
+Write-Host "   ✅ Updated component TypeScript files" -ForegroundColor Green
+
+# Phase 10: Clean up empty files
+Write-Host "🧹 Phase 10: Cleaning up unnecessary files..." -ForegroundColor Yellow
+
+$filesToClean = @(
+    "src/app/shared/layout/header/header.scss",
+    "src/app/shared/layout/footer/footer.scss",
+    "src/app/shared/layout/layout.scss",
+    "src/app/features/landing/landing.scss",
+    "src/app/features/quotes/quotes.scss",
+    "src/app/features/quotes/components/quote-form.scss",
+    "src/app/features/clients/clients.scss",
+    "src/app/shared/auth/login-modal/login-modal.scss"
+)
+
+foreach ($file in $filesToClean) {
+    if (Test-Path $file) {
+        Remove-Item $file -Force
+        Write-Host "   🗑️  Removed: $file" -ForegroundColor Red
+    }
+}
+
+Write-Host "   ✅ Cleaned up empty style files" -ForegroundColor Green
+
+# Summary
+Write-Host ""
+Write-Host "🖤 Post-Modern Design Transformation Complete!" -ForegroundColor Green
+Write-Host ""
+Write-Host "✅ Changes made:" -ForegroundColor White
+Write-Host "   • Implemented post-modern minimal design system" -ForegroundColor Gray
+Write-Host "   • Ultra-light typography with precise letter spacing" -ForegroundColor Gray
+Write-Host "   • Floating minimal elements and void aesthetics" -ForegroundColor Gray
+Write-Host "   • Minimal forms with hairline borders" -ForegroundColor Gray
+Write-Host "   • Pretentious spacing and ultra-clean layouts" -ForegroundColor Gray
+Write-Host "   • Updated all component templates and styles" -ForegroundColor Gray
+Write-Host "   • Removed unnecessary style files" -ForegroundColor Gray
+Write-Host ""
+Write-Host "⚠️  Next steps:" -ForegroundColor Yellow
+Write-Host "   1. Run 'npm start' to see the post-modern transformation" -ForegroundColor Gray
+Write-Host "   2. Update any remaining component TypeScript files if needed" -ForegroundColor Gray
+Write-Host "   3. Test all functionality with the new minimal UI" -ForegroundColor Gray
+Write-Host "   4. Adjust spacing or typography if needed" -ForegroundColor Gray
+Write-Host ""
+Write-Host "🎨 Your Otto Matic app now embodies post-modern minimalism!" -ForegroundColor Cyan
+Write-Host ""
+Write-Host "✨ Key features of the new design:" -ForegroundColor Magenta
+Write-Host "   • Ultra-light Inter & JetBrains Mono typography" -ForegroundColor Gray
+Write-Host "   • Precise letter spacing (0.08em on main title)" -ForegroundColor Gray
+Write-Host "   • Floating minimal elements with subtle animations" -ForegroundColor Gray
+Write-Host "   • Void color palette with 0.5px hairline borders" -ForegroundColor Gray
+Write-Host "   • Pretentious spacing that commands attention" -ForegroundColor Gray
+Write-Host "   • Perfect for a Gen-X print shop owner's aesthetic" -ForegroundColor Gray#!/usr/bin/env pwsh
+
+# Otto Matic - Post-Modern Minimal Design System Implementation
+# This script completely transforms the app with ultra-minimalist, post-modern design
+
+Write-Host "🖤 Starting Otto Matic Post-Modern Design Transformation..." -ForegroundColor Cyan
+Write-Host ""
+
+# Check if we're in the right directory
+if (-not (Test-Path "package.json")) {
+    Write-Host "❌ Error: package.json not found. Please run this script from the project root directory." -ForegroundColor Red
+    exit 1
+}
+
+Write-Host "✅ Found package.json - proceeding with post-modern transformation..." -ForegroundColor Green
+Write-Host ""
+
+# Phase 1: Update global styles with post-modern system
+Write-Host "🎨 Phase 1: Implementing post-modern design system..." -ForegroundColor Yellow
+
+$newGlobalStyles = @"
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600&family=JetBrains+Mono:wght@100;200;300;400&display=swap');
+
+:root {
+  /* Post-modern void palette */
+  --void: #070707;
+  --surface: #0e0e0e;
+  --elevation: #141414;
+  --whisper: #383838;
+  --ghost: #686868;
+  --text: #e6e6e6;
+  --accent: #ffffff;
+  --glow: rgba(255, 255, 255, 0.015);
+}
+
+/* Global reset with precision */
+*, *::before, *::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+::selection {
+  background: rgba(255, 255, 255, 0.1);
+  color: var(--accent);
+}
+
+/* Ultra-minimal body */
+html, body {
+  font-family: "Inter", -apple-system, sans-serif;
+  background: var(--void);
+  color: var(--text);
+  font-weight: 200;
+  line-height: 1.75;
+  letter-spacing: 0.02em;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+  font-feature-settings: "kern" 1, "liga" 1, "tnum" 1;
+  overflow-x: hidden;
+  min-height: 100vh;
+}
+
+/* Floating minimal elements */
+.floating-element {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  background: var(--accent);
+  opacity: 0.3;
+}
+
+.element-1 {
+  top: 20%;
+  left: 15%;
+  animation: float 20s infinite;
+}
+
+.element-2 {
+  top: 60%;
+  right: 20%;
+  animation: float 25s infinite reverse;
+}
+
+.element-3 {
+  bottom: 30%;
+  left: 80%;
+  animation: float 30s infinite;
+}
+
+@keyframes float {
+  0%, 100% { 
+    opacity: 0.1; 
+    transform: translateY(0); 
+  }
+  50% { 
+    opacity: 0.3; 
+    transform: translateY(-20px); 
+  }
+}
+
+/* Ultra minimal header system */
+.header-minimal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 100;
+  background: rgba(7, 7, 7, 0.8);
+  backdrop-filter: blur(40px);
+  -webkit-backdrop-filter: blur(40px);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.03);
+}
+
+.header-content {
+  max-width: 1600px;
+  margin: 0 auto;
+  padding: 0 80px;
+  height: 80px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.logo-minimal {
+  font-family: "JetBrains Mono", monospace;
+  font-size: 9px;
+  font-weight: 300;
+  letter-spacing: 8px;
+  text-transform: uppercase;
+  color: var(--accent);
+  text-decoration: none;
+  opacity: 0.85;
+  transition: all 0.6s cubic-bezier(0.23, 1, 0.32, 1);
+  font-feature-settings: "tnum" 1, "zero" 1;
+}
+
+.logo-minimal:hover {
+  opacity: 1;
+  letter-spacing: 12px;
+}
+
+.nav-minimal {
+  display: flex;
+  gap: 80px;
+}
+
+.nav-link-minimal {
+  font-size: 11px;
+  font-weight: 200;
+  color: var(--ghost);
+  text-decoration: none;
+  transition: all 0.6s cubic-bezier(0.23, 1, 0.32, 1);
+  position: relative;
+  letter-spacing: 0.05em;
+  font-feature-settings: "ss01" 1;
+}
+
+.nav-link-minimal:hover {
+  color: var(--accent);
+  letter-spacing: 0.15em;
+}
+
+.nav-link-minimal.active {
+  color: var(--accent);
+  letter-spacing: 0.1em;
+}
+
+.nav-link-minimal.active::after {
+  content: '';
+  position: absolute;
+  bottom: -3px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 1px;
+  height: 1px;
+  background: var(--accent);
+  box-shadow: 0 0 8px rgba(255, 255, 255, 0.4);
+}
+
+.user-indicator-minimal {
+  font-family: "JetBrains Mono", monospace;
+  font-size: 8px;
+  font-weight: 200;
+  color: var(--whisper);
+  letter-spacing: 6px;
+  text-transform: uppercase;
+  font-feature-settings: "tnum" 1;
+}
+
+/* Main layout system */
+.main-minimal {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 120px 80px 80px;
+}
+
+.container-minimal {
+  max-width: 1200px;
+  width: 100%;
+  margin: 0 auto;
+}
+
+/* Hero section with precise spacing */
+.hero-section-minimal {
+  text-align: center;
+  margin-bottom: 200px;
+}
+
+.hero-title-minimal {
+  font-family: "Inter", sans-serif;
+  font-size: 84px;
+  font-weight: 100;
+  letter-spacing: 0.08em;
+  color: var(--accent);
+  margin-bottom: 60px;
+  line-height: 0.95;
+  font-feature-settings: "ss01" 1, "ss02" 1;
+  text-rendering: geometricPrecision;
+}
+
+.hero-subtitle-minimal {
+  font-family: "JetBrains Mono", monospace;
+  font-size: 12px;
+  font-weight: 200;
+  color: var(--ghost);
+  letter-spacing: 0.6em;
+  text-transform: lowercase;
+  font-feature-settings: "tnum" 1, "zero" 1;
+}
+
+/* Floating interface pod */
+.interface-pod-minimal {
+  background: linear-gradient(145deg, var(--surface), var(--elevation));
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  border-radius: 2px;
+  padding: 60px;
+  margin: 0 auto;
+  max-width: 600px;
+  box-shadow: 
+    0 40px 100px rgba(0, 0, 0, 0.5),
+    inset 0 1px 0 rgba(255, 255, 255, 0.03);
+  position: relative;
+}
+
+.interface-pod-minimal::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: var(--glow);
+  border-radius: 2px;
+  pointer-events: none;
+}
+
+.pod-title-minimal {
+  font-family: "JetBrains Mono", monospace;
+  font-size: 10px;
+  font-weight: 300;
+  color: var(--accent);
+  letter-spacing: 0.6em;
+  text-transform: uppercase;
+  margin-bottom: 80px;
+  text-align: center;
+  font-feature-settings: "tnum" 1, "zero" 1;
+}
+
+/* Form system */
+.form-grid-minimal {
+  display: grid;
+  gap: 60px;
+}
+
+.form-field-minimal {
+  position: relative;
+}
+
+.form-label-minimal {
+  font-family: "JetBrains Mono", monospace;
+  font-size: 8px;
+  font-weight: 300;
+  color: var(--whisper);
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  margin-bottom: 24px;
+  display: block;
+  font-feature-settings: "tnum" 1;
+}
+
+.form-input-minimal,
+.form-select-minimal,
+.form-textarea-minimal {
+  width: 100%;
+  background: transparent;
+  border: none;
+  border-bottom: 0.5px solid rgba(255, 255, 255, 0.06);
+  color: var(--text);
+  font-family: "Inter", sans-serif;
+  font-size: 18px;
+  font-weight: 200;
+  padding: 20px 0;
+  transition: all 0.8s cubic-bezier(0.23, 1, 0.32, 1);
+  letter-spacing: 0.01em;
+  font-feature-settings: "tnum" 1, "liga" 1;
+}
+
+.form-input-minimal:focus,
+.form-select-minimal:focus,
+.form-textarea-minimal:focus {
+  outline: none;
+  border-bottom-color: rgba(255, 255, 255, 0.2);
+  letter-spacing: 0.02em;
+}
+
+.form-input-minimal::placeholder {
+  color: var(--whisper);
+  font-weight: 200;
+  letter-spacing: 0.01em;
+}
+
+.form-textarea-minimal {
+  resize: vertical;
+  min-height: 120px;
+}
+
+/* Button system */
+.btn-minimal {
+  background: transparent;
+  border: 0.5px solid rgba(255, 255, 255, 0.08);
+  color: var(--accent);
+  padding: 24px 80px;
+  font-family: "JetBrains Mono", monospace;
+  font-size: 9px;
+  font-weight: 300;
+  letter-spacing: 0.5em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: all 0.8s cubic-bezier(0.23, 1, 0.32, 1);
+  font-feature-settings: "tnum" 1, "zero" 1;
+  text-decoration: none;
+  display: inline-block;
+}
+
+.btn-minimal:hover {
+  border-color: rgba(255, 255, 255, 0.2);
+  background: rgba(255, 255, 255, 0.01);
+  letter-spacing: 0.7em;
+}
+
+.btn-outline-minimal {
+  background: transparent;
+  border: 0.5px solid rgba(255, 255, 255, 0.1);
+  color: var(--ghost);
+  padding: 16px 40px;
+  font-family: "JetBrains Mono", monospace;
+  font-size: 8px;
+  font-weight: 300;
+  letter-spacing: 0.4em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: all 0.6s cubic-bezier(0.23, 1, 0.32, 1);
+  text-decoration: none;
+  display: inline-block;
+}
+
+.btn-outline-minimal:hover {
+  border-color: rgba(255, 255, 255, 0.3);
+  color: var(--accent);
+  letter-spacing: 0.6em;
+}
+
+.btn-ghost-minimal {
+  background: transparent;
+  border: none;
+  color: var(--ghost);
+  padding: 12px 20px;
+  font-family: "Inter", sans-serif;
+  font-size: 11px;
+  font-weight: 200;
+  letter-spacing: 0.05em;
+  cursor: pointer;
+  transition: all 0.6s cubic-bezier(0.23, 1, 0.32, 1);
+  text-decoration: none;
+  display: inline-block;
+}
+
+.btn-ghost-minimal:hover {
+  color: var(--accent);
+  letter-spacing: 0.1em;
+}
+
+/* Data presentation system */
+.data-section-minimal {
+  margin-top: 300px;
+  text-align: center;
+}
+
+.data-title-minimal {
+  font-family: "JetBrains Mono", monospace;
+  font-size: 9px;
+  font-weight: 300;
+  color: var(--whisper);
+  letter-spacing: 0.8em;
+  text-transform: uppercase;
+  margin-bottom: 120px;
+  font-feature-settings: "tnum" 1, "zero" 1;
+}
+
+.data-grid-minimal {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 120px;
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+.data-item-minimal {
+  text-align: center;
+  opacity: 0.6;
+  transition: all 0.8s cubic-bezier(0.23, 1, 0.32, 1);
+  padding: 40px 20px;
+  border: 0.5px solid rgba(255, 255, 255, 0.03);
+  background: rgba(255, 255, 255, 0.005);
+}
+
+.data-item-minimal:hover {
+  opacity: 1;
+  transform: translateY(-2px);
+  border-color: rgba(255, 255, 255, 0.08);
+}
+
+.data-name-minimal {
+  font-family: "Inter", sans-serif;
+  font-size: 16px;
+  font-weight: 200;
+  color: var(--text);
+  margin-bottom: 12px;
+  letter-spacing: 0.01em;
+  font-feature-settings: "ss01" 1;
+}
+
+.data-meta-minimal {
+  font-family: "JetBrains Mono", monospace;
+  font-size: 9px;
+  font-weight: 200;
+  color: var(--whisper);
+  letter-spacing: 0.2em;
+  text-transform: lowercase;
+  font-feature-settings: "tnum" 1;
+}
+
+.data-value-minimal {
+  font-family: "JetBrains Mono", monospace;
+  font-size: 20px;
+  font-weight: 300;
+  color: var(--accent);
+  margin-top: 24px;
+  letter-spacing: 0.05em;
+  font-feature-settings: "tnum" 1, "zero" 1;
+  font-variant-numeric: tabular-nums;
+}
+
+/* Status badges */
+.badge-minimal {
+  font-family: "JetBrains Mono", monospace;
+  font-size: 7px;
+  font-weight: 300;
+  color: var(--whisper);
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  padding: 8px 16px;
+  border: 0.5px solid rgba(255, 255, 255, 0.1);
+  background: rgba(255, 255, 255, 0.02);
+  display: inline-block;
+  font-feature-settings: "tnum" 1;
+}
+
+.badge-success-minimal {
+  color: rgba(255, 255, 255, 0.8);
+  border-color: rgba(255, 255, 255, 0.2);
+}
+
+.badge-warning-minimal {
+  color: var(--whisper);
+  border-color: rgba(255, 255, 255, 0.1);
+}
+
+/* Layout utilities */
+.section-minimal {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 80px;
+}
+
+.grid-minimal {
+  display: grid;
+  gap: 80px;
+}
+
+.grid-2-minimal {
+  grid-template-columns: repeat(2, 1fr);
+}
+
+.grid-3-minimal {
+  grid-template-columns: repeat(3, 1fr);
+}
+
+.flex-minimal {
+  display: flex;
+  gap: 40px;
+  align-items: center;
+}
+
+.text-center-minimal {
+  text-align: center;
+}
+
+.mb-large-minimal {
+  margin-bottom: 120px;
+}
+
+.mb-medium-minimal {
+  margin-bottom: 80px;
+}
+
+.mb-small-minimal {
+  margin-bottom: 40px;
+}
+
+/* Responsive design */
+@media (max-width: 1200px) {
+  .header-content {
+    padding: 0 60px;
+  }
+  
+  .main-minimal {
+    padding: 100px 60px 80px;
+  }
+  
+  .interface-pod-minimal {
+    padding: 50px;
+  }
+  
+  .data-grid-minimal {
+    gap: 80px;
+  }
+}
+
+@media (max-width: 768px) {
+  .header-content {
+    padding: 0 40px;
+  }
+
+  .main-minimal {
+    padding: 100px 40px 60px;
+  }
+
+  .hero-title-minimal {
+    font-size: 48px;
+    letter-spacing: 0.05em;
+  }
+
+  .interface-pod-minimal {
+    padding: 40px;
+  }
+
+  .nav-minimal {
+    gap: 30px;
+  }
+
+  .data-grid-minimal {
+    grid-template-columns: 1fr;
+    gap: 60px;
+  }
+  
+  .grid-2-minimal,
+  .grid-3-minimal {
+    grid-template-columns: 1fr;
+  }
+  
+  .flex-minimal {
+    flex-direction: column;
+    gap: 20px;
+  }
+}
+
+/* Accessibility */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+@media (prefers-contrast: high) {
+  :root {
+    --text: #ffffff;
+    --ghost: #cccccc;
+    --whisper: #999999;
+  }
+}
+"@
+
+$newGlobalStyles | Set-Content "src/styles.scss"
+Write-Host "   ✅ Updated global post-modern design system" -ForegroundColor Green
+
+# Phase 2: Update Header Component
+Write-Host "🏠 Phase 2: Updating Header with minimal aesthetic..." -ForegroundColor Yellow
+
+$newHeaderTemplate = @"
+<!-- Floating minimal elements -->
+<div class="floating-element element-1"></div>
+<div class="floating-element element-2"></div>
+<div class="floating-element element-3"></div>
+
+<!-- Ultra minimal header -->
+<header class="header-minimal">
+  <div class="header-content">
+    <a routerLink="/" class="logo-minimal">Otto Matic</a>
+    <nav class="nav-minimal">
+      @if (isLoggedIn()) {
+      <a
+        routerLink="/quotes"
+        routerLinkActive="active"
+        class="nav-link-minimal"
+        >Quotes</a
+      >
+      <a
+        routerLink="/clients"
+        routerLinkActive="active"
+        class="nav-link-minimal"
+        >Clients</a
+      >
+      }
+    </nav>
+    <div class="user-indicator-minimal">
+      @if (isLoggedIn()) {
+      {{ userRole() }}
+      } @else {
+      Guest
+      }
+    </div>
+  </div>
+</header>
+
+<!-- Login Modal -->
+<app-login-modal
+  [open]="openLogin()"
+  [requestRole]="requestedRole()"
+  (close)="openLogin.set(false)"
+/>
+"@
+
+$newHeaderStyles = @"
+/* Header styles are now in global styles.scss */
+/* This file can be empty or removed */
+"@
+
+$newHeaderTemplate | Set-Content "src/app/shared/layout/header/header.html"
+$newHeaderStyles | Set-Content "src/app/shared/layout/header/header.scss"
+Write-Host "   ✅ Updated Header component" -ForegroundColor Green
+
+# Phase 3: Update Landing Page
+Write-Host "🏠 Phase 3: Updating Landing page with post-modern hero..." -ForegroundColor Yellow
+
+$newLandingTemplate = @"
+<!-- Post-modern main content -->
+<main class="main-minimal">
+  <div class="container-minimal">
+    <!-- Hero with precise spacing -->
+    <section class="hero-section-minimal">
+      <h1 class="hero-title-minimal">precision</h1>
+      <p class="hero-subtitle-minimal">professional print quoting</p>
+    </section>
+
+    <!-- Floating interface pod -->
+    <section class="interface-pod-minimal">
+      <h2 class="pod-title-minimal">New Specification</h2>
+      
+      <form class="form-grid-minimal">
+        <div class="form-field-minimal">
+          <label class="form-label-minimal">Client</label>
+          <select class="form-select-minimal">
+            <option>Select client</option>
+            <option>Acme Restaurant</option>
+            <option>Local Brewery</option>
+          </select>
+        </div>
+
+        <div class="form-field-minimal">
+          <label class="form-label-minimal">Material</label>
+          <input type="text" class="form-input-minimal" placeholder="Crane Lettra 220gsm">
+        </div>
+
+        <div class="form-field-minimal">
+          <label class="form-label-minimal">Quantity</label>
+          <input type="number" class="form-input-minimal" placeholder="500">
+        </div>
+
+        <div class="form-field-minimal">
+          <label class="form-label-minimal">Process</label>
+          <select class="form-select-minimal">
+            <option>Letterpress</option>
+            <option>Foil Stamping</option>
+            <option>Embossing</option>
+          </select>
+        </div>
+
+        <div style="margin-top: 120px; text-align: center;">
+          <button type="submit" class="btn-minimal">Calculate</button>
+        </div>
+      </form>
+    </section>
+
+    <!-- Minimal data presentation -->
+    <section class="data-section-minimal">
+      <h2 class="data-title-minimal">Recent Work</h2>
+      
+      <div class="data-grid-minimal">
+        <div class="data-item-minimal">
+          <div class="data-name-minimal">Acme Restaurant</div>
+          <div class="data-meta-minimal">letterpress • 2 colors</div>
+          <div class="data-value-minimal">$2,450</div>
+        </div>
+        
+        <div class="data-item-minimal">
+          <div class="data-name-minimal">Local Brewery</div>
+          <div class="data-meta-minimal">foil stamp • gold</div>
+          <div class="data-value-minimal">$1,850</div>
+        </div>
+        
+        <div class="data-item-minimal">
+          <div class="data-name-minimal">Design Studio</div>
+          <div class="data-meta-minimal">emboss • blind</div>
+          <div class="data-value-minimal">$3,200</div>
+        </div>
+      </div>
+    </section>
+  </div>
+</main>
+"@
+
+$newLandingTemplate | Set-Content "src/app/features/landing/landing.html"
+Write-Host "   ✅ Updated Landing page" -ForegroundColor Green
+
+# Phase 4: Update Quotes Page
+Write-Host "💰 Phase 4: Updating Quotes page with minimal aesthetic..." -ForegroundColor Yellow
+
+$newQuotesTemplate = @"
+<div class="section-minimal">
+  <!-- Header -->
+  <div class="flex-minimal mb-large-minimal" style="justify-content: space-between;">
+    <h1 class="hero-title-minimal" style="font-size: 48px; margin-bottom: 0;">Quotes</h1>
+    <button type="button" class="btn-outline-minimal">Export</button>
+  </div>
+
+  <!-- Quote Form -->
+  <div class="interface-pod-minimal mb-large-minimal">
+    <h2 class="pod-title-minimal">New Quote</h2>
+    
+    <form (ngSubmit)="createQuote(quoteForm.value)" #quoteForm="ngForm" class="form-grid-minimal">
+      <div class="grid-minimal grid-3-minimal">
+        <div class="form-field-minimal">
+          <label class="form-label-minimal">Client</label>
+          <select 
+            class="form-select-minimal" 
+            name="clientId" 
+            ngModel 
+            required
+          >
+            <option value="">Select client</option>
+            <option value="1">Acme Restaurant</option>
+            <option value="2">Local Brewery</option>
+            <option value="3">Design Studio</option>
+          </select>
+        </div>
+
+        <div class="form-field-minimal">
+          <label class="form-label-minimal">Material</label>
+          <input 
+            type="text" 
+            class="form-input-minimal" 
+            placeholder="Crane Lettra 220gsm"
+            name="material"
+            ngModel
+          >
+        </div>
+
+        <div class="form-field-minimal">
+          <label class="form-label-minimal">Quantity</label>
+          <input 
+            type="number" 
+            class="form-input-minimal" 
+            placeholder="500"
+            name="quantity"
+            ngModel
+          >
+        </div>
+
+        <div class="form-field-minimal">
+          <label class="form-label-minimal">Price Per Unit</label>
+          <input 
+            type="number" 
+            step="0.01"
+            class="form-input-minimal" 
+            placeholder="2.50"
+            name="pricePerUnit"
+            ngModel
+          >
+        </div>
+
+        <div class="form-field-minimal">
+          <label class="form-label-minimal">Size</label>
+          <input 
+            type="text" 
+            class="form-input-minimal" 
+            placeholder="5.5 × 8.5 inches"
+            name="size"
+            ngModel
+          >
+        </div>
+
+        <div class="form-field-minimal">
+          <label class="form-label-minimal">Process</label>
+          <select 
+            class="form-select-minimal"
+            name="finishType"
+            ngModel
+          >
+            <option value="">Select process</option>
+            <option value="Letterpress">Letterpress</option>
+            <option value="Foil Stamping">Foil Stamping</option>
+            <option value="Embossing">Embossing</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="form-field-minimal">
+        <label class="form-label-minimal">Notes</label>
+        <textarea 
+          class="form-textarea-minimal" 
+          placeholder="Special instructions..."
+          name="notes"
+          ngModel
+        ></textarea>
+      </div>
+
+      <div style="margin-top: 80px; text-align: center;">
+        <button type="submit" class="btn-minimal">Calculate Quote</button>
+      </div>
+    </form>
+  </div>
+
+  <!-- Quotes List -->
+  <div>
+    <h2 class="data-title-minimal">Recent Quotes</h2>
+    
+    <div class="data-grid-minimal">
+      @for (quote of quotes(); track quote.quoteId) {
+      <div class="data-item-minimal">
+        <div class="data-name-minimal">{{ quote.clientName }}</div>
+        <div class="data-meta-minimal">{{ quote.material }} • {{ quote.finishType }}</div>
+        <div class="data-value-minimal">{{ quote.totalPrice | currency }}</div>
+        <div style="margin-top: 20px;">
+          <span class="badge-minimal">{{ quote.status }}</span>
+        </div>
+      </div>
+      } @empty {
+      <div class="data-item-minimal" style="grid-column: 1 / -1;">
+        <div class="data-name-minimal">No quotes yet</div>
+        <div class="data-meta-minimal">Create your first quote above</div>
+      </div>
+      }
+    </div>
+  </div>
+</div>
+"@
+
+$newQuotesTemplate | Set-Content "src/app/features/quotes/quotes.html"
+Write-Host "   ✅ Updated Quotes page" -ForegroundColor Green
+
+# Phase 5: Update Clients Page
+Write-Host "👥 Phase 5: Updating Clients page with minimal design..." -ForegroundColor Yellow
+
+$newClientsTemplate = @"
+<div class="section-minimal">
+  <!-- Header -->
+  <h1 class="hero-title-minimal mb-large-minimal" style="font-size: 48px;">Clients</h1>
+
+  <div class="grid-minimal grid-2-minimal">
+    <!-- Add Client Form -->
+    <div class="interface-pod-minimal">
+      <h2 class="pod-title-minimal">Add Client</h2>
+
+      @if (error()) {
+      <div style="padding: 20px; margin-bottom: 40px; border: 0.5px solid rgba(255, 100, 100, 0.3); background: rgba(255, 100, 100, 0.05);">
+        <p style="color: rgba(255, 100, 100, 0.8); font-size: 12px;">{{ error() }}</p>
+      </div>
+      }
+
+      <form [formGroup]="form" (ngSubmit)="submit()" class="form-grid-minimal">
+        <div class="grid-minimal grid-2-minimal">
+          <div class="form-field-minimal">
+            <label class="form-label-minimal">Name</label>
+            <input
+              type="text"
+              class="form-input-minimal"
+              formControlName="name"
+              placeholder="Acme Restaurant"
+            />
+          </div>
+
+          <div class="form-field-minimal">
+            <label class="form-label-minimal">Email</label>
+            <input
+              type="email"
+              class="form-input-minimal"
+              formControlName="email"
+              placeholder="contact@acme.com"
+            />
+          </div>
+
+          <div class="form-field-minimal">
+            <label class="form-label-minimal">Phone</label>
+            <input
+              type="tel"
+              class="form-input-minimal"
+              formControlName="phone"
+              placeholder="(555) 123-4567"
+            />
+          </div>
+
+          <div class="form-field-minimal">
+            <label class="form-label-minimal">Website</label>
+            <input
+              type="url"
+              class="form-input-minimal"
+              formControlName="website"
+              placeholder="https://acme.com"
+            />
+          </div>
+        </div>
+
+        <div class="form-field-minimal">
+          <label class="form-label-minimal">Address</label>
+          <input
+            type="text"
+            class="form-input-minimal"
+            formControlName="street"
+            placeholder="123 Main Street"
+          />
+        </div>
+
+        <div class="grid-minimal grid-3-minimal">
+          <div class="form-field-minimal">
+            <label class="form-label-minimal">City</label>
+            <input
+              type="text"
+              class="form-input-minimal"
+              formControlName="city"
+              placeholder="San Francisco"
+            />
+          </div>
+
+          <div class="form-field-minimal">
+            <label class="form-label-minimal">State</label>
+            <input
+              type="text"
+              class="form-input-minimal"
+              formControlName="state"
+              placeholder="CA"
+            />
+          </div>
+
+          <div class="form-field-minimal">
+            <label class="form-label-minimal">ZIP</label>
+            <input
+              type="text"
+              class="form-input-minimal"
+              formControlName="zip"
+              placeholder="94102"
+            />
+          </div>
+        </div>
+
+        <div class="grid-minimal grid-2-minimal">
+          <div class="form-field-minimal">
+            <label class="form-label-minimal">Discount Rate</label>
+            <input
+              type="number"
+              step="0.01"
+              min="0"
+              max="1"
+              class="form-input-minimal"
+              formControlName="defaultDiscountRate"
+              placeholder="0.05"
+            />
+          </div>
+
+          <div class="form-field-minimal" style="display: flex; align-items: center; gap: 16px; margin-top: 40px;">
+            <input
+              id="taxExempt"
+              type="checkbox"
+              formControlName="isTaxExempt"
+              style="width: 16px; height: 16px; background: transparent; border: 0.5px solid rgba(255,255,255,0.2);"
+            />
+            <label for="taxExempt" class="form-label-minimal" style="margin-bottom: 0;">Tax Exempt</label>
+          </div>
+        </div>
+
+        <div class="form-field-minimal">
+          <label class="form-label-minimal">Notes</label>
+          <textarea
+            class="form-textarea-minimal"
+            formControlName="notes"
+            placeholder="Special instructions..."
+          ></textarea>
+        </div>
+
+        <div style="margin-top: 80px; text-align: center;">
+          <button
+            type="submit"
+            class="btn-minimal"
+            [disabled]="form.invalid || submitting()"
+          >
+            {{ submitting() ? 'Adding...' : 'Add Client' }}
+          </button>
+        </div>
+      </form>
+    </div>
+
+    <!-- Client List -->
+    <div>
+      <h2 class="data-title-minimal">Active Clients</h2>
+      
+      <div class="data-grid-minimal" style="grid-template-columns: 1fr; gap: 40px;">
+        @for (client of clients(); track client.id) {
+        <div class="data-item-minimal" style="text-align: left; padding: 40px;">
+          <div class="data-name-minimal">{{ client.name }}</div>
+          <div class="data-meta-minimal">{{ client.email }} • {{ client.phone }}</div>
+          @if (client.street || client.city || client.state) {
+          <div class="data-meta-minimal" style="margin-top: 8px;">
+            {{ client.street }}{{ client.street && (client.city || client.state) ? ', ' : '' }}
+            {{ client.city }}{{ client.city && client.state ? ', ' : '' }}
+            {{ client.state }} {{ client.zip }}
+          </div>
+          }
+          
+          <div style="margin-top: 20px; display: flex; gap: 20px; align-items: center;">
+            @if (client.defaultDiscountRate > 0) {
+            <span class="badge-minimal">{{ (client.defaultDiscountRate * 100) | number:'1.0-1' }}% discount</span>
+            }
+            @if (client.isTaxExempt) {
+            <span class="badge-success-minimal">tax exempt</span>
+            }
+          </div>
+
+          <div style="margin-top: 30px; display: flex; gap: 20px;">
+            @if (client.website) {
+            <a [href]="client.website" target="_blank" class="btn-ghost-minimal">Website</a>
+            }
+            <a [href]="'mailto:' + client.email" class="btn-ghost-minimal">Email</a>
+            <a [href]="'tel:' + client.phone" class="btn-ghost-minimal">Call</a>
+            <button (click)="remove(client.id)" class="btn-ghost-minimal" style="color: rgba(255, 100, 100, 0.7);">Delete</button>
+          </div>
+        </div>
+        } @empty {
+        <div class="data-item-minimal">
+          <div class="data-name-minimal">No clients yet</div>
+          <div class="data-meta-minimal">Add your first client above</div>
+        </div>
+        }
+      </div>
+    </div>
+  </div>
+</div>
+"@
+
+$newClientsTemplate | Set-Content "src/app/features/clients/clients.html"
+Write-Host "   ✅ Updated Clients page" -ForegroundColor Green
+
+# Phase 6: Update Quote Form Component
+Write-Host "📝 Phase 6: Updating Quote Form component..." -ForegroundColor Yellow
+
+$newQuoteFormTemplate = @"
+<div class="interface-pod-minimal">
+  <h3 class="pod-title-minimal">Job Specification</h3>
+
+  <form [formGroup]="form" (ngSubmit)="onSubmit()" class="form-grid-minimal">
+    <div class="grid-minimal grid-3-minimal">
+      <div class="form-field-minimal">
+        <label class="form-label-minimal" for="client">Client</label>
+        <select id="client" formControlName="clientId" class="form-select-minimal">
+          <option value="" disabled>Select a client</option>
+          @for (c of clients(); track c.id) {
+          <option [value]="c.id">{{ c.name }}</option>
+          } @empty {
+          <option value="" disabled>No clients available</option>
+          }
+        </select>
+      </div>
+
+      <div class="form-field-minimal">
+        <label class="form-label-minimal" for="material">Material</label>
+        <input 
+          id="material" 
+          type="text" 
+          class="form-input-minimal" 
+          formControlName="material"
+          placeholder="Crane Lettra 220gsm"
+        />
+      </div>
+
+      <div class="form-field-minimal">
+        <label class="form-label-minimal" for="quantity">Quantity</label>
+        <input 
+          id="quantity" 
+          type="number" 
+          class="form-input-minimal" 
+          formControlName="quantity"
+          placeholder="500"
+        />
+      </div>
+
+      <div class="form-field-minimal">
+        <label class="form-label-minimal" for="pricePerUnit">Price Per Unit</label>
+        <input 
+          id="pricePerUnit" 
+          type="number" 
+          step="0.01" 
+          class="form-input-minimal" 
+          formControlName="pricePerUnit"
+          placeholder="2.50"
+        />
+      </div>
+
+      <div class="form-field-minimal">
+        <label class="form-label-minimal" for="size">Size</label>
+        <input 
+          id="size" 
+          type="text" 
+          class="form-input-minimal" 
+          formControlName="size"
+          placeholder="5.5 × 8.5 inches"
+        />
+      </div>
+
+      <div class="form-field-minimal">
+        <label class="form-label-minimal" for="finishType">Process</label>
+        <select id="finishType" formControlName="finishType" class="form-select-minimal">
+          <option value="">Select process</option>
+          <option value="Letterpress">Letterpress</option>
+          <option value="Foil Stamping">Foil Stamping</option>
+          <option value="Embossing">Embossing</option>
+          <option value="Letterpress + Foil">Letterpress + Foil</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="form-field-minimal">
+      <label class="form-label-minimal" for="notes">Notes</label>
+      <textarea 
+        id="notes" 
+        class="form-textarea-minimal" 
+        formControlName="notes"
+        placeholder="Special instructions, colors, finishing details..."
+      ></textarea>
+    </div>
+
+    <div class="grid-minimal grid-2-minimal">
+      <div class="form-field-minimal">
+        <label class="form-label-minimal" for="setupFee">Setup Fee</label>
+        <input 
+          id="setupFee" 
+          type="number" 
+          step="0.01" 
+          class="form-input-minimal" 
+          formControlName="setupFee"
+          placeholder="75.00"
+        />
+      </div>
+
+      <div class="form-field-minimal">
+        <label class="form-label-minimal" for="discountRate">Discount Rate</label>
+        <input 
+          id="discountRate" 
+          type="number" 
+          step="0.01" 
+          min="0" 
+          max="1" 
+          class="form-input-minimal" 
+          formControlName="discountRate"
+          placeholder="0.10"
+        />
+      </div>
+    </div>
+
+    <div style="margin-top: 80px; text-align: center; display: flex; gap: 40px; justify-content: center;">
+      <button type="button" class="btn-outline-minimal" (click)="resetForm()">
+        Reset
+      </button>
+      <button 
+        type="submit" 
+        [disabled]="form.invalid" 
+        class="btn-minimal"
+      >
+        Calculate Quote
+      </button>
+    </div>
+  </form>
+</div>
+"@
+
+$newQuoteFormTemplate | Set-Content "src/app/features/quotes/components/quote-form.html"
+Write-Host "   ✅ Updated Quote Form component" -ForegroundColor Green
+
+# Phase 7: Update Login Modal
+Write-Host "🔐 Phase 7: Updating Login Modal..." -ForegroundColor Yellow
+
+$newLoginModalTemplate = @"
+@if (open()) {
+<div style="position: fixed; inset: 0; z-index: 100; display: flex; align-items: center; justify-content: center; padding: 40px;">
+  <!-- Backdrop -->
+  <div 
+    style="position: absolute; inset: 0; background: rgba(0, 0, 0, 0.8); backdrop-filter: blur(20px);" 
+    (click)="onClose()"
+  ></div>
+  
+  <!-- Modal -->
+  <div style="position: relative; width: 100%; max-width: 500px;">
+    <div class="interface-pod-minimal">
+      <div style="display: flex; align-items: start; justify-content: space-between; margin-bottom: 60px;">
+        <div>
+          <h3 class="pod-title-minimal" style="text-align: left; margin-bottom: 0;">Sign In</h3>
+        </div>
+        <button 
+          class="btn-ghost-minimal" 
+          (click)="onClose()" 
+          aria-label="Close"
+          style="padding: 8px;"
+        >
+          ✕
+        </button>
+      </div>
+
+      @if (error()) {
+      <div style="padding: 20px; margin-bottom: 40px; border: 0.5px solid rgba(255, 100, 100, 0.3); background: rgba(255, 100, 100, 0.05);">
+        <p style="color: rgba(255, 100, 100, 0.8); font-size: 12px;">{{ error() }}</p>
+      </div>
+      }
+
+      <form [formGroup]="form" (ngSubmit)="onSubmit()" class="form-grid-minimal">
+        <div class="form-field-minimal">
+          <label class="form-label-minimal" for="email">Email</label>
+          <input 
+            id="email" 
+            type="email" 
+            class="form-input-minimal" 
+            formControlName="email"
+            placeholder="admin@example.com"
+            autocomplete="email"
+          />
+        </div>
+        
+        <div class="form-field-minimal">
+          <label class="form-label-minimal" for="password">Password</label>
+          <input 
+            id="password" 
+            type="password" 
+            class="form-input-minimal" 
+            formControlName="password"
+            placeholder="Enter your password"
+            autocomplete="current-password"
+          />
+        </div>
+
+        <div style="margin-top: 80px; text-align: center;">
+          <button
+            class="btn-minimal"
+            type="submit"
+            [disabled]="form.invalid || signingIn()"
+            style="width: 100%;"
+          >
+            {{ signingIn() ? 'Signing in...' : 'Sign In' }}
+          </button>
+        </div>
+
+        @if (requestRole()) {
+        <p class="data-meta-minimal" style="text-align: center; margin-top: 40px;">
+          Signing in as {{ requestRole() }}
+        </p>
+        }
+      </form>
+    </div>
+  </div>
+</div>
+}
+"@
+
+$newLoginModalTemplate | Set-Content "src/app/shared/auth/login-modal/login-modal.html"
+Write-Host "   ✅ Updated Login Modal" -ForegroundColor Green
+
+# Phase 8: Update Layout Components
+Write-Host "🏗️ Phase 8: Updating Layout components..." -ForegroundColor Yellow
+
+$newLayoutTemplate = @"
+<div style="min-height: 100vh; display: flex; flex-direction: column;">
+  <app-header />
+  <main style="flex-grow: 1;">
+    <router-outlet />
+  </main>
+  <app-footer />
+</div>
+"@
+
+$newFooterTemplate = @"
+<footer class="header-minimal" style="position: relative; margin-top: auto;">
+  <div class="header-content" style="height: 60px;">
+    <p class="data-meta-minimal">
+      © {{ currentYear }} Otto Matic. Professional print quoting.
+    </p>
+    <div style="display: flex; align-items: center; gap: 40px;">
+      <p class="data-meta-minimal">
+        Built with Angular
+      </p>
+      <a 
+        href="mailto:support@ottomatic.com" 
+        class="btn-ghost-minimal"
+        style="padding: 4px 0;"
+      >
+        Support
+      </a>
+    </div>
+  </div>
+</footer>
+"@
+
+$newLayoutTemplate | Set-Content "src/app/shared/layout/layout.html"
+$newFooterTemplate | Set-Content "src/app/shared/layout/footer/footer.html"
+Write-Host "   ✅ Updated Layout components" -ForegroundColor Green
+
+# Phase 9: Update TypeScript Components
+Write-Host "⚙️ Phase 9: Updating component TypeScript files..." -ForegroundColor Yellow
+
+$newQuoteFormTS = @"
+import { ChangeDetectionStrategy, Component, OnInit, inject, output, signal } from '@angular/core';
+import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
+import { FirebaseService } from '../../../core/firebase.service';
+import { Client } from '../../../core/models/client.model';
+
+interface QuoteFormValue {
+  clientId: string;
+  clientName: string;
+  material: string;
+  quantity: number;
+  pricePerUnit: number;
+  size: string;
+  finishType: string;
+  notes: string;
+  setupFee: number;
+  discountRate: number;
+}
+
+@Component({
+  selector: 'app-quote-form',
+  standalone: true,
+  imports: [ReactiveFormsModule],
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  templateUrl: './quote-form.html',
+})
+export class QuoteForm implements OnInit {
+  private readonly fb = inject(FormBuilder);
+  private readonly firebase = inject(FirebaseService);
+
+  readonly clients = signal<ReadonlyArray<Client>>([]);
+
+  readonly form = this.fb.nonNullable.group({
+    clientId: this.fb.nonNullable.control<string>('', { validators: [Validators.required] }),
+    clientName: this.fb.nonNullable.control<string>(''),
+    material: this.fb.nonNullable.control<string>('', { validators: [Validators.required] }),
+    quantity: this.fb.nonNullable.control<number>(1, {
+      validators: [Validators.required, Validators.min(1)],
+    }),
+    pricePerUnit: this.fb.nonNullable.control<number>(0, {
+      validators: [Validators.required, Validators.min(0.01)],
+    }),
+    size: this.fb.nonNullable.control<string>(''),
+    finishType: this.fb.nonNullable.control<string>(''),
+    notes: this.fb.nonNullable.control<string>(''),
+    setupFee: this.fb.nonNullable.control<number>(0),
+    discountRate: this.fb.nonNullable.control<number>(0),
+  });
+
+  readonly submitted = output<QuoteFormValue>();
+
+  ngOnInit(): void {
+    this.firebase.fetchClients().subscribe((list) => this.clients.set(list));
+    this.form.controls.clientId.valueChanges.subscribe((id) => {
+      const match = this.clients().find((c) => c.id === id);
+      this.form.controls.clientName.setValue(match?.name ?? '', { emitEvent: false });
+    });
+  }
+
+  onSubmit() {
+    if (this.form.invalid) return;
+    this.submitted.emit(this.form.getRawValue());
+    this.resetForm();
+  }
+
+  resetForm() {
+    this.form.reset({
+      clientId: '',
+      clientName: '',
+      material: '',
+      quantity: 1,
+      pricePerUnit: 0,
+      size: '',
+      finishType: '',
+      notes: '',
+      setupFee: 0,
+      discountRate: 0,
+    });
+  }
+}
+"@
+
+$newQuoteFormTS | Set-Content "src/app/features/quotes/components/quote-form.ts"
+
+$newFooterTS = @"
+import { ChangeDetectionStrategy, Component } from '@angular/core';
+
+@Component({
+  selector: 'app-footer',
+  standalone: true,
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  templateUrl: './footer.html',
+})
+export class Footer {
+  readonly currentYear = new Date().getFullYear();
+}
+"@
+
+$newFooterTS | Set-Content "src/app/shared/layout/footer/footer.ts"
+Write-Host "   ✅ Updated component TypeScript files" -ForegroundColor Green
+
+# Phase 10: Clean up empty files
+Write-Host "🧹 Phase 10: Cleaning up unnecessary files..." -ForegroundColor Yellow
+
+$filesToClean = @(
+    "src/app/shared/layout/header/header.scss",
+    "src/app/shared/layout/footer/footer.scss",
+    "src/app/shared/layout/layout.scss",
+    "src/app/features/landing/landing.scss",
+    "src/app/features/quotes/quotes.scss",
+    "src/app/features/quotes/components/quote-form.scss",
+    "src/app/features/clients/clients.scss",
+    "src/app/shared/auth/login-modal/login-modal.scss"
+)
+
+foreach ($file in $filesToClean) {
+    if (Test-Path $file) {
+        Remove-Item $file -Force
+        Write-Host "   🗑️  Removed: $file" -ForegroundColor Red
+    }
+}
+
+Write-Host "   ✅ Cleaned up empty style files" -ForegroundColor Green
+
+# Summary
+Write-Host ""
+Write-Host "🖤 Post-Modern Design Transformation Complete!" -ForegroundColor Green
+Write-Host ""
+Write-Host "✅ Changes made:" -ForegroundColor White
+Write-Host "   • Implemented post-modern minimal design system" -ForegroundColor Gray
+Write-Host "   • Ultra-light typography with precise letter spacing" -ForegroundColor Gray
+Write-Host "   • Floating minimal elements and void aesthetics" -ForegroundColor Gray
+Write-Host "   • Minimal forms with hairline borders" -ForegroundColor Gray
+Write-Host "   • Pretentious spacing and ultra-clean layouts" -ForegroundColor Gray
+Write-Host "   • Updated all component templates and styles" -ForegroundColor Gray
+Write-Host "   • Removed unnecessary style files" -ForegroundColor Gray
+Write-Host ""
+Write-Host "⚠️  Next steps:" -ForegroundColor Yellow
+Write-Host "   1. Run 'npm start' to see the post-modern transformation" -ForegroundColor Gray
+Write-Host "   2. Update any remaining component TypeScript files if needed" -ForegroundColor Gray
+Write-Host "   3. Test all functionality with the new minimal UI" -ForegroundColor Gray
+Write-Host "   4. Adjust spacing or typography if needed" -ForegroundColor Gray
+Write-Host ""
+Write-Host "🎨 Your Otto Matic app now embodies post-modern minimalism!" -ForegroundColor Cyan
+Write-Host ""
+Write-Host "✨ Key features of the new design:" -ForegroundColor Magenta
+Write-Host "   • Ultra-light Inter & JetBrains Mono typography" -ForegroundColor Gray
+Write-Host "   • Precise letter spacing (0.08em on main title)" -ForegroundColor Gray
+Write-Host "   • Floating minimal elements with subtle animations" -ForegroundColor Gray
+Write-Host "   • Void color palette with 0.5px hairline borders" -ForegroundColor Gray
+Write-Host "   • Pretentious spacing that commands attention" -ForegroundColor Gray
+Write-Host "   • Perfect for a Gen-X print shop owner's aesthetic" -ForegroundColor Gray
+        class="btn-ghost-minimal"
+        style="padding: 4px 0;"
+      >
+        Support
+      </a>
+    </div>
   </div>
 </footer>

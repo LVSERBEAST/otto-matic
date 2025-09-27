@@ -2,38 +2,49 @@
 module.exports = {
   content: ['./src/**/*.{html,ts}'],
   theme: {
-    container: {
-      center: true,
-      padding: {
-        DEFAULT: '1rem',
-        md: '2rem'
-      }
-    },
     extend: {
       colors: {
-        brand: {
-          50: '#eef2ff',
-          100: '#e0e7ff',
-          200: '#c7d2fe',
-          300: '#a5b4fc',
-          400: '#818cf8',
-          500: '#6366f1',
-          600: '#4f46e5',
-          700: '#4338ca',
-          800: '#3730a3',
-          900: '#312e81'
-        }
+        // Custom CSS variables integration
+        'surface-L0': 'var(--surface-L0)',
+        'surface-L1': 'var(--surface-L1)',
+        'surface-L2': 'var(--surface-L2)',
+        'surface-L3': 'var(--surface-L3)',
+        'surface-L4': 'var(--surface-L4)',
+        'surface-L5': 'var(--surface-L5)',
+        'text-primary': 'var(--text-primary)',
+        'text-secondary': 'var(--text-secondary)',
+        'text-tertiary': 'var(--text-tertiary)',
+        'text-quaternary': 'var(--text-quaternary)',
+        'accent-primary': 'var(--accent-primary)',
+        'accent-secondary': 'var(--accent-secondary)',
+        'border-subtle': 'var(--border-subtle)',
+        'border-standard': 'var(--border-standard)',
+        'border-prominent': 'var(--border-prominent)',
+        'border-accent': 'var(--border-accent)',
+        'success': 'var(--success)',
+        'warning': 'var(--warning)',
+        'error': 'var(--error)',
       },
       fontFamily: {
-        sans: ['Inter', 'ui-sans-serif', 'system-ui', 'Segoe UI', 'Helvetica Neue', 'Arial', 'Noto Sans', 'sans-serif'],
-        serif: ['"Playfair Display"', 'Georgia', 'Cambria', 'Times New Roman', 'Times', 'serif']
+        sans: ['-apple-system', 'SF Pro Text', 'BlinkMacSystemFont', 'Segoe UI', 'system-ui', 'sans-serif'],
+        display: ['-apple-system', 'SF Pro Display', 'BlinkMacSystemFont', 'sans-serif'],
+        mono: ['SF Mono', 'Monaco', 'Inconsolata', 'Roboto Mono', 'monospace'],
       },
       boxShadow: {
-        card: '0 1px 2px 0 rgba(0,0,0,0.06), 0 1px 3px 0 rgba(0,0,0,0.1)',
-        elevated: '0 10px 30px -10px rgba(0,0,0,0.6), 0 6px 10px -6px rgba(0,0,0,0.5)'
-      }
-    }
+        'sm-custom': 'var(--shadow-sm)',
+        'md-custom': 'var(--shadow-md)',
+        'lg-custom': 'var(--shadow-lg)',
+        'focus-custom': 'var(--shadow-focus)',
+      },
+      transitionTimingFunction: {
+        'spring': 'var(--ease-spring)',
+        'out-expo': 'var(--ease-out-expo)',
+        'in-out-quart': 'var(--ease-in-out-quart)',
+      },
+      backdropBlur: {
+        'xs': '2px',
+      },
+    },
   },
-  darkMode: 'class',
-  plugins: []
+  plugins: [],
 };

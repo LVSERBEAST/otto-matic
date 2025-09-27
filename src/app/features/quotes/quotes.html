@@ -1,22 +1,127 @@
-<section class="space-y-8">
-  <div class="flex items-center justify-between">
-    <h2 class="text-3xl font-semibold text-white">Quotes</h2>
-    <button type="button" class="btn btn-outline">Export</button>
+<div class="section-minimal">
+  <!-- Header -->
+  <div class="flex-minimal mb-large-minimal" style="justify-content: space-between;">
+    <h1 class="hero-title-minimal" style="font-size: 48px; margin-bottom: 0;">Quotes</h1>
+    <button type="button" class="btn-outline-minimal">Export</button>
   </div>
 
-  <app-quote-form (submitted)="createQuote($event)" />
+  <!-- Quote Form -->
+  <div class="interface-pod-minimal mb-large-minimal">
+    <h2 class="pod-title-minimal">New Quote</h2>
+    
+    <form (ngSubmit)="createQuote(quoteForm.value)" #quoteForm="ngForm" class="form-grid-minimal">
+      <div class="grid-minimal grid-3-minimal">
+        <div class="form-field-minimal">
+          <label class="form-label-minimal">Client</label>
+          <select 
+            class="form-select-minimal" 
+            name="clientId" 
+            ngModel 
+            required
+          >
+            <option value="">Select client</option>
+            <option value="1">Acme Restaurant</option>
+            <option value="2">Local Brewery</option>
+            <option value="3">Design Studio</option>
+          </select>
+        </div>
 
-  <ul class="divide-y divide-white/10 card">
-    @for (q of quotes(); track q.quoteId) {
-    <li class="p-4 grid md:grid-cols-5 gap-2 text-sm">
-      <div class="font-medium text-neutral-100">{{ q.clientName }}</div>
-      <div class="text-neutral-400">{{ q.material }} · {{ q.finishType }}</div>
-      <div class="text-neutral-400">Qty: {{ q.quantity }}</div>
-      <div class="text-neutral-400">Subtotal: {{ q.subTotal | number : '1.2-2' }}</div>
-      <div class="text-white font-semibold">Total: {{ q.totalPrice | number : '1.2-2' }}</div>
-    </li>
-    } @empty {
-    <li class="p-6 text-center text-neutral-500">No quotes yet. Create your first one above.</li>
-    }
-  </ul>
-</section>
+        <div class="form-field-minimal">
+          <label class="form-label-minimal">Material</label>
+          <input 
+            type="text" 
+            class="form-input-minimal" 
+            placeholder="Crane Lettra 220gsm"
+            name="material"
+            ngModel
+          >
+        </div>
+
+        <div class="form-field-minimal">
+          <label class="form-label-minimal">Quantity</label>
+          <input 
+            type="number" 
+            class="form-input-minimal" 
+            placeholder="500"
+            name="quantity"
+            ngModel
+          >
+        </div>
+
+        <div class="form-field-minimal">
+          <label class="form-label-minimal">Price Per Unit</label>
+          <input 
+            type="number" 
+            step="0.01"
+            class="form-input-minimal" 
+            placeholder="2.50"
+            name="pricePerUnit"
+            ngModel
+          >
+        </div>
+
+        <div class="form-field-minimal">
+          <label class="form-label-minimal">Size</label>
+          <input 
+            type="text" 
+            class="form-input-minimal" 
+            placeholder="5.5 × 8.5 inches"
+            name="size"
+            ngModel
+          >
+        </div>
+
+        <div class="form-field-minimal">
+          <label class="form-label-minimal">Process</label>
+          <select 
+            class="form-select-minimal"
+            name="finishType"
+            ngModel
+          >
+            <option value="">Select process</option>
+            <option value="Letterpress">Letterpress</option>
+            <option value="Foil Stamping">Foil Stamping</option>
+            <option value="Embossing">Embossing</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="form-field-minimal">
+        <label class="form-label-minimal">Notes</label>
+        <textarea 
+          class="form-textarea-minimal" 
+          placeholder="Special instructions..."
+          name="notes"
+          ngModel
+        ></textarea>
+      </div>
+
+      <div style="margin-top: 80px; text-align: center;">
+        <button type="submit" class="btn-minimal">Calculate Quote</button>
+      </div>
+    </form>
+  </div>
+
+  <!-- Quotes List -->
+  <div>
+    <h2 class="data-title-minimal">Recent Quotes</h2>
+    
+    <div class="data-grid-minimal">
+      @for (quote of quotes(); track quote.quoteId) {
+      <div class="data-item-minimal">
+        <div class="data-name-minimal">{{ quote.clientName }}</div>
+        <div class="data-meta-minimal">{{ quote.material }} • {{ quote.finishType }}</div>
+        <div class="data-value-minimal">{{ quote.totalPrice | currency }}</div>
+        <div style="margin-top: 20px;">
+          <span class="badge-minimal">{{ quote.status }}</span>
+        </div>
+      </div>
+      } @empty {
+      <div class="data-item-minimal" style="grid-column: 1 / -1;">
+        <div class="data-name-minimal">No quotes yet</div>
+        <div class="data-meta-minimal">Create your first quote above</div>
+      </div>
+      }
+    </div>
+  </div>
+</div>

@@ -1,34 +1,75 @@
 @if (open()) {
-<div class="fixed inset-0 z-[100] grid place-items-center p-4">
-  <div class="absolute inset-0 bg-black/60" (click)="onClose()"></div>
-  <div class="relative w-full max-w-md">
-    <div class="card w-full p-6 card-hover max-h-[80vh] overflow-auto">
-      <div class="flex items-start justify-between">
-        <h3 class="text-lg font-semibold text-white">Sign in</h3>
-        <button class="btn btn-ghost p-2 -mr-2" (click)="onClose()" aria-label="Close">✕</button>
+<div style="position: fixed; inset: 0; z-index: 100; display: flex; align-items: center; justify-content: center; padding: 40px;">
+  <!-- Backdrop -->
+  <div 
+    style="position: absolute; inset: 0; background: rgba(0, 0, 0, 0.8); backdrop-filter: blur(20px);" 
+    (click)="onClose()"
+  ></div>
+  
+  <!-- Modal -->
+  <div style="position: relative; width: 100%; max-width: 500px;">
+    <div class="interface-pod-minimal">
+      <div style="display: flex; align-items: start; justify-content: space-between; margin-bottom: 60px;">
+        <div>
+          <h3 class="pod-title-minimal" style="text-align: left; margin-bottom: 0;">Sign In</h3>
+        </div>
+        <button 
+          class="btn-ghost-minimal" 
+          (click)="onClose()" 
+          aria-label="Close"
+          style="padding: 8px;"
+        >
+          ✕
+        </button>
       </div>
-      <p class="mt-2 text-sm text-neutral-400">Use your email and password to continue.</p>
 
       @if (error()) {
-      <div class="mt-3 text-sm text-red-400">{{ error() }}</div>
+      <div style="padding: 20px; margin-bottom: 40px; border: 0.5px solid rgba(255, 100, 100, 0.3); background: rgba(255, 100, 100, 0.05);">
+        <p style="color: rgba(255, 100, 100, 0.8); font-size: 12px;">{{ error() }}</p>
+      </div>
       }
 
-      <form class="mt-6 grid gap-4" [formGroup]="form" (ngSubmit)="onSubmit()">
-        <div class="grid gap-2">
-          <label class="label" for="email">Email</label>
-          <input id="email" type="email" class="input" formControlName="email" />
+      <form [formGroup]="form" (ngSubmit)="onSubmit()" class="form-grid-minimal">
+        <div class="form-field-minimal">
+          <label class="form-label-minimal" for="email">Email</label>
+          <input 
+            id="email" 
+            type="email" 
+            class="form-input-minimal" 
+            formControlName="email"
+            placeholder="admin@example.com"
+            autocomplete="email"
+          />
         </div>
-        <div class="grid gap-2">
-          <label class="label" for="password">Password</label>
-          <input id="password" type="password" class="input" formControlName="password" />
+        
+        <div class="form-field-minimal">
+          <label class="form-label-minimal" for="password">Password</label>
+          <input 
+            id="password" 
+            type="password" 
+            class="form-input-minimal" 
+            formControlName="password"
+            placeholder="Enter your password"
+            autocomplete="current-password"
+          />
         </div>
-        <button
-          class="btn btn-primary w-full"
-          type="submit"
-          [disabled]="form.invalid || signingIn()"
-        >
-          {{ signingIn() ? 'Signing in…' : 'Sign in' }}
-        </button>
+
+        <div style="margin-top: 80px; text-align: center;">
+          <button
+            class="btn-minimal"
+            type="submit"
+            [disabled]="form.invalid || signingIn()"
+            style="width: 100%;"
+          >
+            {{ signingIn() ? 'Signing in...' : 'Sign In' }}
+          </button>
+        </div>
+
+        @if (requestRole()) {
+        <p class="data-meta-minimal" style="text-align: center; margin-top: 40px;">
+          Signing in as {{ requestRole() }}
+        </p>
+        }
       </form>
     </div>
   </div>

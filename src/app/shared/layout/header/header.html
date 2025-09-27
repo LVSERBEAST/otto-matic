@@ -1,48 +1,41 @@
-<header class="w-full sticky top-0 z-40 chrome-surface chrome-border">
-  <div class="container mx-auto px-4 md:px-8 py-3 flex items-center justify-between">
-    <a routerLink="/" class="flex items-center gap-3 text-xl font-semibold text-neutral-100">
-      <span
-        class="inline-flex items-center justify-center w-7 h-7 rounded-sm bg-gradient-to-b brand-accent glow"
-      ></span>
-      <span>Otto Matic</span>
-    </a>
+<!-- Floating minimal elements -->
+<div class="floating-element element-1"></div>
+<div class="floating-element element-2"></div>
+<div class="floating-element element-3"></div>
 
-    <nav class="hidden md:flex items-center gap-6">
+<!-- Ultra minimal header -->
+<header class="header-minimal">
+  <div class="header-content">
+    <a routerLink="/" class="logo-minimal">Otto Matic</a>
+    <nav class="nav-minimal">
       @if (isLoggedIn()) {
       <a
         routerLink="/quotes"
-        routerLinkActive="text-brand-400"
-        class="text-neutral-300 hover:text-white transition"
+        routerLinkActive="active"
+        class="nav-link-minimal"
         >Quotes</a
       >
       <a
         routerLink="/clients"
-        routerLinkActive="text-brand-400"
-        class="text-neutral-300 hover:text-white transition"
+        routerLinkActive="active"
+        class="nav-link-minimal"
         >Clients</a
       >
       }
     </nav>
-
-    <div class="flex items-center gap-2">
-      @if (!isLoggedIn()) {
-      <button type="button" (click)="openModal('dev')" class="btn btn-ghost">Login as Dev</button>
-      <button type="button" (click)="openModal('admin')" class="btn btn-primary">
-        Login as Admin
-      </button>
+    <div class="user-indicator-minimal">
+      @if (isLoggedIn()) {
+      {{ userRole() }}
       } @else {
-      <span class="hidden sm:inline text-xs tracking-wide text-neutral-400 mr-2">{{
-        userRole() | uppercase
-      }}</span>
-      <button type="button" (click)="logout()" class="btn btn-outline">Logout</button>
+      Guest
       }
     </div>
   </div>
-  <div class="divider"></div>
-
-  <app-login-modal
-    [open]="openLogin()"
-    [requestRole]="requestedRole()"
-    (close)="openLogin.set(false)"
-  />
 </header>
+
+<!-- Login Modal -->
+<app-login-modal
+  [open]="openLogin()"
+  [requestRole]="requestedRole()"
+  (close)="openLogin.set(false)"
+/>

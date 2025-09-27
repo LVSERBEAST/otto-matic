@@ -1,21 +1,74 @@
-<section class="grid md:grid-cols-2 gap-10 items-center">
-  <div class="space-y-5">
-    <h1 class="text-4xl md:text-6xl font-bold text-white tracking-tight">
-      Make quotes look as premium as your print
-    </h1>
-    <p class="text-neutral-400 max-w-xl">
-      Streamline your print quotes with a fast, modern Angular app. Elegant UI, accurate pricing,
-      and a workflow your team will love.
-    </p>
-    <div class="flex gap-3">
-      <a routerLink="/quotes" class="btn btn-primary px-6 py-3 text-base">Get Started</a>
-      <a href="#features" class="btn btn-outline px-6 py-3 text-base">Learn More</a>
-    </div>
+<!-- Post-modern main content -->
+<main class="main-minimal">
+  <div class="container-minimal">
+    <!-- Hero with precise spacing -->
+    <section class="hero-section-minimal">
+      <h1 class="hero-title-minimal">precision</h1>
+      <p class="hero-subtitle-minimal">professional print quoting</p>
+    </section>
+
+    <!-- Floating interface pod -->
+    <section class="interface-pod-minimal">
+      <h2 class="pod-title-minimal">New Specification</h2>
+      
+      <form class="form-grid-minimal">
+        <div class="form-field-minimal">
+          <label class="form-label-minimal">Client</label>
+          <select class="form-select-minimal">
+            <option>Select client</option>
+            <option>Acme Restaurant</option>
+            <option>Local Brewery</option>
+          </select>
+        </div>
+
+        <div class="form-field-minimal">
+          <label class="form-label-minimal">Material</label>
+          <input type="text" class="form-input-minimal" placeholder="Crane Lettra 220gsm">
+        </div>
+
+        <div class="form-field-minimal">
+          <label class="form-label-minimal">Quantity</label>
+          <input type="number" class="form-input-minimal" placeholder="500">
+        </div>
+
+        <div class="form-field-minimal">
+          <label class="form-label-minimal">Process</label>
+          <select class="form-select-minimal">
+            <option>Letterpress</option>
+            <option>Foil Stamping</option>
+            <option>Embossing</option>
+          </select>
+        </div>
+
+        <div style="margin-top: 120px; text-align: center;">
+          <button type="submit" class="btn-minimal">Calculate</button>
+        </div>
+      </form>
+    </section>
+
+    <!-- Minimal data presentation -->
+    <section class="data-section-minimal">
+      <h2 class="data-title-minimal">Recent Work</h2>
+      
+      <div class="data-grid-minimal">
+        <div class="data-item-minimal">
+          <div class="data-name-minimal">Acme Restaurant</div>
+          <div class="data-meta-minimal">letterpress • 2 colors</div>
+          <div class="data-value-minimal">,450</div>
+        </div>
+        
+        <div class="data-item-minimal">
+          <div class="data-name-minimal">Local Brewery</div>
+          <div class="data-meta-minimal">foil stamp • gold</div>
+          <div class="data-value-minimal">,850</div>
+        </div>
+        
+        <div class="data-item-minimal">
+          <div class="data-name-minimal">Design Studio</div>
+          <div class="data-meta-minimal">emboss • blind</div>
+          <div class="data-value-minimal">,200</div>
+        </div>
+      </div>
+    </section>
   </div>
-  <div class="relative">
-    <div class="card card-hover p-10 glow">
-      <div class="h-24 w-24 rounded-md bg-gradient-to-br brand-accent mx-auto"></div>
-      <p class="mt-6 text-center text-neutral-400">Otto Matic</p>
-    </div>
-  </div>
-</section>
+</main>
