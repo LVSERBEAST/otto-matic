@@ -2,7 +2,8 @@ import { Injectable, inject } from '@angular/core';
 import { Observable, from, of } from 'rxjs';
 import { catchError, map } from 'rxjs/operators';
 import { Client } from './models/client.model';
-import { Job, Quote } from '../features/quotes/models/job.model';
+import { Job } from './models/job.model';
+import { Quote } from './models/quote.model';
 import { firebaseConfig, isFirebaseConfigured } from './firebase.config';
 
 // Firebase SDK imports (modular v9+)
@@ -30,6 +31,7 @@ import {
   query,
   orderBy,
   serverTimestamp,
+  Timestamp,
   type QueryDocumentSnapshot,
   type DocumentData,
 } from 'firebase/firestore';
@@ -63,6 +65,14 @@ export class FirebaseService {
   // Expose whether Firestore is configured and a user is authenticated
   isDbActive(): boolean {
     return !!this.app && this.configured && this.isAuthed();
+  }
+
+  // Helper method to convert Firebase data to Quote objects
+  private convertFirebaseToQuote(data: any): Quote {
+    return {
+      ...data,
+      quoteDate: data.quoteDate instanceof Timestamp ? data.quoteDate.toDate() : data.quoteDate,
+    } as Quote;
   }
 
   fetchClients(): Observable<Client[]> {
@@ -152,7 +162,7 @@ export class FirebaseService {
     );
   }
 
-  fetchQuotes(): Observable<Job[]> {
+  fetchQuotes(): Observable<Quote[]> {
     if (!this.configured || !this.app || !this.isAuthed()) {
       return of([]);
     }
@@ -160,8 +170,8 @@ export class FirebaseService {
     const ref = collection(db, 'quotes');
     const q = query(ref, orderBy('createdAt', 'desc'));
     return from(getDocs(q)).pipe(
-      map((snap) => snap.docs.map((d: QueryDocumentSnapshot<DocumentData>) => d.data() as Job)),
-      catchError(() => of([] as Job[]))
+      map((snap) => snap.docs.map((d: QueryDocumentSnapshot<DocumentData>) => this.convertFirebaseToQuote(d.data()))),
+      catchError(() => of([] as Quote[]))
     );
   }
 
@@ -175,7 +185,7 @@ export class FirebaseService {
     return new Observable<Quote[]>((subscriber) => {
       const unsub = onSnapshot(q, {
         next: (snap) => {
-          const data = snap.docs.map((d) => d.data() as Quote);
+          const data = snap.docs.map((d) => this.convertFirebaseToQuote(d.data()));
           subscriber.next(data);
         },
         error: () => {
@@ -250,5 +260,75 @@ export class FirebaseService {
     }
     const auth = getAuth(this.app);
     onAuthStateChanged(auth, cb);
+  }
+
+  // Job operations
+  saveJob(job: Job): Observable<boolean> {
+    if (!this.configured || !this.app || !this.isAuthed()) {
+      return of(true);
+    }
+    const db = getFirestore(this.app);
+    const ref = doc(db, 'jobs', job.id);
+    const payload = { ...job, createdAt: serverTimestamp() };
+    return from(setDoc(ref, payload)).pipe(
+      map(() => true),
+      catchError(() => of(false))
+    );
+  }
+
+  fetchJobs(): Observable<Job[]> {
+    if (!this.configured || !this.app || !this.isAuthed()) {
+      return of([]);
+    }
+    const db = getFirestore(this.app);
+    const ref = collection(db, 'jobs');
+    const q = query(ref, orderBy('createdAt', 'desc'));
+    return from(getDocs(q)).pipe(
+      map((snap) => snap.docs.map((d: QueryDocumentSnapshot<DocumentData>) => d.data() as Job)),
+      catchError(() => of([] as Job[]))
+    );
+  }
+
+  streamJobs(): Observable<Job[]> {
+    if (!this.configured || !this.app || !this.isAuthed()) {
+      return of([]);
+    }
+    const db = getFirestore(this.app);
+    const ref = collection(db, 'jobs');
+    const q = query(ref, orderBy('createdAt', 'desc'));
+    return new Observable<Job[]>((subscriber) => {
+      const unsub = onSnapshot(q, {
+        next: (snap) => {
+          const data = snap.docs.map((d) => d.data() as Job);
+          subscriber.next(data);
+        },
+        error: () => {
+          subscriber.next([]);
+          subscriber.complete();
+        },
+      });
+      return () => unsub();
+    });
+  }
+
+  updateJob(job: Job): Observable<boolean> {
+    if (!this.configured || !this.app || !this.isAuthed()) return of(true);
+    const db = getFirestore(this.app);
+    const ref = doc(db, 'jobs', job.id);
+    const { id, ...rest } = job;
+    return from(updateDoc(ref, { ...rest })).pipe(
+      map(() => true),
+      catchError(() => of(false))
+    );
+  }
+
+  deleteJob(jobId: string): Observable<boolean> {
+    if (!this.configured || !this.app || !this.isAuthed()) return of(true);
+    const db = getFirestore(this.app);
+    const ref = doc(db, 'jobs', jobId);
+    return from(deleteDoc(ref)).pipe(
+      map(() => true),
+      catchError(() => of(false))
+    );
   }
 }

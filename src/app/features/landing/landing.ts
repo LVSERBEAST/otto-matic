@@ -7,6 +7,5 @@ import { RouterLink } from '@angular/router';
   imports: [RouterLink],
   changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './landing.html',
-  styleUrl: './landing.scss',
-})
+  styleUrl: './landing.scss'})
 export class Landing {}

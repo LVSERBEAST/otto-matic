@@ -1,0 +1,64 @@
+<section class="container mx-auto px-4 md:px-8 py-10">
+  <div class="mb-8">
+    <h1 class="text-2xl md:text-3xl font-semibold text-white">Job Management</h1>
+    <p class="text-neutral-400">Manage production workflow and job tracking.</p>
+  </div>
+
+  <!-- Stats -->
+  <div class="stats-grid mb-8">
+    <div class="stat-card">
+      <div class="stat-value">{{ stats().total }}</div>
+      <div class="stat-label">Total Jobs</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-value">{{ stats().draft }}</div>
+      <div class="stat-label">Draft</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-value">{{ stats().approved }}</div>
+      <div class="stat-label">Ready to Start</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-value">{{ stats().production }}</div>
+      <div class="stat-label">In Production</div>
+    </div>
+  </div>
+
+  @if (error()) {
+    <div class="mb-4 text-sm text-red-300">{{ error() }}</div>
+  }
+
+  <div class="grid md:grid-cols-2 gap-8">
+    <!-- Job Form -->
+    <div class="chrome-surface chrome-border rounded-lg p-6">
+      <h2 class="text-lg font-medium text-white mb-4">Create Job</h2>
+      <app-job-form (submitted)="createJob($event)" />
+    </div>
+
+    <!-- Jobs List -->
+    <div class="chrome-surface chrome-border rounded-lg p-6">
+      <h2 class="text-lg font-medium text-white mb-4">Active Jobs</h2>
+      <div class="divide-y divide-white/5">
+        @for (job of jobs(); track job.id) {
+          <div class="flex items-start justify-between py-4">
+            <div>
+              <div class="text-white font-medium">{{ job.material }}</div>
+              <div class="text-neutral-400 text-sm">{{ job.clientName }} • {{ job.finishType }}</div>
+              <div class="text-neutral-500 text-xs">{{ job.quantity }} qty • {{ job.stage }}</div>
+            </div>
+            <div class="flex items-center gap-2">
+              <button class="btn btn-ghost" (click)="updateJobStage(job, 'Approved')">
+                Approve
+              </button>
+              <button class="btn btn-outline" (click)="deleteJob(job.id)">
+                Delete
+              </button>
+            </div>
+          </div>
+        } @empty {
+          <div class="text-neutral-400">No jobs yet.</div>
+        }
+      </div>
+    </div>
+  </div>
+</section>

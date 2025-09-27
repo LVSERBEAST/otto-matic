@@ -1,7 +1,8 @@
 import { Injectable, computed, inject, signal } from '@angular/core';
 import { FirebaseService } from '../../core/firebase.service';
 import { Client } from '../../core/models/client.model';
-import { Job, Quote } from './models/job.model';
+import { Quote } from '../../core/models/quote.model';
+import { Job } from '../../core/models/job.model';
 import { take } from 'rxjs';
 
 @Injectable({ providedIn: 'root' })
@@ -61,5 +62,30 @@ export class QuotesService {
   deleteQuote(quoteId: string) {
     this.quotesSignal.set(this.quotesSignal().filter((q) => q.quoteId !== quoteId));
     return this.fb.deleteQuote(quoteId).pipe(take(1)).subscribe();
+  }
+
+  // Convert Quote to Job for production workflow
+  convertQuoteToJob(quote: Quote, jobType: string = 'Other'): Job {
+    const job: Job = {
+      id: crypto.randomUUID(),
+      jobDate: new Date(),
+      stage: 'Draft',
+      jobType: jobType as any,
+      clientId: quote.clientId,
+      quoteId: quote.quoteId,
+      clientName: quote.clientName,
+      material: quote.material,
+      quantity: quote.quantity,
+      size: quote.size,
+      finishType: quote.finishType,
+      totalPrice: quote.totalPrice,
+      stock: [],
+      subJobs: [],
+      tooling: [],
+      printProcesses: [],
+      productionNotes: '',
+      clientNotes: quote.notes,
+    };
+    return job;
   }
 }

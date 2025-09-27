@@ -5,7 +5,7 @@ import {
   FormBuilder,
   Validators,
   FormGroup,
-  FormControl,
+  FormControl
 } from '@angular/forms';
 import { ClientsService } from './clients.service';
 import { Client } from '../../core/models/client.model';
@@ -29,8 +29,7 @@ type ClientForm = FormGroup<{
   standalone: true,
   imports: [CommonModule, ReactiveFormsModule],
   templateUrl: './clients.html',
-  styleUrl: './clients.scss',
-  changeDetection: ChangeDetectionStrategy.OnPush,
+  styleUrl: './clients.scss',changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class Clients {
   private readonly fb = inject(FormBuilder);
@@ -50,7 +49,7 @@ export class Clients {
     zip: ['', []],
     isTaxExempt: [false],
     defaultDiscountRate: [0, [Validators.min(0), Validators.max(1)]],
-    notes: [''],
+    notes: ['']
   });
 
   submitting = signal(false);
@@ -70,7 +69,7 @@ export class Clients {
       zip,
       isTaxExempt,
       defaultDiscountRate,
-      notes,
+      notes
     } = this.form.getRawValue();
     const clamp = (n: number, min: number, max: number) => Math.min(Math.max(n, min), max);
     const safeRate = Number.isFinite(defaultDiscountRate) ? clamp(defaultDiscountRate, 0, 1) : 0;
@@ -85,7 +84,7 @@ export class Clients {
       zip: zip?.trim() ?? '',
       isTaxExempt,
       defaultDiscountRate: safeRate,
-      notes: notes?.trim() ?? '',
+      notes: notes?.trim() ?? ''
     };
     this.svc.create(payload);
     this.form.reset({
@@ -99,7 +98,7 @@ export class Clients {
       zip: '',
       isTaxExempt: false,
       defaultDiscountRate: 0,
-      notes: '',
+      notes: ''
     });
     // Allow a microtask for async service to push state; then stop submitting
     queueMicrotask(() => this.submitting.set(false));

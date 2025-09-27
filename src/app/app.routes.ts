@@ -8,8 +8,12 @@ export const routes: Routes = [
     children: [
       {
         path: '',
-        redirectTo: '/dashboard',
+        redirectTo: '/landing',
         pathMatch: 'full',
+      },
+      {
+        path: 'landing',
+        loadComponent: () => import('./features/landing/landing').then((m) => m.Landing),
       },
       {
         path: 'dashboard',
@@ -21,6 +25,11 @@ export const routes: Routes = [
         loadComponent: () => import('./features/quotes/quotes').then((m) => m.Quotes),
         canActivate: [authGuard],
       },
+            {
+        path: 'jobs',
+        loadComponent: () => import('./features/jobs/jobs').then((m) => m.Jobs),
+        canActivate: [authGuard],
+      },
       {
         path: 'clients',
         loadComponent: () => import('./features/clients/clients').then((m) => m.Clients),
@@ -30,3 +39,4 @@ export const routes: Routes = [
     ],
   },
 ];
+

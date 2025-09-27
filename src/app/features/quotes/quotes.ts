@@ -1,8 +1,10 @@
 import { ChangeDetectionStrategy, Component, computed, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { Router } from '@angular/router';
 import { QuotesService } from './quotes.service';
+import { JobsService } from '../jobs/jobs.service';
 import { QuoteForm } from './components/quote-form/quote-form';
-import { Job, Quote } from './models/job.model';
+import { Quote } from '../../core/models/quote.model';
 
 @Component({
   selector: 'app-quotes',
@@ -10,14 +12,28 @@ import { Job, Quote } from './models/job.model';
   imports: [CommonModule, QuoteForm],
   changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './quotes.html',
-})
+  styleUrl: './quotes.scss'})
 export class Quotes {
-  private readonly service = inject(QuotesService);
+  private readonly quotesService = inject(QuotesService);
+  private readonly jobsService = inject(JobsService);
+  private readonly router = inject(Router);
 
-  readonly quotes = this.service.quotes;
+  readonly quotes = this.quotesService.quotes;
+
+  readonly stats = computed(() => {
+    const allQuotes = this.quotes();
+    const totalValue = allQuotes.reduce((sum, quote) => sum + quote.totalPrice, 0);
+
+    return {
+      totalQuotes: allQuotes.length,
+      totalValue,
+      pendingCount: allQuotes.filter((q) => !q.isExported).length,
+      avgQuoteValue: allQuotes.length > 0 ? totalValue / allQuotes.length : 0
+    };
+  });
 
   createQuote(value: any) {
-    const inputs: Quote = {
+    const quote: Quote = {
       quoteId: crypto.randomUUID(),
       quoteDate: new Date(),
       clientId: value.clientId,
@@ -34,83 +50,90 @@ export class Quotes {
       subTotal: 0,
       totalPrice: 0
     };
-    const quote: Quote = this.service.calculateQuote(inputs);
-    this.service.addQuote(quote);
+
+    const calculatedQuote = this.quotesService.calculateQuote(quote);
+    this.quotesService.addQuote(calculatedQuote);
   }
 
+  editQuote(quote: Quote) {
+    // TODO: Implement quote editing modal or navigate to edit form
+    console.log('Edit quote:', quote.quoteId);
+  }
+
+  convertToJob(quote: Quote) {
+    // Create job from quote and navigate to jobs page
+    const job = this.jobsService.createJobFromQuote(quote);
+    this.jobsService.addJob(job);
+
+    // Optionally navigate to jobs page to show the new job
+    this.router.navigate(['/jobs']);
+  }
+
+  deleteQuote(quoteId: string) {
+    this.quotesService.deleteQuote(quoteId);
+  }
+
+  loadTemplate(templateType: string) {
+    // TODO: Implement quote templates
+    console.log('Load template:', templateType);
+
+    // Example template loading logic
+    const templates = {
+      'business-cards': {
+        material: 'Crane Lettra 220gsm',
+        quantity: 500,
+        pricePerUnit: 0.5,
+        size: '3.5 × 2 inches',
+        finishType: 'Letterpress',
+        setupFee: 75
+      },
+      invitations: {
+        material: 'Crane Lettra 300gsm',
+        quantity: 150,
+        pricePerUnit: 3.5,
+        size: '5 × 7 inches',
+        finishType: 'Letterpress + Foil',
+        setupFee: 125
+      },
+      menus: {
+        material: 'Cotton Paper 250gsm',
+        quantity: 100,
+        pricePerUnit: 4.25,
+        size: '8.5 × 11 inches',
+        finishType: 'Letterpress',
+        setupFee: 85
+      },
+      posters: {
+        material: 'Fine Art Paper',
+        quantity: 50,
+        pricePerUnit: 12.0,
+        size: '18 × 24 inches',
+        finishType: 'Letterpress',
+        setupFee: 150
+      }
+    };
+
+    // This would populate the quote form with template values
+    // Implementation depends on how you want to handle form state
+  }
+
+  // Quote-specific helper methods
   getTotalValue(): number {
     return this.quotes().reduce((sum, quote) => sum + quote.totalPrice, 0);
   }
 
-  getDraftCount(): number {
-    return this.quotes().filter((q) => q.status === 'Draft').length;
+  getPendingCount(): number {
+    return this.quotes().filter((q) => !q.isExported).length;
   }
 
-  getApprovedCount(): number {
-    return this.quotes().filter((q) => q.status === 'Approved').length;
+  getAvgQuoteValue(): number {
+    const quotes = this.quotes();
+    return quotes.length > 0 ? this.getTotalValue() / quotes.length : 0;
   }
 
-  getInProductionCount(): number {
-    // For now, return 0 since we don't have "In Production" status yet
-    return 0;
-  }
-
-  getCompletedCount(): number {
-    return this.quotes().filter((q) => q.status === 'Sent').length;
-  }
-
-  getRecentQuotes(): Job[] {
+  getRecentQuotes(): Quote[] {
     return [...this.quotes()]
       .sort((a, b) => new Date(b.quoteDate).getTime() - new Date(a.quoteDate).getTime())
-      .slice(0, 8);
-  }
-
-  getJobsByStatus(status: string): Job[] {
-    if (status === 'New Requests') {
-      return this.quotes().filter((q) => q.status === 'Draft');
-    }
-    if (status === 'Ready to Start') {
-      return this.quotes().filter((q) => q.status === 'Approved');
-    }
-    if (status === 'In Production') {
-      // For now, return empty array since we don't have this status
-      return [];
-    }
-    if (status === 'Completed') {
-      return this.quotes().filter((q) => q.status === 'Sent');
-    }
-    return [];
-  }
-
-  getStatusColor(status: string): string {
-    switch (status) {
-      case 'Draft':
-        return 'var(--surface-elevated)';
-      case 'Approved':
-        return 'rgba(16, 185, 129, 0.1)';
-      case 'Sent':
-        return 'rgba(59, 130, 246, 0.1)';
-      default:
-        return 'var(--surface-elevated)';
-    }
-  }
-
-  getStatusTextColor(status: string): string {
-    switch (status) {
-      case 'Draft':
-        return 'var(--text-tertiary)';
-      case 'Approved':
-        return 'rgb(16, 185, 129)';
-      case 'Sent':
-        return 'rgb(59, 130, 246)';
-      default:
-        return 'var(--text-tertiary)';
-    }
-  }
-
-  // Placeholder for drag and drop functionality
-  onJobMoved(job: Job, newStatus: string) {
-    // This will be implemented when we add drag and drop library
-    console.log(`Moving job ${job.quoteId} to ${newStatus}`);
+      .slice(0, 10);
   }
 }

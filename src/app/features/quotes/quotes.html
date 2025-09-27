@@ -2,17 +2,17 @@
   <!-- Page Header -->
   <div class="flex items-center justify-between mb-8">
     <div>
-      <h1 style="font-size: 32px; font-weight: 700; margin-bottom: 8px;">Job Management</h1>
-      <p class="opacity-75">Create and manage letterpress projects</p>
+      <h1 style="font-size: 32px; font-weight: 700; margin-bottom: 8px;">Quote Management</h1>
+      <p class="opacity-75">Create and manage client quotes and pricing</p>
     </div>
     <div class="flex gap-3">
       <button class="btn btn-secondary">
         <span>📊</span>
-        Export Data
+        Export Quotes
       </button>
       <button class="btn btn-secondary">
         <span>📧</span>
-        Send Quote
+        Email Quote
       </button>
     </div>
   </div>
@@ -21,194 +21,161 @@
   <div class="stats-grid mb-8">
     <div class="stat-card">
       <div class="stat-value">{{ quotes().length }}</div>
-      <div class="stat-label">Total Jobs</div>
+      <div class="stat-label">Total Quotes</div>
     </div>
     <div class="stat-card">
       <div class="stat-value">{{ getTotalValue() | currency:'USD':'symbol':'1.0-0' }}</div>
       <div class="stat-label">Total Value</div>
     </div>
     <div class="stat-card">
-      <div class="stat-value">{{ getDraftCount() }}</div>
-      <div class="stat-label">New Requests</div>
+      <div class="stat-value">{{ getPendingCount() }}</div>
+      <div class="stat-label">Pending Quotes</div>
     </div>
     <div class="stat-card">
-      <div class="stat-value">{{ getApprovedCount() }}</div>
-      <div class="stat-label">Ready to Start</div>
+      <div class="stat-value">{{ getAvgQuoteValue() | currency:'USD':'symbol':'1.0-0' }}</div>
+      <div class="stat-label">Avg Quote Value</div>
     </div>
   </div>
 
-  <!-- Main Kanban Board -->
-  <div class="card mb-8">
-    <div class="card-header">
-      <h3 class="card-title">Job Workflow</h3>
-      <div class="flex gap-2">
-        <button class="btn btn-ghost">Filter by Client</button>
-        <button class="btn btn-ghost">Filter by Process</button>
-      </div>
-    </div>
-    
-    <div class="status-grid">
-      <!-- New Requests Column -->
-      <div class="status-column">
-        <div class="status-header">
-          <span class="status-title">New Requests</span>
-          <span class="status-count">{{ getDraftCount() }}</span>
-        </div>
-        
-        @for (job of getJobsByStatus('New Requests'); track job.quoteId) {
-          <div class="job-card">
-            <div class="job-client">{{ job.clientName }}</div>
-            <div class="job-title">{{ job.material }}</div>
-            <div class="job-details">{{ job.finishType }} • {{ job.quantity }} qty</div>
-            @if (job.size) {
-              <div class="job-details">{{ job.size }}</div>
-            }
-            <div class="job-price">{{ job.totalPrice | currency }}</div>
-            <div class="job-meta">
-              <div class="job-deadline">Quote needed</div>
-              <div class="job-process">{{ job.finishType }}</div>
-            </div>
-          </div>
-        } @empty {
-          <div class="text-center py-8 opacity-50">
-            <p>No new requests</p>
-          </div>
-        }
-      </div>
-
-      <!-- Ready to Start Column -->
-      <div class="status-column">
-        <div class="status-header">
-          <span class="status-title">Ready to Start</span>
-          <span class="status-count">{{ getApprovedCount() }}</span>
-        </div>
-        
-        @for (job of getJobsByStatus('Ready to Start'); track job.quoteId) {
-          <div class="job-card">
-            <div class="job-client">{{ job.clientName }}</div>
-            <div class="job-title">{{ job.material }}</div>
-            <div class="job-details">{{ job.finishType }} • {{ job.quantity }} qty</div>
-            @if (job.size) {
-              <div class="job-details">{{ job.size }}</div>
-            }
-            <div class="job-price">{{ job.totalPrice | currency }}</div>
-            <div class="job-meta">
-              <div class="job-deadline">Approved</div>
-              <div class="job-process">{{ job.finishType }}</div>
-            </div>
-          </div>
-        } @empty {
-          <div class="text-center py-8 opacity-50">
-            <p>No approved jobs</p>
-          </div>
-        }
-      </div>
-
-      <!-- In Production Column -->
-      <div class="status-column">
-        <div class="status-header">
-          <span class="status-title">In Production</span>
-          <span class="status-count">{{ getInProductionCount() }}</span>
-        </div>
-        
-        @for (job of getJobsByStatus('In Production'); track job.quoteId) {
-          <div class="job-card">
-            <div class="job-client">{{ job.clientName }}</div>
-            <div class="job-title">{{ job.material }}</div>
-            <div class="job-details">{{ job.finishType }} • {{ job.quantity }} qty</div>
-            @if (job.size) {
-              <div class="job-details">{{ job.size }}</div>
-            }
-            <div class="job-price">{{ job.totalPrice | currency }}</div>
-            <div class="job-meta">
-              <div class="job-deadline">In progress</div>
-              <div class="job-process">{{ job.finishType }}</div>
-            </div>
-          </div>
-        } @empty {
-          <div class="text-center py-8 opacity-50">
-            <p>No jobs in production</p>
-          </div>
-        }
-      </div>
-
-      <!-- Completed Column -->
-      <div class="status-column">
-        <div class="status-header">
-          <span class="status-title">Completed</span>
-          <span class="status-count">{{ getCompletedCount() }}</span>
-        </div>
-        
-        @for (job of getJobsByStatus('Completed'); track job.quoteId) {
-          <div class="job-card">
-            <div class="job-client">{{ job.clientName }}</div>
-            <div class="job-title">{{ job.material }}</div>
-            <div class="job-details">{{ job.finishType }} • {{ job.quantity }} qty</div>
-            @if (job.size) {
-              <div class="job-details">{{ job.size }}</div>
-            }
-            <div class="job-price">{{ job.totalPrice | currency }}</div>
-            <div class="job-meta">
-              <div class="job-deadline">Delivered</div>
-              <div class="job-process">Complete</div>
-            </div>
-          </div>
-        } @empty {
-          <div class="text-center py-8 opacity-50">
-            <p>No completed jobs</p>
-          </div>
-        }
-      </div>
-    </div>
-  </div>
-
-  <!-- Quick Job Creation -->
+  <!-- Main Content Grid -->
   <div class="dashboard-grid">
-    <!-- Job Form -->
+    <!-- Quote Form -->
     <div class="dashboard-main">
       <app-quote-form (submitted)="createQuote($event)" />
     </div>
 
-    <!-- Recent Jobs Sidebar -->
+    <!-- Recent Quotes Sidebar -->
     <div class="dashboard-sidebar">
       <div class="card">
         <div class="card-header">
-          <h3 class="card-title">Recent Jobs</h3>
-          <div class="card-subtitle">Latest activity</div>
+          <h3 class="card-title">Recent Quotes</h3>
+          <div class="card-subtitle">Latest pricing requests</div>
         </div>
         
         <div class="flex flex-col gap-3">
-          @for (job of getRecentQuotes().slice(0, 5); track job.quoteId) {
-            <div class="job-card" style="margin-bottom: 0;">
-              <div class="job-client">{{ job.clientName }}</div>
-              <div class="job-title" style="font-size: 14px;">{{ job.material }}</div>
-              <div class="job-details">{{ job.finishType }} • {{ job.quantity }} qty</div>
-              <div class="job-price" style="font-size: 14px;">{{ job.totalPrice | currency }}</div>
+          @for (quote of getRecentQuotes().slice(0, 8); track quote.quoteId) {
+            <div class="quote-card">
+              <div class="quote-client">{{ quote.clientName }}</div>
+              <div class="quote-title">{{ quote.material }}</div>
+              <div class="quote-details">{{ quote.finishType }} • {{ quote.quantity }} qty</div>
+              @if (quote.size) {
+                <div class="quote-details">{{ quote.size }}</div>
+              }
+              <div class="quote-price">{{ quote.totalPrice | currency }}</div>
               
               <div class="flex items-center justify-between mt-3">
-                <span class="text-xs px-2 py-1 rounded" 
-                      [style.background]="getStatusColor(job.status)"
-                      [style.color]="getStatusTextColor(job.status)">
-                  {{ job.status }}
+                <span class="text-xs px-2 py-1 rounded bg-amber-500/20 text-amber-300">
+                  Quoted
                 </span>
                 <div class="flex gap-2">
-                  <button class="btn btn-ghost" style="padding: 4px 8px; font-size: 12px;">
+                  <button class="btn btn-ghost" style="padding: 4px 8px; font-size: 12px;" 
+                          (click)="editQuote(quote)">
                     Edit
                   </button>
-                  <button class="btn btn-ghost" style="padding: 4px 8px; font-size: 12px;">
-                    Move
+                  <button class="btn btn-primary" style="padding: 4px 8px; font-size: 12px;"
+                          (click)="convertToJob(quote)">
+                    Create Job
                   </button>
                 </div>
               </div>
             </div>
           } @empty {
             <div class="text-center py-8 opacity-75">
-              <p class="mb-4">No jobs yet</p>
-              <p class="text-sm">Create your first job using the form</p>
+              <p class="mb-4">No quotes yet</p>
+              <p class="text-sm">Create your first quote using the form</p>
             </div>
           }
         </div>
       </div>
+
+      <!-- Quote Templates -->
+      <div class="card mt-6">
+        <div class="card-header">
+          <h3 class="card-title">Quick Templates</h3>
+          <div class="card-subtitle">Common quote types</div>
+        </div>
+        
+        <div class="flex flex-col gap-2">
+          <button class="btn btn-ghost w-full justify-start" (click)="loadTemplate('business-cards')">
+            <span>💼</span>
+            Business Cards
+          </button>
+          <button class="btn btn-ghost w-full justify-start" (click)="loadTemplate('invitations')">
+            <span>💌</span>
+            Wedding Invitations
+          </button>
+          <button class="btn btn-ghost w-full justify-start" (click)="loadTemplate('menus')">
+            <span>📄</span>
+            Restaurant Menus
+          </button>
+          <button class="btn btn-ghost w-full justify-start" (click)="loadTemplate('posters')">
+            <span>🎨</span>
+            Posters & Prints
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Detailed Quotes Table -->
+  <div class="card mt-8">
+    <div class="card-header">
+      <h3 class="card-title">All Quotes</h3>
+      <div class="flex gap-2">
+        <button class="btn btn-ghost">Filter by Client</button>
+        <button class="btn btn-ghost">Filter by Date</button>
+        <button class="btn btn-ghost">Export Selected</button>
+      </div>
+    </div>
+    
+    <div class="overflow-x-auto">
+      <table class="w-full">
+        <thead>
+          <tr class="border-b border-white/10">
+            <th class="text-left p-4 font-medium text-neutral-400">Quote ID</th>
+            <th class="text-left p-4 font-medium text-neutral-400">Client</th>
+            <th class="text-left p-4 font-medium text-neutral-400">Material</th>
+            <th class="text-left p-4 font-medium text-neutral-400">Process</th>
+            <th class="text-left p-4 font-medium text-neutral-400">Quantity</th>
+            <th class="text-left p-4 font-medium text-neutral-400">Total</th>
+            <th class="text-left p-4 font-medium text-neutral-400">Date</th>
+            <th class="text-left p-4 font-medium text-neutral-400">Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (quote of quotes(); track quote.quoteId) {
+            <tr class="border-b border-white/5 hover:bg-white/2">
+              <td class="p-4 font-mono text-sm">{{ quote.quoteId.substring(0, 8) }}</td>
+              <td class="p-4">{{ quote.clientName }}</td>
+              <td class="p-4">{{ quote.material }}</td>
+              <td class="p-4">{{ quote.finishType }}</td>
+              <td class="p-4">{{ quote.quantity }}</td>
+              <td class="p-4 font-semibold">{{ quote.totalPrice | currency }}</td>
+              <td class="p-4 text-sm text-neutral-400">{{ quote.quoteDate | date:'shortDate' }}</td>
+              <td class="p-4">
+                <div class="flex gap-2">
+                  <button class="btn btn-ghost btn-sm" (click)="editQuote(quote)">
+                    Edit
+                  </button>
+                  <button class="btn btn-primary btn-sm" (click)="convertToJob(quote)">
+                    Create Job
+                  </button>
+                  <button class="btn btn-outline btn-sm" (click)="deleteQuote(quote.quoteId)">
+                    Delete
+                  </button>
+                </div>
+              </td>
+            </tr>
+          } @empty {
+            <tr>
+              <td colspan="8" class="text-center py-12 text-neutral-400">
+                <p class="mb-4">No quotes found</p>
+                <p class="text-sm">Start by creating your first quote above</p>
+              </td>
+            </tr>
+          }
+        </tbody>
+      </table>
     </div>
   </div>
 </div>

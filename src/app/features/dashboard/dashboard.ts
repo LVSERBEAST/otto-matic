@@ -5,8 +5,7 @@ import {
   computed,
   inject,
   signal,
-  effect,
-  Signal,
+  effect
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterLink } from '@angular/router';
@@ -14,12 +13,12 @@ import {
   CdkDragDrop,
   DragDropModule,
   moveItemInArray,
-  transferArrayItem,
+  transferArrayItem
 } from '@angular/cdk/drag-drop';
-import { QuotesService } from '../quotes/quotes.service';
+import { JobsService } from '../jobs/jobs.service';
 import { ClientsService } from '../clients/clients.service';
 import { AuthService } from '../../core/auth.service';
-import { Job, JobStatus } from '../quotes/models/job.model';
+import { Job, JobStage } from '../../core/models/job.model';
 
 @Component({
   selector: 'app-dashboard',
@@ -27,15 +26,14 @@ import { Job, JobStatus } from '../quotes/models/job.model';
   imports: [CommonModule, RouterLink, DragDropModule],
   changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './dashboard.html',
-  styleUrl: './dashboard.scss',
-})
+  styleUrl: './dashboard.scss'})
 export class Dashboard {
-  private readonly quotesService = inject(QuotesService);
+  private readonly jobsService = inject(JobsService);
   private readonly clientsService = inject(ClientsService);
   private readonly auth = inject(AuthService);
   private readonly cdr = inject(ChangeDetectorRef);
 
-  readonly quotes = this.quotesService.quotes;
+  readonly jobs = this.jobsService.jobs;
   readonly clients = this.clientsService.clients;
   readonly user = this.auth.user;
 
@@ -53,35 +51,31 @@ export class Dashboard {
   readonly selectedJob = signal<Job | null>(null);
 
   readonly stats = computed(() => {
-    const allQuotes = this.quotes();
-    const totalValue = allQuotes.reduce((sum, q) => sum + q.quote.totalPrice, 0);
+    const allJobs = this.jobs();
+    const totalValue = allJobs.reduce((sum, j) => sum + j.totalPrice, 0);
 
     return {
-      totalQuotes: allQuotes.length,
+      totalJobs: allJobs.length,
       totalValue,
       totalClients: this.clients().length,
-      avgQuoteValue: allQuotes.length > 0 ? totalValue / allQuotes.length : 0,
+      avgJobValue: allJobs.length > 0 ? totalValue / allJobs.length : 0,
       drafts: this._draftJobs().length,
       approved: this._approvedJobs().length,
       production: this._productionJobs().length,
-      completed: this._completedJobs().length,
+      completed: this._completedJobs().length
     };
   });
 
-  readonly topClients = computed(() => this.clients().slice(0, 5));
-
   constructor() {
-    // Update job arrays when quotes change - maintains stable references
+    // Update job arrays when jobs change - maintains stable references
     effect(() => {
-      const allQuotes = this.quotes();
+      const allJobs = this.jobs();
 
-      // Only update if arrays actually changed to maintain stability
-      const newDrafts = allQuotes.filter((q) => q.status === 'Draft');
-      const newApproved = allQuotes.filter((q) => q.status === 'Approved');
-      const newProduction = allQuotes.filter((q) => q.status === 'Production');
-      const newCompleted = allQuotes.filter((q) => q.status === 'Sent');
+      const newDrafts = allJobs.filter((j) => j.stage === 'Draft');
+      const newApproved = allJobs.filter((j) => j.stage === 'Approved');
+      const newProduction = allJobs.filter((j) => j.stage === 'Production');
+      const newCompleted = allJobs.filter((j) => j.stage === 'Sent');
 
-      // Check if we need to update (avoid unnecessary signal updates)
       if (!this.arraysEqual(this._draftJobs(), newDrafts)) {
         this._draftJobs.set([...newDrafts]);
       }
@@ -103,12 +97,10 @@ export class Dashboard {
       return;
     }
 
-    // Get job and update status
     const job = event.previousContainer.data[event.previousIndex];
-    const newStatus = this.getStatusByContainerId(event.container.id);
-    const updatedJob: Job = { ...job, status: newStatus };
+    const newStage = this.getStageByContainerId(event.container.id);
+    const updatedJob: Job = { ...job, stage: newStage };
 
-    // Move item between arrays immediately
     transferArrayItem(
       event.previousContainer.data,
       event.container.data,
@@ -116,17 +108,7 @@ export class Dashboard {
       event.currentIndex
     );
 
-    // Update in service (this will sync but won't cause visual flicker)
-    this.quotesService.updateQuote(updatedJob);
-  }
-
-  getClientInitials(name: string): string {
-    return name
-      .split(' ')
-      .map((n) => n[0])
-      .join('')
-      .toUpperCase()
-      .slice(0, 2);
+    this.jobsService.updateJob(updatedJob);
   }
 
   openJobModal(job: Job) {
@@ -137,25 +119,23 @@ export class Dashboard {
     this.selectedJob.set(null);
   }
 
-  // Helper to check if arrays are equal (by job IDs)
+  formatJobId(job: Job): string {
+    const prefix = job.clientName.substring(0, 3).toUpperCase();
+    return `${prefix}-${job.id.substring(0, 3)}`;
+  }
+
   private arraysEqual(a: Job[], b: Job[]): boolean {
     if (a.length !== b.length) return false;
     return a.every((job, index) => job.id === b[index]?.id);
   }
 
-  private getStatusByContainerId(id: string): JobStatus {
-    const statusMap: Record<string, JobStatus> = {
+  private getStageByContainerId(id: string): JobStage {
+    const stageMap: Record<string, JobStage> = {
       'new-requests': 'Draft',
       'ready-to-start': 'Approved',
       'in-production': 'Production',
-      completed: 'Sent',
+      completed: 'Sent'
     };
-    return statusMap[id];
-  }
-
-  // MOVE ELSEWHERE LATER
-  formatJobId(job: Job): string {
-    const prefix = job.clientName.substring(0, 3).toUpperCase();
-    return `${prefix}-${job.id.substring(0, 3)}`;
+    return stageMap[id];
   }
 }

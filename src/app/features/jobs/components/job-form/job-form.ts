@@ -3,34 +3,31 @@ import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { FirebaseService } from '../../../../core/firebase.service';
 import { Client } from '../../../../core/models/client.model';
 
-interface QuoteFormValue {
+interface JobFormValue {
   clientId: string;
   clientName: string;
   material: string;
   quantity: number;
-  pricePerUnit: number;
-  size: string;
   finishType: string;
+  jobType: string;
+  size: string;
   notes: string;
-  setupFee: number;
-  discountRate: number;
+  totalPrice: number;
 }
 
 @Component({
-  selector: 'app-quote-form',
+  selector: 'app-job-form',
   standalone: true,
   imports: [ReactiveFormsModule],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  templateUrl: './quote-form.html',
-  styleUrl: './quote-form.scss',
+  templateUrl: './job-form.html',
 })
-export class QuoteForm implements OnInit {
+export class JobForm implements OnInit {
   private readonly fb = inject(FormBuilder);
   private readonly firebase = inject(FirebaseService);
 
   readonly clients = signal<ReadonlyArray<Client>>([]);
 
-  // Typed form group
   readonly form = this.fb.nonNullable.group({
     clientId: this.fb.nonNullable.control<string>('', { validators: [Validators.required] }),
     clientName: this.fb.nonNullable.control<string>(''),
@@ -38,19 +35,14 @@ export class QuoteForm implements OnInit {
     quantity: this.fb.nonNullable.control<number>(1, {
       validators: [Validators.required, Validators.min(1)],
     }),
-    pricePerUnit: this.fb.nonNullable.control<number>(0, {
-      validators: [Validators.required, Validators.min(0.01)],
-    }),
-    size: this.fb.nonNullable.control<string>(''),
     finishType: this.fb.nonNullable.control<string>('', { validators: [Validators.required] }),
+    jobType: this.fb.nonNullable.control<string>('Other'),
+    size: this.fb.nonNullable.control<string>(''),
     notes: this.fb.nonNullable.control<string>(''),
-    setupFee: this.fb.nonNullable.control<number>(0, { validators: [Validators.min(0)] }),
-    discountRate: this.fb.nonNullable.control<number>(0, {
-      validators: [Validators.min(0), Validators.max(1)],
-    }),
+    totalPrice: this.fb.nonNullable.control<number>(0, { validators: [Validators.min(0)] }),
   });
 
-  readonly submitted = output<QuoteFormValue>();
+  readonly submitted = output<JobFormValue>();
 
   ngOnInit(): void {
     this.firebase.fetchClients().subscribe((list) => this.clients.set(list));
@@ -76,12 +68,11 @@ export class QuoteForm implements OnInit {
       clientName: '',
       material: '',
       quantity: 1,
-      pricePerUnit: 0,
-      size: '',
       finishType: '',
+      jobType: 'Other',
+      size: '',
       notes: '',
-      setupFee: 0,
-      discountRate: 0,
+      totalPrice: 0,
     });
   }
 }

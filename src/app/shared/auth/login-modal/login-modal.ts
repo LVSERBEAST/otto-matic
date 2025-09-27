@@ -5,7 +5,7 @@ import {
   inject,
   input,
   output,
-  signal,
+  signal
 } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { AuthService } from '../../../core/auth.service';
@@ -16,8 +16,7 @@ import { AuthService } from '../../../core/auth.service';
   imports: [ReactiveFormsModule],
   changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './login-modal.html',
-  styleUrl: './login-modal.scss',
-})
+  styleUrl: './login-modal.scss'})
 export class LoginModal {
   private readonly auth = inject(AuthService);
   private readonly fb = inject(FormBuilder);
@@ -31,11 +30,11 @@ export class LoginModal {
   readonly error = signal<string | null>(null);
   readonly form = this.fb.nonNullable.group({
     email: this.fb.nonNullable.control<string>('', {
-      validators: [Validators.required, Validators.email],
+      validators: [Validators.required, Validators.email]
     }),
     password: this.fb.nonNullable.control<string>('', {
-      validators: [Validators.required, Validators.minLength(6)],
-    }),
+      validators: [Validators.required, Validators.minLength(6)]
+    })
   });
 
   constructor() {

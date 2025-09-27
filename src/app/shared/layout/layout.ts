@@ -11,6 +11,7 @@ import { LoginModal } from '../auth/login-modal/login-modal';
   imports: [CommonModule, RouterOutlet, RouterLink, RouterLinkActive, LoginModal, TitleCasePipe],
   changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './layout.html',
+  styleUrl: './layout.scss',
 })
 export class Layout {
   private readonly auth = inject(AuthService);

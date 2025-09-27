@@ -10,8 +10,7 @@ import { LoginModal } from '../../auth/login-modal/login-modal';
   imports: [RouterLink, RouterLinkActive, UpperCasePipe, LoginModal],
   changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './header.html',
-  styleUrl: './header.scss',
-})
+  styleUrl: './header.scss'})
 export class Header {
   private readonly auth = inject(AuthService);
 
