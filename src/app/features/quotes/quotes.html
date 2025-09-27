@@ -1,0 +1,22 @@
+<section class="space-y-8">
+  <div class="flex items-center justify-between">
+    <h2 class="text-3xl font-semibold text-white">Quotes</h2>
+    <button type="button" class="btn btn-outline">Export</button>
+  </div>
+
+  <app-quote-form (submitted)="createQuote($event)" />
+
+  <ul class="divide-y divide-white/10 card">
+    @for (q of quotes(); track q.quoteId) {
+    <li class="p-4 grid md:grid-cols-5 gap-2 text-sm">
+      <div class="font-medium text-neutral-100">{{ q.clientName }}</div>
+      <div class="text-neutral-400">{{ q.material }} · {{ q.finishType }}</div>
+      <div class="text-neutral-400">Qty: {{ q.quantity }}</div>
+      <div class="text-neutral-400">Subtotal: {{ q.subTotal | number : '1.2-2' }}</div>
+      <div class="text-white font-semibold">Total: {{ q.totalPrice | number : '1.2-2' }}</div>
+    </li>
+    } @empty {
+    <li class="p-6 text-center text-neutral-500">No quotes yet. Create your first one above.</li>
+    }
+  </ul>
+</section>

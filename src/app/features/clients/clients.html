@@ -1,0 +1,120 @@
+<section class="container mx-auto px-4 md:px-8 py-10">
+  <div class="mb-8">
+    <h1 class="text-2xl md:text-3xl font-semibold text-white">Clients</h1>
+    <p class="text-neutral-400">Manage your client directory.</p>
+  </div>
+
+  <div class="grid md:grid-cols-2 gap-8">
+    <div class="chrome-surface chrome-border rounded-lg p-6">
+      <h2 class="text-lg font-medium text-white mb-4">Add Client</h2>
+      @if (error()) {
+      <div class="mb-4 text-sm text-red-300">
+        {{ error() }}
+      </div>
+      }
+      <form [formGroup]="form" (ngSubmit)="submit()" class="space-y-4">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <label class="form-control">
+            <span class="label-text">Name</span>
+            <input
+              class="input"
+              type="text"
+              formControlName="name"
+              required
+              aria-label="Client name"
+            />
+          </label>
+          <label class="form-control">
+            <span class="label-text">Email</span>
+            <input
+              class="input"
+              type="email"
+              formControlName="email"
+              required
+              aria-label="Client email"
+            />
+          </label>
+          <label class="form-control">
+            <span class="label-text">Phone</span>
+            <input class="input" type="tel" formControlName="phone" aria-label="Client phone" />
+          </label>
+          <label class="form-control">
+            <span class="label-text">Website</span>
+            <input class="input" type="url" formControlName="website" aria-label="Client website" />
+          </label>
+          <label class="form-control md:col-span-2">
+            <span class="label-text">Street</span>
+            <input class="input" type="text" formControlName="street" aria-label="Street address" />
+          </label>
+          <label class="form-control">
+            <span class="label-text">City</span>
+            <input class="input" type="text" formControlName="city" aria-label="City" />
+          </label>
+          <label class="form-control">
+            <span class="label-text">State</span>
+            <input class="input" type="text" formControlName="state" aria-label="State" />
+          </label>
+          <label class="form-control">
+            <span class="label-text">ZIP</span>
+            <input class="input" type="text" formControlName="zip" aria-label="ZIP code" />
+          </label>
+          <div class="flex items-center gap-3 md:col-span-2">
+            <input id="taxExempt" type="checkbox" formControlName="isTaxExempt" class="checkbox" />
+            <label for="taxExempt" class="label-text">Tax Exempt</label>
+          </div>
+          <label class="form-control">
+            <span class="label-text">Default Discount (0-1)</span>
+            <input
+              class="input"
+              type="number"
+              step="0.01"
+              min="0"
+              max="1"
+              formControlName="defaultDiscountRate"
+              aria-label="Default discount rate"
+            />
+          </label>
+          <label class="form-control md:col-span-2">
+            <span class="label-text">Notes</span>
+            <textarea
+              class="textarea"
+              rows="3"
+              formControlName="notes"
+              aria-label="Notes"
+            ></textarea>
+          </label>
+        </div>
+        <div class="pt-2">
+          <button type="submit" class="btn btn-primary" [disabled]="form.invalid || submitting()">
+            Add Client
+          </button>
+        </div>
+      </form>
+    </div>
+
+    <div class="chrome-surface chrome-border rounded-lg p-6">
+      <h2 class="text-lg font-medium text-white mb-4">Client List</h2>
+      <div class="divide-y divide-white/5">
+        @for (c of clients(); track c.id) {
+        <div class="flex items-start justify-between py-4">
+          <div>
+            <div class="text-white font-medium">{{ c.name }}</div>
+            <div class="text-neutral-400 text-sm">{{ c.email }} • {{ c.phone }}</div>
+            <div class="text-neutral-500 text-xs">
+              {{ c.street }}, {{ c.city }}, {{ c.state }} {{ c.zip }}
+            </div>
+          </div>
+          <div class="flex items-center gap-2">
+            <a class="btn btn-ghost" [href]="c.website" target="_blank" rel="noopener noreferrer"
+              >Site</a
+            >
+            <button class="btn btn-outline" (click)="remove(c.id)">Delete</button>
+          </div>
+        </div>
+        } @empty {
+        <div class="text-neutral-400">No clients yet.</div>
+        }
+      </div>
+    </div>
+  </div>
+</section>
