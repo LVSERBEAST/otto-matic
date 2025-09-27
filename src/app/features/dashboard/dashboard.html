@@ -31,7 +31,6 @@
           <h3 class="card-title">Job Board</h3>
           <button class="btn btn-primary"><span>+</span> New Job</button>
         </div>
-
         <div class="status-grid" cdkDropListGroup>
           <!-- New Requests Column -->
           <div class="status-column">
@@ -42,24 +41,33 @@
             <div
               cdkDropList
               id="new-requests"
-              [cdkDropListData]="draftJobs"
+              [cdkDropListData]="draftJobs()"
               [cdkDropListConnectedTo]="['ready-to-start', 'in-production', 'completed']"
               (cdkDropListDropped)="onJobDropped($event)"
               class="drop-zone"
             >
               @for (job of draftJobs(); track job.quoteId) {
               <div class="job-card" cdkDrag>
-                <div class="job-client">{{ job.clientName }}</div>
-                <div class="job-title">{{ job.material }}</div>
-                <div class="job-details">{{ job.finishType }} • {{ job.quantity }} qty</div>
-                <div class="job-price">{{ job.totalPrice | currency }}</div>
-                <div class="job-meta">
-                  <div class="job-deadline">Quote needed</div>
-                  <div class="job-process">{{ job.finishType }}</div>
+                <div class="drag-handle">⋮⋮</div>
+                <div class="job-content">
+                  <div class="job-client">{{ job.clientName }}</div>
+                  <div class="job-title">{{ job.material }}</div>
+                  <div class="job-details">{{ job.finishType }} • {{ job.quantity }} qty</div>
+                  @if (job.size) {
+                  <div class="job-details">{{ job.size }}</div>
+                  }
+                  <div class="job-price">{{ job.totalPrice | currency }}</div>
+                  <div class="job-meta">
+                    <div class="job-deadline">Quote needed</div>
+                    <div class="job-process">{{ job.finishType }}</div>
+                  </div>
                 </div>
               </div>
               } @empty {
-              <div class="empty-drop-zone">Drop new requests here</div>
+              <div class="empty-drop-zone">
+                <div class="empty-icon">📝</div>
+                <div class="empty-text">Drop new requests here</div>
+              </div>
               }
             </div>
           </div>
@@ -73,24 +81,33 @@
             <div
               cdkDropList
               id="ready-to-start"
-              [cdkDropListData]="approvedJobs"
+              [cdkDropListData]="approvedJobs()"
               [cdkDropListConnectedTo]="['new-requests', 'in-production', 'completed']"
               (cdkDropListDropped)="onJobDropped($event)"
               class="drop-zone"
             >
               @for (job of approvedJobs(); track job.quoteId) {
               <div class="job-card" cdkDrag>
-                <div class="job-client">{{ job.clientName }}</div>
-                <div class="job-title">{{ job.material }}</div>
-                <div class="job-details">{{ job.finishType }} • {{ job.quantity }} qty</div>
-                <div class="job-price">{{ job.totalPrice | currency }}</div>
-                <div class="job-meta">
-                  <div class="job-deadline">Approved</div>
-                  <div class="job-process">{{ job.finishType }}</div>
+                <div class="drag-handle">⋮⋮</div>
+                <div class="job-content">
+                  <div class="job-client">{{ job.clientName }}</div>
+                  <div class="job-title">{{ job.material }}</div>
+                  <div class="job-details">{{ job.finishType }} • {{ job.quantity }} qty</div>
+                  @if (job.size) {
+                  <div class="job-details">{{ job.size }}</div>
+                  }
+                  <div class="job-price">{{ job.totalPrice | currency }}</div>
+                  <div class="job-meta">
+                    <div class="job-deadline">Approved</div>
+                    <div class="job-process">{{ job.finishType }}</div>
+                  </div>
                 </div>
               </div>
               } @empty {
-              <div class="empty-drop-zone">Drop approved jobs here</div>
+              <div class="empty-drop-zone">
+                <div class="empty-icon">✅</div>
+                <div class="empty-text">Drop approved jobs here</div>
+              </div>
               }
             </div>
           </div>
@@ -104,24 +121,33 @@
             <div
               cdkDropList
               id="in-production"
-              [cdkDropListData]="productionJobs"
+              [cdkDropListData]="productionJobs()"
               [cdkDropListConnectedTo]="['new-requests', 'ready-to-start', 'completed']"
               (cdkDropListDropped)="onJobDropped($event)"
               class="drop-zone"
             >
               @for (job of productionJobs(); track job.quoteId) {
               <div class="job-card" cdkDrag>
-                <div class="job-client">{{ job.clientName }}</div>
-                <div class="job-title">{{ job.material }}</div>
-                <div class="job-details">{{ job.finishType }} • {{ job.quantity }} qty</div>
-                <div class="job-price">{{ job.totalPrice | currency }}</div>
-                <div class="job-meta">
-                  <div class="job-deadline">In progress</div>
-                  <div class="job-process">{{ job.finishType }}</div>
+                <div class="drag-handle">⋮⋮</div>
+                <div class="job-content">
+                  <div class="job-client">{{ job.clientName }}</div>
+                  <div class="job-title">{{ job.material }}</div>
+                  <div class="job-details">{{ job.finishType }} • {{ job.quantity }} qty</div>
+                  @if (job.size) {
+                  <div class="job-details">{{ job.size }}</div>
+                  }
+                  <div class="job-price">{{ job.totalPrice | currency }}</div>
+                  <div class="job-meta">
+                    <div class="job-deadline">In progress</div>
+                    <div class="job-process">{{ job.finishType }}</div>
+                  </div>
                 </div>
               </div>
               } @empty {
-              <div class="empty-drop-zone">Drop jobs in production here</div>
+              <div class="empty-drop-zone">
+                <div class="empty-icon">🖨️</div>
+                <div class="empty-text">Drop jobs in production here</div>
+              </div>
               }
             </div>
           </div>
@@ -135,24 +161,33 @@
             <div
               cdkDropList
               id="completed"
-              [cdkDropListData]="completedJobs"
+              [cdkDropListData]="completedJobs()"
               [cdkDropListConnectedTo]="['new-requests', 'ready-to-start', 'in-production']"
               (cdkDropListDropped)="onJobDropped($event)"
               class="drop-zone"
             >
               @for (job of completedJobs(); track job.quoteId) {
               <div class="job-card" cdkDrag>
-                <div class="job-client">{{ job.clientName }}</div>
-                <div class="job-title">{{ job.material }}</div>
-                <div class="job-details">{{ job.finishType }} • {{ job.quantity }} qty</div>
-                <div class="job-price">{{ job.totalPrice | currency }}</div>
-                <div class="job-meta">
-                  <div class="job-deadline">Delivered</div>
-                  <div class="job-process">Complete</div>
+                <div class="drag-handle">⋮⋮</div>
+                <div class="job-content">
+                  <div class="job-client">{{ job.clientName }}</div>
+                  <div class="job-title">{{ job.material }}</div>
+                  <div class="job-details">{{ job.finishType }} • {{ job.quantity }} qty</div>
+                  @if (job.size) {
+                  <div class="job-details">{{ job.size }}</div>
+                  }
+                  <div class="job-price">{{ job.totalPrice | currency }}</div>
+                  <div class="job-meta">
+                    <div class="job-deadline">Delivered</div>
+                    <div class="job-process">Complete</div>
+                  </div>
                 </div>
               </div>
               } @empty {
-              <div class="empty-drop-zone">Drop completed jobs here</div>
+              <div class="empty-drop-zone">
+                <div class="empty-icon">🎉</div>
+                <div class="empty-text">Drop completed jobs here</div>
+              </div>
               }
             </div>
           </div>

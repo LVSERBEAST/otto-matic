@@ -91,7 +91,7 @@ export class Dashboard {
     });
   }
 
-  onJobDropped(event: CdkDragDrop<Signal<Job[]>, Signal<Job[]>, Job>): void {
+  onJobDropped(event: CdkDragDrop<Job[], any, any>): void {
     // Log for debugging
     console.log('Drop from:', event.previousContainer.id, 'to:', event.container.id);
 
