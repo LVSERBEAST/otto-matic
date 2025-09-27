@@ -2,7 +2,7 @@ import { ChangeDetectionStrategy, Component, computed, inject } from '@angular/c
 import { CommonModule } from '@angular/common';
 import { QuotesService } from './quotes.service';
 import { QuoteForm } from './components/quote-form/quote-form';
-import { Job, JobInputs } from './models/job.model';
+import { Job, Quote } from './models/job.model';
 
 @Component({
   selector: 'app-quotes',
@@ -17,10 +17,9 @@ export class Quotes {
   readonly quotes = this.service.quotes;
 
   createQuote(value: any) {
-    const inputs: JobInputs = {
+    const inputs: Quote = {
       quoteId: crypto.randomUUID(),
       quoteDate: new Date(),
-      status: 'Draft',
       clientId: value.clientId,
       clientName: value.clientName,
       material: value.material,
@@ -32,9 +31,11 @@ export class Quotes {
       setupFee: value.setupFee,
       discountRate: value.discountRate,
       isExported: false,
+      subTotal: 0,
+      totalPrice: 0
     };
-    const job: Job = this.service.calculateQuote(inputs);
-    this.service.addQuote(job);
+    const quote: Quote = this.service.calculateQuote(inputs);
+    this.service.addQuote(quote);
   }
 
   getTotalValue(): number {

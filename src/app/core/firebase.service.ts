@@ -2,7 +2,7 @@ import { Injectable, inject } from '@angular/core';
 import { Observable, from, of } from 'rxjs';
 import { catchError, map } from 'rxjs/operators';
 import { Client } from './models/client.model';
-import { Job } from '../features/quotes/models/job.model';
+import { Job, Quote } from '../features/quotes/models/job.model';
 import { firebaseConfig, isFirebaseConfigured } from './firebase.config';
 
 // Firebase SDK imports (modular v9+)
@@ -65,43 +65,9 @@ export class FirebaseService {
     return !!this.app && this.configured && this.isAuthed();
   }
 
-  private mockClients(): Client[] {
-    return [
-      {
-        id: 'c1',
-        name: 'Acme Corp',
-        email: 'contact@acme.com',
-        phone: '555-123-4567',
-        website: 'https://acme.com',
-        street: '123 Main St',
-        city: 'Metropolis',
-        state: 'NY',
-        zip: '10001',
-        isTaxExempt: false,
-        defaultDiscountRate: 0.05,
-        notes: 'Preferred customer',
-      },
-      {
-        id: 'c2',
-        name: 'Globex Inc',
-        email: 'hello@globex.com',
-        phone: '555-987-6543',
-        website: 'https://globex.com',
-        street: '456 Market Ave',
-        city: 'Springfield',
-        state: 'IL',
-        zip: '62701',
-        isTaxExempt: true,
-        defaultDiscountRate: 0.1,
-        notes: 'Tax exempt - nonprofit',
-      },
-    ];
-  }
-
-  // Placeholder: fetch a mocked list of clients
   fetchClients(): Observable<Client[]> {
     if (!this.configured || !this.app || !this.isAuthed()) {
-      return of(this.mockClients());
+      return of([]);
     }
     const db = getFirestore(this.app);
     const ref = collection(db, 'clients');
@@ -112,13 +78,12 @@ export class FirebaseService {
             ({ id: d.id, ...(d.data() as Omit<Client, 'id'>) } as Client)
         )
       ),
-      catchError(() => of(this.mockClients()))
+      catchError(() => of([]))
     );
   }
 
   streamClients(): Observable<Client[]> {
     if (!this.configured || !this.app || !this.isAuthed()) {
-      // Return the same mock list as fetchClients for non-configured envs
       return this.fetchClients();
     }
     const db = getFirestore(this.app);
@@ -133,8 +98,7 @@ export class FirebaseService {
           subscriber.next(data);
         },
         error: () => {
-          // Fallback to mock on permission errors and end stream gracefully
-          subscriber.next(this.mockClients());
+          subscriber.next([]);
           subscriber.complete();
         },
       });
@@ -144,8 +108,7 @@ export class FirebaseService {
 
   createClient(data: Omit<Client, 'id'>): Observable<Client> {
     if (!this.configured || !this.app || !this.isAuthed()) {
-      const created: Client = { id: `mock-${Date.now()}`, ...data };
-      return of(created);
+      return of();
     }
     const db = getFirestore(this.app);
     const ref = collection(db, 'clients');
@@ -176,15 +139,13 @@ export class FirebaseService {
   }
 
   // Placeholder: simulate saving a quote
-  saveQuote(job: Job): Observable<boolean> {
+  saveQuote(quote: Quote): Observable<boolean> {
     if (!this.configured || !this.app || !this.isAuthed()) {
-      // eslint-disable-next-line no-console
-      console.log('Saving job to Firebase (mock):', job);
       return of(true);
     }
     const db = getFirestore(this.app);
-    const ref = doc(db, 'quotes', job.quoteId);
-    const payload = { ...job, createdAt: serverTimestamp() };
+    const ref = doc(db, 'quotes', quote.quoteId);
+    const payload = { ...quote, createdAt: serverTimestamp() };
     return from(setDoc(ref, payload)).pipe(
       map(() => true),
       catchError(() => of(false))
@@ -204,17 +165,17 @@ export class FirebaseService {
     );
   }
 
-  streamQuotes(): Observable<Job[]> {
+  streamQuotes(): Observable<Quote[]> {
     if (!this.configured || !this.app || !this.isAuthed()) {
       return of([]);
     }
     const db = getFirestore(this.app);
     const ref = collection(db, 'quotes');
     const q = query(ref, orderBy('createdAt', 'desc'));
-    return new Observable<Job[]>((subscriber) => {
+    return new Observable<Quote[]>((subscriber) => {
       const unsub = onSnapshot(q, {
         next: (snap) => {
-          const data = snap.docs.map((d) => d.data() as Job);
+          const data = snap.docs.map((d) => d.data() as Quote);
           subscriber.next(data);
         },
         error: () => {
@@ -226,11 +187,11 @@ export class FirebaseService {
     });
   }
 
-  updateQuote(job: Job): Observable<boolean> {
+  updateQuote(quote: Quote): Observable<boolean> {
     if (!this.configured || !this.app || !this.isAuthed()) return of(true);
     const db = getFirestore(this.app);
-    const ref = doc(db, 'quotes', job.quoteId);
-    const { quoteId, ...rest } = job;
+    const ref = doc(db, 'quotes', quote.quoteId);
+    const { quoteId, ...rest } = quote;
     return from(updateDoc(ref, { ...rest })).pipe(
       map(() => true),
       catchError(() => of(false))

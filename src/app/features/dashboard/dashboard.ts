@@ -10,7 +10,12 @@ import {
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterLink } from '@angular/router';
-import { CdkDragDrop, DragDropModule } from '@angular/cdk/drag-drop';
+import {
+  CdkDragDrop,
+  DragDropModule,
+  moveItemInArray,
+  transferArrayItem,
+} from '@angular/cdk/drag-drop';
 import { QuotesService } from '../quotes/quotes.service';
 import { ClientsService } from '../clients/clients.service';
 import { AuthService } from '../../core/auth.service';
@@ -45,10 +50,11 @@ export class Dashboard {
   readonly approvedJobs = this._approvedJobs.asReadonly();
   readonly productionJobs = this._productionJobs.asReadonly();
   readonly completedJobs = this._completedJobs.asReadonly();
+  readonly selectedJob = signal<Job | null>(null);
 
   readonly stats = computed(() => {
     const allQuotes = this.quotes();
-    const totalValue = allQuotes.reduce((sum, q) => sum + q.totalPrice, 0);
+    const totalValue = allQuotes.reduce((sum, q) => sum + q.quote.totalPrice, 0);
 
     return {
       totalQuotes: allQuotes.length,
@@ -92,42 +98,26 @@ export class Dashboard {
   }
 
   onJobDropped(event: CdkDragDrop<Job[], any, any>): void {
-    // Log for debugging
-    console.log('Drop from:', event.previousContainer.id, 'to:', event.container.id);
-
     if (event.previousContainer === event.container) {
-      return; // Same container, no action needed
-    }
-
-    const job = event.previousContainer.data()[event.previousIndex];
-    const targetContainerId = event.container.id;
-
-    // Status mapping
-    const statusMap: Record<string, JobStatus> = {
-      'new-requests': 'Draft',
-      'ready-to-start': 'Approved',
-      'in-production': 'Production',
-      completed: 'Sent',
-    };
-
-    const newStatus = statusMap[targetContainerId];
-    if (!newStatus) {
-      console.warn('Unknown container ID:', targetContainerId);
+      moveItemInArray(event.container.data, event.previousIndex, event.currentIndex);
       return;
     }
 
-    if (newStatus === job.status) {
-      return; // No status change needed
-    }
-
-    console.log(`Moving job ${job.quoteId} from ${job.status} to ${newStatus}`);
-
-    // Update job status
+    // Get job and update status
+    const job = event.previousContainer.data[event.previousIndex];
+    const newStatus = this.getStatusByContainerId(event.container.id);
     const updatedJob: Job = { ...job, status: newStatus };
-    this.quotesService.updateQuote(updatedJob);
 
-    // Force change detection for zoneless mode
-    this.cdr.markForCheck();
+    // Move item between arrays immediately
+    transferArrayItem(
+      event.previousContainer.data,
+      event.container.data,
+      event.previousIndex,
+      event.currentIndex
+    );
+
+    // Update in service (this will sync but won't cause visual flicker)
+    this.quotesService.updateQuote(updatedJob);
   }
 
   getClientInitials(name: string): string {
@@ -139,9 +129,33 @@ export class Dashboard {
       .slice(0, 2);
   }
 
+  openJobModal(job: Job) {
+    this.selectedJob.set(job);
+  }
+
+  closeJobModal() {
+    this.selectedJob.set(null);
+  }
+
   // Helper to check if arrays are equal (by job IDs)
   private arraysEqual(a: Job[], b: Job[]): boolean {
     if (a.length !== b.length) return false;
-    return a.every((job, index) => job.quoteId === b[index]?.quoteId);
+    return a.every((job, index) => job.id === b[index]?.id);
+  }
+
+  private getStatusByContainerId(id: string): JobStatus {
+    const statusMap: Record<string, JobStatus> = {
+      'new-requests': 'Draft',
+      'ready-to-start': 'Approved',
+      'in-production': 'Production',
+      completed: 'Sent',
+    };
+    return statusMap[id];
+  }
+
+  // MOVE ELSEWHERE LATER
+  formatJobId(job: Job): string {
+    const prefix = job.clientName.substring(0, 3).toUpperCase();
+    return `${prefix}-${job.id.substring(0, 3)}`;
   }
 }
