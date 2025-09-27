@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component, computed, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { QuotesService } from './quotes.service';
-import { QuoteForm } from './components/quote-form';
+import { QuoteForm } from './components/quote-form/quote-form';
 import { Job, JobInputs } from './models/job.model';
 
 @Component({
