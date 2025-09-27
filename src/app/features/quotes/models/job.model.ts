@@ -1,4 +1,4 @@
-export type JobStatus = 'Draft' | 'Approved' | 'Sent';
+export type JobStatus = 'Draft' | 'Approved' | 'Production' | 'Sent';
 
 // Base job inputs used before calculations are applied
 export interface JobInputs {
