@@ -1,26 +1,26 @@
 <section class="container mx-auto px-4 md:px-8 py-10">
   <div class="mb-8">
     <h1 class="text-2xl md:text-3xl font-semibold text-white">Job Management</h1>
-    <p class="text-neutral-400">Manage production workflow and job tracking.</p>
+    <p class="text-gray-400">Manage production workflow and job tracking.</p>
   </div>
 
   <!-- Stats -->
-  <div class="stats-grid mb-8">
-    <div class="stat-card">
-      <div class="stat-value">{{ stats().total }}</div>
-      <div class="stat-label">Total Jobs</div>
+  <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
+    <div class="bg-white/5 border border-white/10 rounded-lg p-6 text-center hover:shadow-lg hover:border-gray-600 transition-all duration-300">
+      <div class="text-2xl font-bold text-white mb-1">{{ stats().total }}</div>
+      <div class="text-xs text-gray-400 uppercase tracking-wide">Total Jobs</div>
     </div>
-    <div class="stat-card">
-      <div class="stat-value">{{ stats().draft }}</div>
-      <div class="stat-label">Draft</div>
+    <div class="bg-white/5 border border-white/10 rounded-lg p-6 text-center hover:shadow-lg hover:border-gray-600 transition-all duration-300">
+      <div class="text-2xl font-bold text-white mb-1">{{ stats().draft }}</div>
+      <div class="text-xs text-gray-400 uppercase tracking-wide">Draft</div>
     </div>
-    <div class="stat-card">
-      <div class="stat-value">{{ stats().approved }}</div>
-      <div class="stat-label">Ready to Start</div>
+    <div class="bg-white/5 border border-white/10 rounded-lg p-6 text-center hover:shadow-lg hover:border-gray-600 transition-all duration-300">
+      <div class="text-2xl font-bold text-white mb-1">{{ stats().approved }}</div>
+      <div class="text-xs text-gray-400 uppercase tracking-wide">Ready to Start</div>
     </div>
-    <div class="stat-card">
-      <div class="stat-value">{{ stats().production }}</div>
-      <div class="stat-label">In Production</div>
+    <div class="bg-white/5 border border-white/10 rounded-lg p-6 text-center hover:shadow-lg hover:border-gray-600 transition-all duration-300">
+      <div class="text-2xl font-bold text-white mb-1">{{ stats().production }}</div>
+      <div class="text-xs text-gray-400 uppercase tracking-wide">In Production</div>
     </div>
   </div>
 
@@ -30,33 +30,39 @@
 
   <div class="grid md:grid-cols-2 gap-8">
     <!-- Job Form -->
-    <div class="chrome-surface chrome-border rounded-lg p-6">
+    <div class="bg-white/5 backdrop-blur-md border border-white/10 rounded-lg p-6">
       <h2 class="text-lg font-medium text-white mb-4">Create Job</h2>
-      <app-job-form (submitted)="createJob($event)" />
+      <app-job-form (submitted)="createJob($event)"></app-job-form>
     </div>
 
     <!-- Jobs List -->
-    <div class="chrome-surface chrome-border rounded-lg p-6">
+    <div class="bg-white/5 backdrop-blur-md border border-white/10 rounded-lg p-6">
       <h2 class="text-lg font-medium text-white mb-4">Active Jobs</h2>
       <div class="divide-y divide-white/5">
         @for (job of jobs(); track job.id) {
           <div class="flex items-start justify-between py-4">
-            <div>
+            <div class="flex-1">
               <div class="text-white font-medium">{{ job.material }}</div>
-              <div class="text-neutral-400 text-sm">{{ job.clientName }} • {{ job.finishType }}</div>
-              <div class="text-neutral-500 text-xs">{{ job.quantity }} qty • {{ job.stage }}</div>
+              <div class="text-gray-400 text-sm">{{ job.clientName }} • {{ job.finishType }}</div>
+              <div class="text-gray-500 text-xs">{{ job.quantity }} qty • {{ job.stage }}</div>
             </div>
             <div class="flex items-center gap-2">
-              <button class="btn btn-ghost" (click)="updateJobStage(job, 'Approved')">
+              <button 
+                class="inline-flex items-center gap-2 rounded-md px-3 py-1 text-xs font-medium transition-all text-gray-300 hover:text-white hover:bg-white/5" 
+                (click)="updateJobStage(job, 'Approved')">
                 Approve
               </button>
-              <button class="btn btn-outline" (click)="deleteJob(job.id)">
+              <button 
+                class="inline-flex items-center gap-2 rounded-md px-3 py-1 text-xs font-medium transition-all border border-gray-600 text-gray-200 hover:bg-gray-800 hover:border-gray-500" 
+                (click)="deleteJob(job.id)">
                 Delete
               </button>
             </div>
           </div>
         } @empty {
-          <div class="text-neutral-400">No jobs yet.</div>
+          <div class="text-gray-400 text-center py-8">
+            No jobs yet.
+          </div>
         }
       </div>
     </div>
