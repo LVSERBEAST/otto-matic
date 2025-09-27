@@ -8,7 +8,13 @@ export const routes: Routes = [
     children: [
       {
         path: '',
-        loadComponent: () => import('./features/landing/landing').then((m) => m.Landing),
+        redirectTo: '/dashboard',
+        pathMatch: 'full',
+      },
+      {
+        path: 'dashboard',
+        loadComponent: () => import('./features/dashboard/dashboard').then((m) => m.Dashboard),
+        canActivate: [authGuard],
       },
       {
         path: 'quotes',
@@ -20,7 +26,7 @@ export const routes: Routes = [
         loadComponent: () => import('./features/clients/clients').then((m) => m.Clients),
         canActivate: [authGuard],
       },
-      { path: '**', redirectTo: '' },
+      { path: '**', redirectTo: '/dashboard' },
     ],
   },
 ];

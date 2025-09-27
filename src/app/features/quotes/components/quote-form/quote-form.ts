@@ -22,7 +22,6 @@ interface QuoteFormValue {
   imports: [ReactiveFormsModule],
   changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './quote-form.html',
-  styleUrl: './quote-form.scss',
 })
 export class QuoteForm implements OnInit {
   private readonly fb = inject(FormBuilder);
@@ -42,16 +41,19 @@ export class QuoteForm implements OnInit {
       validators: [Validators.required, Validators.min(0.01)],
     }),
     size: this.fb.nonNullable.control<string>(''),
-    finishType: this.fb.nonNullable.control<string>(''),
+    finishType: this.fb.nonNullable.control<string>('', { validators: [Validators.required] }),
     notes: this.fb.nonNullable.control<string>(''),
-    setupFee: this.fb.nonNullable.control<number>(0),
-    discountRate: this.fb.nonNullable.control<number>(0),
+    setupFee: this.fb.nonNullable.control<number>(0, { validators: [Validators.min(0)] }),
+    discountRate: this.fb.nonNullable.control<number>(0, {
+      validators: [Validators.min(0), Validators.max(1)],
+    }),
   });
 
   readonly submitted = output<QuoteFormValue>();
 
   ngOnInit(): void {
     this.firebase.fetchClients().subscribe((list) => this.clients.set(list));
+
     // Update clientName when clientId changes
     this.form.controls.clientId.valueChanges.subscribe((id) => {
       const match = this.clients().find((c) => c.id === id);
@@ -61,7 +63,13 @@ export class QuoteForm implements OnInit {
 
   onSubmit() {
     if (this.form.invalid) return;
-    this.submitted.emit(this.form.getRawValue());
+
+    const formValue = this.form.getRawValue();
+    this.submitted.emit(formValue);
+    this.resetForm();
+  }
+
+  resetForm() {
     this.form.reset({
       clientId: '',
       clientName: '',

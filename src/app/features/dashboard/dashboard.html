@@ -1,0 +1,115 @@
+<div class="animate-fade-in">
+  <!-- Stats Overview -->
+  <div class="stats-grid">
+    <div class="stat-card">
+      <div class="stat-value">{{ stats().totalQuotes }}</div>
+      <div class="stat-label">Total Jobs</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-value">{{ stats().totalValue | currency:'USD':'symbol':'1.0-0' }}</div>
+      <div class="stat-label">Total Value</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-value">{{ stats().totalClients }}</div>
+      <div class="stat-label">Active Clients</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-value">{{ stats().avgQuoteValue | currency:'USD':'symbol':'1.0-0' }}</div>
+      <div class="stat-label">Avg Job Value</div>
+    </div>
+  </div>
+
+  <!-- Main Dashboard Grid -->
+  <div>
+    <!-- Main Content -->
+    <div class="dashboard-main">
+
+      <!-- Job Status Board (Kanban) -->
+      <div class="card">
+        <div class="card-header">
+          <h3 class="card-title">Job Board</h3>
+          <button class="btn btn-primary">
+            <span>+</span> New Job
+          </button>
+        </div>
+        
+        <div class="status-grid">
+          <!-- New Requests Column -->
+          <div class="status-column">
+            <div class="status-header">
+              <span class="status-title">New Requests</span>
+              <span class="status-count">{{ stats().drafts }}</span>
+            </div>
+            @for (quote of recentQuotes(); track quote.quoteId) {
+              @if (quote.status === 'Draft') {
+                <div class="job-card">
+                  <div class="job-client">{{ quote.clientName }}</div>
+                  <div class="job-title">{{ quote.material }}</div>
+                  <div class="job-details">{{ quote.finishType }} • {{ quote.quantity }} qty</div>
+                  <div class="job-price">{{ quote.totalPrice | currency }}</div>
+                  <div class="job-meta">
+                    <div class="job-deadline">Due: Soon</div>
+                    <div class="job-process">Quote</div>
+                  </div>
+                </div>
+              }
+            }
+          </div>
+
+          <!-- Ready to Start Column -->
+          <div class="status-column">
+            <div class="status-header">
+              <span class="status-title">Ready to Start</span>
+              <span class="status-count">{{ stats().approved }}</span>
+            </div>
+            @for (quote of recentQuotes(); track quote.quoteId) {
+              @if (quote.status === 'Approved') {
+                <div class="job-card">
+                  <div class="job-client">{{ quote.clientName }}</div>
+                  <div class="job-title">{{ quote.material }}</div>
+                  <div class="job-details">{{ quote.finishType }} • {{ quote.quantity }} qty</div>
+                  <div class="job-price">{{ quote.totalPrice | currency }}</div>
+                  <div class="job-meta">
+                    <div class="job-deadline">Start: Today</div>
+                    <div class="job-process">Approved</div>
+                  </div>
+                </div>
+              }
+            }
+          </div>
+
+          <!-- In Production Column -->
+          <div class="status-column">
+            <div class="status-header">
+              <span class="status-title">In Production</span>
+              <span class="status-count">0</span>
+            </div>
+            <!-- Jobs currently being worked on -->
+          </div>
+
+          <!-- Completed Column -->
+          <div class="status-column">
+            <div class="status-header">
+              <span class="status-title">Completed</span>
+              <span class="status-count">{{ stats().sent }}</span>
+            </div>
+            @for (quote of recentQuotes(); track quote.quoteId) {
+              @if (quote.status === 'Sent') {
+                <div class="job-card">
+                  <div class="job-client">{{ quote.clientName }}</div>
+                  <div class="job-title">{{ quote.material }}</div>
+                  <div class="job-details">{{ quote.finishType }} • {{ quote.quantity }} qty</div>
+                  <div class="job-price">{{ quote.totalPrice | currency }}</div>
+                  <div class="job-meta">
+                    <div class="job-deadline">Delivered</div>
+                    <div class="job-process">Complete</div>
+                  </div>
+                </div>
+              }
+            }
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,62 +1,138 @@
-<form [formGroup]="form" (ngSubmit)="onSubmit()" class="grid gap-4 p-4 card">
-  <div class="grid gap-2">
-    <label for="client" class="label">Client</label>
-    <select id="client" formControlName="clientId" class="select">
-      <option value="" disabled>Select a client</option>
-      @for (c of clients(); track c.id) {
-      <option [value]="c.id">{{ c.name }}</option>
-      } @empty {
-      <option value="" disabled>No clients available</option>
+<div class="card">
+  <div class="card-header">
+    <h3 class="card-title">Create New Job</h3>
+    <div class="card-subtitle">Professional letterpress project</div>
+  </div>
+
+  <form [formGroup]="form" (ngSubmit)="onSubmit()" class="form-grid">
+    <!-- Client Selection -->
+    <div class="form-field">
+      <label for="client" class="form-label">Client</label>
+      <select id="client" formControlName="clientId" class="form-select">
+        <option value="" disabled>Select a client</option>
+        @for (c of clients(); track c.id) {
+        <option [value]="c.id">{{ c.name }}</option>
+        } @empty {
+        <option value="" disabled>No clients available</option>
+        }
+      </select>
+      @if (form.controls.clientId.invalid && form.controls.clientId.touched) {
+      <div class="text-sm mt-2" style="color: var(--brand-danger);">Client selection is required.</div>
       }
-    </select>
-    @if (form.controls.clientId.invalid && form.controls.clientId.touched) {
-    <p class="text-xs text-red-600">Client is required.</p>
-    }
-  </div>
+    </div>
 
-  <div class="grid md:grid-cols-2 gap-4">
-    <div class="grid gap-2">
-      <label class="label">Material</label>
-      <input type="text" class="input" formControlName="material" />
+    <!-- Project Details Grid -->
+    <div class="form-grid form-grid-3">
+      <div class="form-field">
+        <label class="form-label">Material</label>
+        <input 
+          type="text" 
+          class="form-input" 
+          formControlName="material"
+          placeholder="Crane Lettra 220gsm"
+        />
+      </div>
+      
+      <div class="form-field">
+        <label class="form-label">Quantity</label>
+        <input 
+          type="number" 
+          class="form-input" 
+          formControlName="quantity"
+          placeholder="500"
+        />
+      </div>
+      
+      <div class="form-field">
+        <label class="form-label">Price Per Unit</label>
+        <input 
+          type="number" 
+          step="0.01" 
+          class="form-input" 
+          formControlName="pricePerUnit"
+          placeholder="2.50"
+        />
+      </div>
     </div>
-    <div class="grid gap-2">
-      <label class="label">Quantity</label>
-      <input type="number" class="input" formControlName="quantity" />
-    </div>
-    <div class="grid gap-2">
-      <label class="label">Price Per Unit</label>
-      <input type="number" step="0.01" class="input" formControlName="pricePerUnit" />
-    </div>
-    <div class="grid gap-2">
-      <label class="label">Size</label>
-      <input type="text" class="input" formControlName="size" />
-    </div>
-    <div class="grid gap-2">
-      <label class="label">Finish Type</label>
-      <input type="text" class="input" formControlName="finishType" />
-    </div>
-  </div>
 
-  <div class="grid md:grid-cols-2 gap-4 items-start">
-    <div class="grid gap-2">
-      <label class="label">Setup Fee</label>
-      <input type="number" step="0.01" class="input w-full max-w-xs" formControlName="setupFee" />
+    <!-- Size and Finish -->
+    <div class="form-grid form-grid-2">
+      <div class="form-field">
+        <label class="form-label">Size</label>
+        <input 
+          type="text" 
+          class="form-input" 
+          formControlName="size"
+          placeholder="5.5 × 8.5 inches"
+        />
+      </div>
+      
+      <div class="form-field">
+        <label class="form-label">Process</label>
+        <select class="form-select" formControlName="finishType">
+          <option value="">Select process</option>
+          <option value="Letterpress">Letterpress</option>
+          <option value="Foil Stamping">Foil Stamping</option>
+          <option value="Embossing">Embossing</option>
+          <option value="Debossing">Debossing</option>
+          <option value="Letterpress + Foil">Letterpress + Foil</option>
+          <option value="Die Cutting">Die Cutting</option>
+        </select>
+      </div>
     </div>
-    <div class="grid gap-2">
-      <label class="label">Discount Rate (0.1 = 10%)</label>
-      <input type="number" step="0.01" min="0" max="1" class="input w-full max-w-xs" formControlName="discountRate" />
+
+    <!-- Pricing Details -->
+    <div class="form-grid form-grid-2">
+      <div class="form-field">
+        <label class="form-label">Setup Fee</label>
+        <input 
+          type="number" 
+          step="0.01" 
+          class="form-input" 
+          formControlName="setupFee"
+          placeholder="75.00"
+        />
+      </div>
+      
+      <div class="form-field">
+        <label class="form-label">Discount Rate</label>
+        <input 
+          type="number" 
+          step="0.01" 
+          min="0" 
+          max="1" 
+          class="form-input" 
+          formControlName="discountRate"
+          placeholder="0.10 (10%)"
+        />
+      </div>
     </div>
-  </div>
 
-  <div class="grid gap-2">
-    <label class="label">Notes</label>
-    <textarea rows="3" class="textarea" formControlName="notes"></textarea>
-  </div>
+    <!-- Project Notes -->
+    <div class="form-field">
+      <label class="form-label">Project Notes</label>
+      <textarea 
+        class="form-textarea" 
+        formControlName="notes"
+        placeholder="Special instructions, color details, finishing requirements..."
+        rows="3"
+      ></textarea>
+    </div>
 
-  <div class="flex justify-end gap-2">
-    <button type="reset" class="btn btn-outline">Reset</button>
-    <button type="submit" [disabled]="form.invalid" class="btn btn-primary disabled:opacity-50">
-      Add Quote
-    </button>
-  </div>
-</form>
+    <!-- Action Buttons -->
+    <div class="flex justify-end gap-4 mt-6">
+      <button type="button" class="btn btn-secondary" (click)="resetForm()">
+        Reset Form
+      </button>
+      <button 
+        type="submit" 
+        [disabled]="form.invalid" 
+        class="btn btn-primary"
+        [class.opacity-50]="form.invalid"
+      >
+        <span>✨</span>
+        Create Job
+      </button>
+    </div>
+  </form>
+</div>
