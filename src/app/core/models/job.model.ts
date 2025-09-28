@@ -37,6 +37,11 @@ export interface PrintProcess {
   notes?: string;
 }
 
+export type BlockingStatus = 
+  | 'Material Shortage'
+  | 'Equipment Down'
+  | 'Waiting for Payment'
+  | null;
 export interface Job {
   // Job Details
   id: string;
@@ -71,5 +76,6 @@ export interface Job {
   productionDeadline?: Date;
   deliveryDeadline?: Date;
 
-  hasQuote?: boolean;
+
+  blockingStatus?: BlockingStatus;
 }

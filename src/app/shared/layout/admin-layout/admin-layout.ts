@@ -8,6 +8,7 @@ import {
   faPrint,
   faCalculator,
   faAddressBook,
+  faEnvelope,
 } from '@fortawesome/free-solid-svg-icons';
 
 @Component({
@@ -25,6 +26,7 @@ export class AdminLayout {
   faPrint = faPrint;
   faCalculator = faCalculator;
   faAddressBook = faAddressBook;
+  faEnvelope = faEnvelope;
 
   constructor(private router: Router) {
     console.log('Current route:', this.router.url);
@@ -38,3 +40,5 @@ export class AdminLayout {
     this.auth.logout();
   }
 }
+
+
