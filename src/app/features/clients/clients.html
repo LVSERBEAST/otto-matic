@@ -1,66 +1,97 @@
-﻿<div class="animate-fade-in">
-  <!-- Quick Stats -->
-  <div class="stats-grid mb-8">
-    <div class="stat-card">
-      <div class="stat-value">{{ clients().length }}</div>
-      <div class="stat-label">Total Clients</div>
-    </div>
-    <div class="stat-card">
-      <div class="stat-value">{{ getActiveClients() }}</div>
-      <div class="stat-label">Active Clients</div>
-    </div>
-    <div class="stat-card">
-      <div class="stat-value">{{ getTaxExemptCount() }}</div>
-      <div class="stat-label">Tax Exempt</div>
-    </div>
-    <div class="stat-card">
-      <div class="stat-value">{{ getAvgDiscount() | percent:'1.0-1' }}</div>
-      <div class="stat-label">Avg Discount Rate</div>
-    </div>
-  </div>
+<div class="animate-fade-in">
+  <!-- Collapsible Stats -->
+  <div class="mb-6">
+    <button
+      class="flex items-center justify-between w-full p-3 rounded-lg transition-all"
+      style="background: var(--surface-medium); border: 1px solid var(--border-medium)"
+      (click)="statsCollapsed.set(!statsCollapsed())"
+    >
+      <h2 class="text-base font-semibold" style="color: var(--text-primary)">Overview Stats</h2>
+      <svg
+        class="w-4 h-4 transition-transform"
+        [class.rotate-180]="!statsCollapsed()"
+        style="color: var(--text-secondary)"
+        fill="none"
+        stroke="currentColor"
+        viewBox="0 0 24 24"
+      >
+        <path
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          stroke-width="2"
+          d="M19 9l-7 7-7-7"
+        ></path>
+      </svg>
+    </button>
 
-  <!-- Detailed Clients Table -->
-  <div class="card mb-8">
-    <div class="card-header">
-      <h3 class="card-title">All Clients</h3>
-      <div class="flex gap-2">
-        <button class="btn btn-ghost">Filter by Location</button>
-        <button class="btn btn-ghost">Filter by Status</button>
-        <button class="btn btn-ghost">Export Selected</button>
+    @if (!statsCollapsed()) {
+    <div class="mt-3 stats-grid">
+      <div class="stat-card">
+        <div class="stat-value">{{ clients().length }}</div>
+        <div class="stat-label">Total Clients</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-value">{{ getActiveClients() }}</div>
+        <div class="stat-label">Active Clients</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-value">{{ getTaxExemptCount() }}</div>
+        <div class="stat-label">Tax Exempt</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-value">{{ getAvgDiscount() | percent : '1.0-1' }}</div>
+        <div class="stat-label">Avg Discount Rate</div>
       </div>
     </div>
-    
-    <div class="overflow-x-auto">
-      <table class="w-full">
-        <thead>
-          <tr class="border-b border-white/10">
-            <th class="text-left p-4 font-medium text-neutral-400">Name</th>
-            <th class="text-left p-4 font-medium text-neutral-400">Email</th>
-            <th class="text-left p-4 font-medium text-neutral-400">Phone</th>
-            <th class="text-left p-4 font-medium text-neutral-400">Location</th>
-            <th class="text-left p-4 font-medium text-neutral-400">Tax Status</th>
-            <th class="text-left p-4 font-medium text-neutral-400">Discount</th>
-            <th class="text-left p-4 font-medium text-neutral-400">Actions</th>
-          </tr>
-        </thead>
-        <tbody>
-          @for (client of clients(); track client.id) {
+    }
+
+    <!-- Detailed Clients Table -->
+    <div class="card mb-8">
+      <div class="card-header">
+        <h3 class="card-title">All Clients</h3>
+        <div class="flex gap-2">
+          <button class="btn btn-ghost">Filter by Location</button>
+          <button class="btn btn-ghost">Filter by Status</button>
+          <button class="btn btn-ghost">Export Selected</button>
+        </div>
+      </div>
+
+      <div class="overflow-x-auto">
+        <table class="w-full">
+          <thead>
+            <tr class="border-b border-white/10">
+              <th class="text-left p-4 font-medium text-neutral-400">Name</th>
+              <th class="text-left p-4 font-medium text-neutral-400">Email</th>
+              <th class="text-left p-4 font-medium text-neutral-400">Phone</th>
+              <th class="text-left p-4 font-medium text-neutral-400">Location</th>
+              <th class="text-left p-4 font-medium text-neutral-400">Tax Status</th>
+              <th class="text-left p-4 font-medium text-neutral-400">Discount</th>
+              <th class="text-left p-4 font-medium text-neutral-400">Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            @for (client of clients(); track client.id) {
             <tr class="border-b border-white/5 hover:bg-white/2">
               <td class="p-4">{{ client.name }}</td>
               <td class="p-4">{{ client.email }}</td>
               <td class="p-4">{{ client.phone }}</td>
               <td class="p-4">{{ client.city }}, {{ client.state }}</td>
               <td class="p-4">
-                <span class="text-xs px-2 py-1 rounded" [class]="client.isTaxExempt ? 'bg-green-500/20 text-green-300' : 'bg-blue-500/20 text-blue-300'">
+                <span
+                  class="text-xs px-2 py-1 rounded"
+                  [class]="
+                    client.isTaxExempt
+                      ? 'bg-green-500/20 text-green-300'
+                      : 'bg-blue-500/20 text-blue-300'
+                  "
+                >
                   {{ client.isTaxExempt ? 'Tax Exempt' : 'Taxable' }}
                 </span>
               </td>
-              <td class="p-4">{{ client.defaultDiscountRate | percent:'1.0-1' }}</td>
+              <td class="p-4">{{ client.defaultDiscountRate | percent : '1.0-1' }}</td>
               <td class="p-4">
                 <div class="flex gap-2">
-                  <button class="btn btn-ghost btn-sm" (click)="editClient(client)">
-                    Edit
-                  </button>
+                  <button class="btn btn-ghost btn-sm" (click)="editClient(client)">Edit</button>
                   <button class="btn btn-primary btn-sm" (click)="viewClientJobs(client)">
                     View Jobs
                   </button>
@@ -70,16 +101,17 @@
                 </div>
               </td>
             </tr>
-          } @empty {
+            } @empty {
             <tr>
               <td colspan="7" class="text-center py-12 text-neutral-400">
                 <p class="mb-4">No clients found</p>
                 <p class="text-sm">Start by adding your first client above</p>
               </td>
             </tr>
-          }
-        </tbody>
-      </table>
+            }
+          </tbody>
+        </table>
+      </div>
     </div>
   </div>
 
@@ -97,39 +129,54 @@
           <h3 class="card-title">Recent Clients</h3>
           <div class="card-subtitle">Latest client additions</div>
         </div>
-        
+
         <div class="flex flex-col gap-3">
           @for (client of getRecentClients().slice(0, 8); track client.id) {
-            <div class="quote-card">
-              <div class="quote-client">{{ client.name }}</div>
-              <div class="quote-title">{{ client.email }}</div>
-              <div class="quote-details">{{ client.phone }}</div>
-              @if (client.website) {
-                <div class="quote-details">{{ client.website }}</div>
-              }
-              <div class="quote-price">{{ client.defaultDiscountRate | percent:'1.0-1' }} discount</div>
-              
-              <div class="flex items-center justify-between mt-3">
-                <span class="text-xs px-2 py-1 rounded" [class]="client.isTaxExempt ? 'bg-green-500/20 text-green-300' : 'bg-blue-500/20 text-blue-300'">
-                  {{ client.isTaxExempt ? 'Tax Exempt' : 'Taxable' }}
-                </span>
-                <div class="flex gap-2">
-                  <button class="btn btn-ghost" style="padding: 4px 8px; font-size: 12px;" 
-                          (click)="editClient(client)">
-                    Edit
-                  </button>
-                  <button class="btn btn-primary" style="padding: 4px 8px; font-size: 12px;"
-                          (click)="viewClientJobs(client)">
-                    View Jobs
-                  </button>
-                </div>
+          <div class="quote-card">
+            <div class="quote-client">{{ client.name }}</div>
+            <div class="quote-title">{{ client.email }}</div>
+            <div class="quote-details">{{ client.phone }}</div>
+            @if (client.website) {
+            <div class="quote-details">{{ client.website }}</div>
+            }
+            <div class="quote-price">
+              {{ client.defaultDiscountRate | percent : '1.0-1' }} discount
+            </div>
+
+            <div class="flex items-center justify-between mt-3">
+              <span
+                class="text-xs px-2 py-1 rounded"
+                [class]="
+                  client.isTaxExempt
+                    ? 'bg-green-500/20 text-green-300'
+                    : 'bg-blue-500/20 text-blue-300'
+                "
+              >
+                {{ client.isTaxExempt ? 'Tax Exempt' : 'Taxable' }}
+              </span>
+              <div class="flex gap-2">
+                <button
+                  class="btn btn-ghost"
+                  style="padding: 4px 8px; font-size: 12px"
+                  (click)="editClient(client)"
+                >
+                  Edit
+                </button>
+                <button
+                  class="btn btn-primary"
+                  style="padding: 4px 8px; font-size: 12px"
+                  (click)="viewClientJobs(client)"
+                >
+                  View Jobs
+                </button>
               </div>
             </div>
+          </div>
           } @empty {
-            <div class="text-center py-8 opacity-75">
-              <p class="mb-4">No clients yet</p>
-              <p class="text-sm">Add your first client using the form</p>
-            </div>
+          <div class="text-center py-8 opacity-75">
+            <p class="mb-4">No clients yet</p>
+            <p class="text-sm">Add your first client using the form</p>
+          </div>
           }
         </div>
       </div>
@@ -140,7 +187,7 @@
           <h3 class="card-title">Client Categories</h3>
           <div class="card-subtitle">Filter by type</div>
         </div>
-        
+
         <div class="flex flex-col gap-2">
           <button class="btn btn-ghost w-full justify-start" (click)="filterClients('all')">
             <span>👥</span>
@@ -150,7 +197,10 @@
             <span>💼</span>
             Tax Exempt
           </button>
-          <button class="btn btn-ghost w-full justify-start" (click)="filterClients('high-discount')">
+          <button
+            class="btn btn-ghost w-full justify-start"
+            (click)="filterClients('high-discount')"
+          >
             <span>🎯</span>
             High Discount
           </button>

@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, computed, inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, inject, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
 import { QuotesService } from './quotes.service';
@@ -20,6 +20,7 @@ export class Quotes {
 
   readonly quotes = this.quotesService.quotes;
 
+  readonly statsCollapsed = signal(false);
   readonly stats = computed(() => {
     const allQuotes = this.quotes();
     const totalValue = allQuotes.reduce((sum, quote) => sum + quote.totalPrice, 0);
@@ -138,3 +139,4 @@ export class Quotes {
       .slice(0, 10);
   }
 }
+

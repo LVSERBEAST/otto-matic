@@ -8,7 +8,6 @@ import {
   effect,
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { RouterLink } from '@angular/router';
 import {
   CdkDragDrop,
   DragDropModule,
@@ -19,11 +18,12 @@ import { JobsService } from '../jobs/jobs.service';
 import { ClientsService } from '../clients/clients.service';
 import { AuthService } from '../../core/auth.service';
 import { Job, JobStage } from '../../core/models/job.model';
+import { ConfirmDialog } from '../../shared/components';
 
 @Component({
   selector: 'app-dashboard',
   standalone: true,
-  imports: [CommonModule, RouterLink, DragDropModule],
+  imports: [CommonModule, DragDropModule, ConfirmDialog],
   changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './dashboard.html',
   styleUrl: './dashboard.scss',
@@ -32,7 +32,6 @@ export class Dashboard {
   private readonly jobsService = inject(JobsService);
   private readonly clientsService = inject(ClientsService);
   private readonly auth = inject(AuthService);
-  private readonly cdr = inject(ChangeDetectorRef);
 
   readonly jobs = this.jobsService.jobs;
   readonly clients = this.clientsService.clients;
@@ -50,6 +49,15 @@ export class Dashboard {
   readonly productionJobs = this._productionJobs.asReadonly();
   readonly completedJobs = this._completedJobs.asReadonly();
   readonly selectedJob = signal<Job | null>(null);
+  readonly showStageChangeConfirm = signal(false);
+  readonly pendingStageChange = signal<{
+    job: Job;
+    newStage: JobStage;
+    event: CdkDragDrop<Job[], any, any>;
+  } | null>(null);
+
+  readonly quickviewJob = signal<Job | null>(null);
+  readonly showQuickview = signal(false);
 
   readonly stats = computed(() => {
     const allJobs = this.jobs();
@@ -102,6 +110,7 @@ export class Dashboard {
     const newStage = this.getStageByContainerId(event.container.id);
     const updatedJob: Job = { ...job, stage: newStage };
 
+    // Apply the UI change
     transferArrayItem(
       event.previousContainer.data,
       event.container.data,
@@ -109,6 +118,7 @@ export class Dashboard {
       event.currentIndex
     );
 
+    // Update the job in the service
     this.jobsService.updateJob(updatedJob);
   }
 
@@ -138,5 +148,10 @@ export class Dashboard {
       completed: 'Sent',
     };
     return stageMap[id];
+  }
+
+  openQuickview(job: Job) {
+    this.quickviewJob.set(job);
+    this.showQuickview.set(true);
   }
 }

@@ -85,7 +85,7 @@
   background: var(--surface-elevated);
   border: 1px solid var(--border-subtle);
   border-radius: 12px;
-  margin-bottom: 12px;
+  margin-bottom: 10px;
   cursor: grab;
   transition: none;
   transform: translateZ(0);
@@ -93,6 +93,9 @@
   display: flex;
   overflow: hidden;
   flex-shrink: 0;
+  height: 150px; /* Increased from 130px */
+  min-height: 150px;
+  max-height: 150px;
 }
 
 .job-card:hover {
@@ -105,6 +108,24 @@
 .job-card:active {
   cursor: grabbing;
   transform: translateY(0) translateZ(0);
+}
+
+.job-content {
+  flex: 1;
+  padding: 16px; /* Increased from 12px */
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.job-price {
+  font-size: 18px; /* Increased from 15px */
+  font-weight: 700;
+  color: var(--brand-accent);
+  font-family: 'JetBrains Mono', monospace;
+  margin-top: 8px; /* Added margin-top */
+  letter-spacing: -0.5px;
 }
 
 .drag-handle {
@@ -126,14 +147,10 @@
   color: var(--text-secondary);
 }
 
-.job-content {
-  flex: 1;
-  padding: 16px;
-  min-width: 0;
-}
+
 
 .job-client {
-  font-size: 11px;
+  font-size: 16px;
   font-weight: 600;
   color: var(--text-muted);
   margin-bottom: 6px;
@@ -142,31 +159,11 @@
   font-family: 'JetBrains Mono', monospace;
 }
 
-.job-title {
-  font-size: 16px;
-  font-weight: 600;
-  color: var(--text-primary);
-  margin-bottom: 8px;
-  line-height: 1.3;
-  word-wrap: break-word;
-}
 
-.job-details {
-  font-size: 13px;
-  color: var(--text-tertiary);
-  margin-bottom: 4px;
-  line-height: 1.4;
-  word-wrap: break-word;
-}
 
-.job-price {
-  font-size: 18px;
-  font-weight: 700;
-  color: var(--brand-accent);
-  font-family: 'JetBrains Mono', monospace;
-  margin: 12px 0;
-  letter-spacing: -0.5px;
-}
+
+
+
 
 .job-meta {
   display: flex;
@@ -239,9 +236,7 @@
   flex-shrink: 0;
 }
 
-.cdk-drag-placeholder .job-content {
-  visibility: hidden;
-}
+.cdk-drag-placeholder 
 
 .cdk-drag-placeholder .drag-handle {
   visibility: hidden;
@@ -335,9 +330,7 @@
     padding: 16px 20px;
   }
 
-  .job-content {
-    padding: 12px;
-  }
+  
 
   .job-card {
     margin-bottom: 8px;
@@ -417,3 +410,4 @@
 .modal-content button:hover {
   background: #4b5563;
 }
+

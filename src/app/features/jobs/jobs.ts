@@ -1,4 +1,4 @@
-﻿import { ChangeDetectionStrategy, Component, computed, inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, inject, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { JobsService } from './jobs.service';
 import { JobForm } from './components/job-form/job-form';
@@ -18,6 +18,7 @@ export class Jobs {
 
   readonly jobs = this.jobsService.jobs;
 
+  readonly statsCollapsed = signal(false);
   readonly stats = computed(() => {
     const allJobs = this.jobs();
     const totalValue = allJobs.reduce((sum, job) => sum + job.totalPrice, 0);
@@ -50,6 +51,7 @@ export class Jobs {
       printProcesses: [],
       productionNotes: '',
       clientNotes: value.notes,
+      hasQuote: false
     };
 
     this.jobsService.addJob(job);
@@ -101,3 +103,4 @@ export class Jobs {
     });
   }
 }
+

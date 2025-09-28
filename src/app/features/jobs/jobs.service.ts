@@ -51,6 +51,7 @@ export class JobsService {
       printProcesses: [],
       productionNotes: '',
       clientNotes: quote.notes,
+      hasQuote: true
     };
     return job;
   }

@@ -76,6 +76,6 @@ export interface Job {
   productionDeadline?: Date;
   deliveryDeadline?: Date;
 
-
+  hasQuote: boolean;
   blockingStatus?: BlockingStatus;
 }

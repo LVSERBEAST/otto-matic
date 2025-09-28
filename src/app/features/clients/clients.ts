@@ -1,4 +1,4 @@
-﻿import { ChangeDetectionStrategy, Component, computed, inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, inject, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
 import { ClientsService } from './clients.service';
@@ -19,6 +19,7 @@ export class Clients {
   readonly clients = this.clientsService.clients;
   readonly error = this.clientsService.error;
 
+  readonly statsCollapsed = signal(false);
   readonly stats = computed(() => {
     const allClients = this.clients();
     const taxExempt = allClients.filter(c => c.isTaxExempt).length;
@@ -87,3 +88,4 @@ export class Clients {
     return [...this.clients()].slice(0, 10); // Could add date sorting if createdAt field exists
   }
 }
+

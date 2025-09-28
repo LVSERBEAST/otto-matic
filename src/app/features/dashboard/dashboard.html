@@ -1,3 +1,18 @@
+<app-confirm-dialog
+  [open]="showStageChangeConfirm()"
+  title="Change Job Stage"
+  [message]="
+    pendingStageChange()
+      ? 'Move ' +
+        pendingStageChange()?.job?.material +
+        ' to ' +
+        pendingStageChange()?.newStage +
+        '?'
+      : 'Change job stage?'
+  "
+  confirmText="Move Job"
+  [dangerMode]="false"
+/>
 <div class="animate-fade-in">
   <!-- Stats Overview -->
   <div class="stats-grid">
@@ -33,14 +48,12 @@
         </div>
         <div class="status-grid" cdkDropListGroup>
           <!-- New Requests Column -->
-          <!-- New Requests Column -->
           <div class="status-column">
             <div class="status-header">
               <span class="status-title">New Requests</span>
               <span class="status-count">{{ draftJobs().length }}</span>
             </div>
 
-            <!-- CDK drop list contains ONLY job cards -->
             <div
               cdkDropList
               id="new-requests"
@@ -53,20 +66,11 @@
               <div class="job-card" cdkDrag>
                 <div class="drag-handle">⋮⋮</div>
                 <div class="job-content">
-                  <button (click)="openJobModal(job)" class="job-id-badge">
+                  <button (click)="openQuickview(job)" class="job-id-badge">
                     {{ formatJobId(job) }}
                   </button>
                   <div class="job-client">{{ job.clientName }}</div>
-                  <div class="job-title">{{ job.material }}</div>
-                  <div class="job-details">{{ job.finishType }} • {{ job.quantity }} qty</div>
-                  @if (job.size) {
-                  <div class="job-details">{{ job.size }}</div>
-                  }
                   <div class="job-price">{{ job.totalPrice | currency }}</div>
-                  <div class="job-meta">
-                    <div class="job-deadline">Quote needed</div>
-                    <div class="job-process">{{ job.finishType }}</div>
-                  </div>
                 </div>
               </div>
               }
@@ -92,20 +96,11 @@
               <div class="job-card" cdkDrag>
                 <div class="drag-handle">⋮⋮</div>
                 <div class="job-content">
-                  <button (click)="openJobModal(job)" class="job-id-badge">
+                  <button (click)="openQuickview(job)" class="job-id-badge">
                     {{ formatJobId(job) }}
                   </button>
                   <div class="job-client">{{ job.clientName }}</div>
-                  <div class="job-title">{{ job.material }}</div>
-                  <div class="job-details">{{ job.finishType }} • {{ job.quantity }} qty</div>
-                  @if (job.size) {
-                  <div class="job-details">{{ job.size }}</div>
-                  }
                   <div class="job-price">{{ job.totalPrice | currency }}</div>
-                  <div class="job-meta">
-                    <div class="job-deadline">Approved</div>
-                    <div class="job-process">{{ job.finishType }}</div>
-                  </div>
                 </div>
               </div>
               }
@@ -131,20 +126,11 @@
               <div class="job-card" cdkDrag>
                 <div class="drag-handle">⋮⋮</div>
                 <div class="job-content">
-                  <button (click)="openJobModal(job)" class="job-id-badge">
+                  <button (click)="openQuickview(job)" class="job-id-badge">
                     {{ formatJobId(job) }}
                   </button>
                   <div class="job-client">{{ job.clientName }}</div>
-                  <div class="job-title">{{ job.material }}</div>
-                  <div class="job-details">{{ job.finishType }} • {{ job.quantity }} qty</div>
-                  @if (job.size) {
-                  <div class="job-details">{{ job.size }}</div>
-                  }
                   <div class="job-price">{{ job.totalPrice | currency }}</div>
-                  <div class="job-meta">
-                    <div class="job-deadline">In progress</div>
-                    <div class="job-process">{{ job.finishType }}</div>
-                  </div>
                 </div>
               </div>
               }
@@ -170,20 +156,11 @@
               <div class="job-card" cdkDrag>
                 <div class="drag-handle">⋮⋮</div>
                 <div class="job-content">
-                  <button (click)="openJobModal(job)" class="job-id-badge">
+                  <button (click)="openQuickview(job)" class="job-id-badge">
                     {{ formatJobId(job) }}
                   </button>
                   <div class="job-client">{{ job.clientName }}</div>
-                  <div class="job-title">{{ job.material }}</div>
-                  <div class="job-details">{{ job.finishType }} • {{ job.quantity }} qty</div>
-                  @if (job.size) {
-                  <div class="job-details">{{ job.size }}</div>
-                  }
                   <div class="job-price">{{ job.totalPrice | currency }}</div>
-                  <div class="job-meta">
-                    <div class="job-deadline">Delivered</div>
-                    <div class="job-process">Complete</div>
-                  </div>
                 </div>
               </div>
               }
@@ -203,5 +180,3 @@
   </div>
 </div>
 }
-
-
