@@ -1,102 +1,124 @@
-<form [formGroup]="form" (ngSubmit)="onSubmit()" class="space-y-6">
-  <!-- Client Selection -->
-  <div class="flex flex-col gap-2">
-    <label class="text-sm font-medium text-gray-300">Client</label>
-    <select formControlName="clientId" class="w-full rounded-md bg-black/20 border border-white/10 text-gray-100 px-3 py-2 outline-none transition-all duration-200 focus:ring-2 focus:ring-blue-500/40 focus:border-blue-500/40">
-      <option value="" disabled>Select a client</option>
-      @for (c of clients(); track c.id) {
+<div class="card">
+  <div class="card-header">
+    <h3 class="card-title">Create New Job</h3>
+    <div class="card-subtitle">Production workflow job</div>
+  </div>
+
+  <form [formGroup]="form" (ngSubmit)="onSubmit()" class="form-grid">
+    <!-- Client Selection -->
+    <div class="form-field">
+      <label for="client" class="form-label">Client</label>
+      <select id="client" formControlName="clientId" class="form-select">
+        <option value="" disabled>Select a client</option>
+        @for (c of clients(); track c.id) {
         <option [value]="c.id">{{ c.name }}</option>
-      } @empty {
+        } @empty {
         <option value="" disabled>No clients available</option>
+        }
+      </select>
+      @if (form.controls.clientId.invalid && form.controls.clientId.touched) {
+      <div class="text-sm mt-2" style="color: var(--brand-danger);">Client selection is required.</div>
       }
-    </select>
-  </div>
-
-  <!-- Job Type -->
-  <div class="flex flex-col gap-2">
-    <label class="text-sm font-medium text-gray-300">Job Type</label>
-    <select formControlName="jobType" class="w-full rounded-md bg-black/20 border border-white/10 text-gray-100 px-3 py-2 outline-none transition-all duration-200 focus:ring-2 focus:ring-blue-500/40 focus:border-blue-500/40">
-      <option value="Business Cards">Business Cards</option>
-      <option value="Posters">Posters</option>
-      <option value="Brochures">Brochures</option>
-      <option value="Menus">Menus</option>
-      <option value="Invitations">Invitations</option>
-      <option value="Other">Other</option>
-    </select>
-  </div>
-
-  <!-- Material and Details -->
-  <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-    <div class="flex flex-col gap-2">
-      <label class="text-sm font-medium text-gray-300">Material</label>
-      <input 
-        type="text" 
-        formControlName="material" 
-        class="w-full rounded-md bg-black/20 border border-white/10 text-gray-100 px-3 py-2 outline-none transition-all duration-200 focus:ring-2 focus:ring-blue-500/40 focus:border-blue-500/40 placeholder:text-gray-500" 
-        placeholder="Crane Lettra 220gsm" />
     </div>
-    
-    <div class="flex flex-col gap-2">
-      <label class="text-sm font-medium text-gray-300">Quantity</label>
-      <input 
-        type="number" 
-        formControlName="quantity" 
-        class="w-full rounded-md bg-black/20 border border-white/10 text-gray-100 px-3 py-2 outline-none transition-all duration-200 focus:ring-2 focus:ring-blue-500/40 focus:border-blue-500/40 placeholder:text-gray-500" 
-        placeholder="500" />
-    </div>
-  </div>
 
-  <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-    <div class="flex flex-col gap-2">
-      <label class="text-sm font-medium text-gray-300">Process</label>
-      <select formControlName="finishType" class="w-full rounded-md bg-black/20 border border-white/10 text-gray-100 px-3 py-2 outline-none transition-all duration-200 focus:ring-2 focus:ring-blue-500/40 focus:border-blue-500/40">
-        <option value="">Select process</option>
-        <option value="Letterpress">Letterpress</option>
-        <option value="Foil Stamping">Foil Stamping</option>
-        <option value="Embossing">Embossing</option>
-        <option value="Debossing">Debossing</option>
-        <option value="Letterpress + Foil">Letterpress + Foil</option>
-        <option value="Die Cutting">Die Cutting</option>
+    <!-- Job Type -->
+    <div class="form-field">
+      <label class="form-label">Job Type</label>
+      <select class="form-select" formControlName="jobType">
+        <option value="Business Cards">Business Cards</option>
+        <option value="Posters">Posters</option>
+        <option value="Brochures">Brochures</option>
+        <option value="Menus">Menus</option>
+        <option value="Invitations">Invitations</option>
+        <option value="Other">Other</option>
       </select>
     </div>
-    
-    <div class="flex flex-col gap-2">
-      <label class="text-sm font-medium text-gray-300">Size</label>
-      <input 
-        type="text" 
-        formControlName="size" 
-        class="w-full rounded-md bg-black/20 border border-white/10 text-gray-100 px-3 py-2 outline-none transition-all duration-200 focus:ring-2 focus:ring-blue-500/40 focus:border-blue-500/40 placeholder:text-gray-500" 
-        placeholder="5.5 × 8.5 inches" />
+
+    <!-- Project Details Grid -->
+    <div class="form-grid form-grid-3">
+      <div class="form-field">
+        <label class="form-label">Material</label>
+        <input 
+          type="text" 
+          class="form-input" 
+          formControlName="material"
+          placeholder="Crane Lettra 220gsm"
+        />
+      </div>
+      
+      <div class="form-field">
+        <label class="form-label">Quantity</label>
+        <input 
+          type="number" 
+          class="form-input" 
+          formControlName="quantity"
+          placeholder="500"
+        />
+      </div>
+      
+      <div class="form-field">
+        <label class="form-label">Total Price</label>
+        <input 
+          type="number" 
+          step="0.01" 
+          class="form-input" 
+          formControlName="totalPrice"
+          placeholder="250.00"
+        />
+      </div>
     </div>
-  </div>
 
-  <!-- Price and Notes -->
-  <div class="flex flex-col gap-2">
-    <label class="text-sm font-medium text-gray-300">Total Price</label>
-    <input 
-      type="number" 
-      step="0.01" 
-      formControlName="totalPrice" 
-      class="w-full rounded-md bg-black/20 border border-white/10 text-gray-100 px-3 py-2 outline-none transition-all duration-200 focus:ring-2 focus:ring-blue-500/40 focus:border-blue-500/40 placeholder:text-gray-500" 
-      placeholder="250.00" />
-  </div>
+    <!-- Size and Finish -->
+    <div class="form-grid form-grid-2">
+      <div class="form-field">
+        <label class="form-label">Size</label>
+        <input 
+          type="text" 
+          class="form-input" 
+          formControlName="size"
+          placeholder="5.5 × 8.5 inches"
+        />
+      </div>
+      
+      <div class="form-field">
+        <label class="form-label">Process</label>
+        <select class="form-select" formControlName="finishType">
+          <option value="">Select process</option>
+          <option value="Letterpress">Letterpress</option>
+          <option value="Foil Stamping">Foil Stamping</option>
+          <option value="Embossing">Embossing</option>
+          <option value="Debossing">Debossing</option>
+          <option value="Letterpress + Foil">Letterpress + Foil</option>
+          <option value="Die Cutting">Die Cutting</option>
+        </select>
+      </div>
+    </div>
 
-  <div class="flex flex-col gap-2">
-    <label class="text-sm font-medium text-gray-300">Production Notes</label>
-    <textarea 
-      formControlName="notes" 
-      rows="3" 
-      class="w-full rounded-md bg-black/20 border border-white/10 text-gray-100 px-3 py-2 outline-none transition-all duration-200 focus:ring-2 focus:ring-blue-500/40 focus:border-blue-500/40 placeholder:text-gray-500 resize-vertical" 
-      placeholder="Special instructions, color details..."></textarea>
-  </div>
+    <!-- Project Notes -->
+    <div class="form-field">
+      <label class="form-label">Production Notes</label>
+      <textarea 
+        class="form-textarea" 
+        formControlName="notes"
+        placeholder="Special instructions, color details, finishing requirements..."
+        rows="3"
+      ></textarea>
+    </div>
 
-  <!-- Submit Button -->
-  <div class="pt-4">
-    <button 
-      type="submit" 
-      [disabled]="form.invalid" 
-      class="inline-flex items-center gap-2 rounded-md px-6 py-3 text-sm font-medium transition-all duration-200 bg-gradient-to-b from-blue-500 to-blue-600 text-white shadow-md shadow-blue-500/20 hover:from-blue-400 hover:to-blue-500 hover:-translate-y-0.5 hover:shadow-lg disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:transform-none">
-      Create Job
-    </button>
-  </div>
-</form>
+    <!-- Action Buttons -->
+    <div class="flex justify-end gap-4 mt-6">
+      <button type="button" class="btn btn-secondary" (click)="resetForm()">
+        Reset Form
+      </button>
+      <button 
+        type="submit" 
+        [disabled]="form.invalid" 
+        class="btn btn-primary"
+        [class.opacity-50]="form.invalid"
+      >
+        <span>⚙️</span>
+        Create Job
+      </button>
+    </div>
+  </form>
+</div>

@@ -1,0 +1,16 @@
+.form-select {
+  /* existing styles */
+  background-position: right 1rem center; /* moves arrow from edge */
+  padding-right: 2.5rem; /* more space for arrow */
+}
+
+.form-select:focus {
+  background-color: var(--surface-elevated);
+  border-color: var(--brand-primary);
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+}
+
+.form-select option {
+  background-color: var(--surface-elevated);
+  color: var(--text-primary);
+}

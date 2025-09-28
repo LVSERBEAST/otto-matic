@@ -1,110 +1,89 @@
-import { ChangeDetectionStrategy, Component, effect, inject, signal } from '@angular/core';
+﻿import { ChangeDetectionStrategy, Component, computed, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import {
-  ReactiveFormsModule,
-  FormBuilder,
-  Validators,
-  FormGroup,
-  FormControl
-} from '@angular/forms';
+import { Router } from '@angular/router';
 import { ClientsService } from './clients.service';
+import { ClientForm } from './components/client-form/client-form';
 import { Client } from '../../core/models/client.model';
-
-type ClientForm = FormGroup<{
-  name: FormControl<string>;
-  email: FormControl<string>;
-  phone: FormControl<string>;
-  website: FormControl<string>;
-  street: FormControl<string>;
-  city: FormControl<string>;
-  state: FormControl<string>;
-  zip: FormControl<string>;
-  isTaxExempt: FormControl<boolean>;
-  defaultDiscountRate: FormControl<number>;
-  notes: FormControl<string>;
-}>;
 
 @Component({
   selector: 'app-clients',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule],
+  imports: [CommonModule, ClientForm],
+  changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './clients.html',
-  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class Clients {
-  private readonly fb = inject(FormBuilder);
-  private readonly svc = inject(ClientsService);
+  private readonly clientsService = inject(ClientsService);
+  private readonly router = inject(Router);
 
-  readonly clients = this.svc.clients;
-  readonly error = this.svc.error;
+  readonly clients = this.clientsService.clients;
+  readonly error = this.clientsService.error;
 
-  readonly form: ClientForm = this.fb.nonNullable.group({
-    name: ['', [Validators.required, Validators.minLength(2)]],
-    email: ['', [Validators.required, Validators.email]],
-    phone: ['', [Validators.required]],
-    website: ['', []],
-    street: ['', []],
-    city: ['', []],
-    state: ['', []],
-    zip: ['', []],
-    isTaxExempt: [false],
-    defaultDiscountRate: [0, [Validators.min(0), Validators.max(1)]],
-    notes: ['']
+  readonly stats = computed(() => {
+    const allClients = this.clients();
+    const taxExempt = allClients.filter(c => c.isTaxExempt).length;
+    const avgDiscount = allClients.length > 0 
+      ? allClients.reduce((sum, c) => sum + c.defaultDiscountRate, 0) / allClients.length 
+      : 0;
+
+    return {
+      totalClients: allClients.length,
+      activeClients: allClients.length, // Could add logic for "active" determination
+      taxExemptCount: taxExempt,
+      avgDiscount,
+    };
   });
 
-  submitting = signal(false);
-  errorMsg = signal<string | null>(null);
-
-  submit() {
-    if (this.form.invalid || this.submitting()) return;
-    this.submitting.set(true);
-    const {
-      name,
-      email,
-      phone,
-      website,
-      street,
-      city,
-      state,
-      zip,
-      isTaxExempt,
-      defaultDiscountRate,
-      notes
-    } = this.form.getRawValue();
-    const clamp = (n: number, min: number, max: number) => Math.min(Math.max(n, min), max);
-    const safeRate = Number.isFinite(defaultDiscountRate) ? clamp(defaultDiscountRate, 0, 1) : 0;
-    const payload: Omit<Client, 'id'> = {
-      name: name.trim(),
-      email: email.trim(),
-      phone: phone.trim(),
-      website: website?.trim() ?? '',
-      street: street?.trim() ?? '',
-      city: city?.trim() ?? '',
-      state: state?.trim() ?? '',
-      zip: zip?.trim() ?? '',
-      isTaxExempt,
-      defaultDiscountRate: safeRate,
-      notes: notes?.trim() ?? ''
+  createClient(value: any) {
+    const client: Omit<Client, 'id'> = {
+      name: value.name,
+      email: value.email,
+      phone: value.phone,
+      website: value.website || '',
+      street: value.street || '',
+      city: value.city || '',
+      state: value.state || '',
+      zip: value.zip || '',
+      isTaxExempt: value.isTaxExempt || false,
+      defaultDiscountRate: value.defaultDiscountRate || 0,
+      notes: value.notes || '',
     };
-    this.svc.create(payload);
-    this.form.reset({
-      name: '',
-      email: '',
-      phone: '',
-      website: '',
-      street: '',
-      city: '',
-      state: '',
-      zip: '',
-      isTaxExempt: false,
-      defaultDiscountRate: 0,
-      notes: ''
-    });
-    // Allow a microtask for async service to push state; then stop submitting
-    queueMicrotask(() => this.submitting.set(false));
+
+    this.clientsService.create(client);
   }
 
-  remove(id: string) {
-    this.svc.delete(id);
+  editClient(client: Client) {
+    console.log('Edit client:', client.id);
+  }
+
+  viewClientJobs(client: Client) {
+    this.router.navigate(['/admin/jobs'], { queryParams: { clientId: client.id } });
+  }
+
+  deleteClient(clientId: string) {
+    this.clientsService.delete(clientId);
+  }
+
+  filterClients(filterType: string) {
+    console.log('Filter clients:', filterType);
+  }
+
+  getActiveClients(): number {
+    return this.clients().length; // Could add logic for determining "active" clients
+  }
+
+  getTaxExemptCount(): number {
+    return this.clients().filter(c => c.isTaxExempt).length;
+  }
+
+  getAvgDiscount(): number {
+    const clients = this.clients();
+    return clients.length > 0 
+      ? clients.reduce((sum, c) => sum + c.defaultDiscountRate, 0) / clients.length 
+      : 0;
+  }
+
+  getRecentClients(): Client[] {
+    return [...this.clients()].slice(0, 10); // Could add date sorting if createdAt field exists
   }
 }

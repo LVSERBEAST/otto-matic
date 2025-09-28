@@ -1,70 +1,183 @@
-<section class="container mx-auto px-4 md:px-8 py-10">
-  <div class="mb-8">
-    <h1 class="text-2xl md:text-3xl font-semibold text-white">Job Management</h1>
-    <p class="text-gray-400">Manage production workflow and job tracking.</p>
-  </div>
-
-  <!-- Stats -->
-  <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
-    <div class="rounded-lg p-6 text-center transition-all duration-300 hover:shadow-lg" style="background: var(--surface-medium); border: 1px solid var(--border-medium);">
-      <div class="text-2xl font-bold mb-1" style="color: var(--text-primary);">{{ stats().total }}</div>
-      <div class="text-xs uppercase tracking-wide" style="color: var(--text-tertiary);">Total Jobs</div>
+﻿<div class="animate-fade-in">
+  <!-- Page Header -->
+  <div class="flex items-center justify-between mb-8">
+    <div>
+      <h1 style="font-size: 32px; font-weight: 700; margin-bottom: 8px;">Job Management</h1>
+      <p class="opacity-75">Manage production workflow and job tracking</p>
     </div>
-    <div class="rounded-lg p-6 text-center transition-all duration-300 hover:shadow-lg" style="background: var(--surface-medium); border: 1px solid var(--border-medium);">
-      <div class="text-2xl font-bold mb-1" style="color: var(--text-primary);">{{ stats().draft }}</div>
-      <div class="text-xs uppercase tracking-wide" style="color: var(--text-tertiary);">Draft</div>
-    </div>
-    <div class="rounded-lg p-6 text-center transition-all duration-300 hover:shadow-lg" style="background: var(--surface-medium); border: 1px solid var(--border-medium);">
-      <div class="text-2xl font-bold mb-1" style="color: var(--text-primary);">{{ stats().approved }}</div>
-      <div class="text-xs uppercase tracking-wide" style="color: var(--text-tertiary);">Ready to Start</div>
-    </div>
-    <div class="rounded-lg p-6 text-center transition-all duration-300 hover:shadow-lg" style="background: var(--surface-medium); border: 1px solid var(--border-medium);">
-      <div class="text-2xl font-bold mb-1" style="color: var(--text-primary);">{{ stats().production }}</div>
-      <div class="text-xs uppercase tracking-wide" style="color: var(--text-tertiary);">In Production</div>
+    <div class="flex gap-3">
+      <button class="btn btn-secondary">
+        <span>📊</span>
+        Export Jobs
+      </button>
+      <button class="btn btn-secondary">
+        <span>📧</span>
+        Update Status
+      </button>
     </div>
   </div>
 
-  @if (error()) {
-    <div class="mb-4 text-sm text-red-300">{{ error() }}</div>
-  }
+  <!-- Quick Stats -->
+  <div class="stats-grid mb-8">
+    <div class="stat-card">
+      <div class="stat-value">{{ jobs().length }}</div>
+      <div class="stat-label">Total Jobs</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-value">{{ getTotalValue() | currency:'USD':'symbol':'1.0-0' }}</div>
+      <div class="stat-label">Total Value</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-value">{{ getDraftCount() }}</div>
+      <div class="stat-label">Draft Jobs</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-value">{{ getAvgJobValue() | currency:'USD':'symbol':'1.0-0' }}</div>
+      <div class="stat-label">Avg Job Value</div>
+    </div>
+  </div>
 
-  <div class="grid md:grid-cols-2 gap-8">
+  <!-- Main Content Grid -->
+  <div class="dashboard-grid">
     <!-- Job Form -->
-    <div class="rounded-lg p-6" style="background: var(--surface-medium); border: 1px solid var(--border-medium);">
-      <h2 class="text-lg font-medium text-white mb-4">Create Job</h2>
-      <app-job-form (submitted)="createJob($event)"></app-job-form>
+    <div class="dashboard-main">
+      <app-job-form (submitted)="createJob($event)" />
     </div>
 
-    <!-- Jobs List -->
-    <div class="rounded-lg p-6" style="background: var(--surface-medium); border: 1px solid var(--border-medium);">
-      <h2 class="text-lg font-medium text-white mb-4">Active Jobs</h2>
-      <div class="divide-y" style="border-color: rgba(255, 255, 255, 0.05);">
-        @for (job of jobs(); track job.id) {
-          <div class="flex items-start justify-between py-4">
-            <div class="flex-1">
-              <div class="text-white font-medium">{{ job.material }}</div>
-              <div class="text-gray-400 text-sm">{{ job.clientName }} • {{ job.finishType }}</div>
-              <div class="text-gray-500 text-xs">{{ job.quantity }} qty • {{ job.stage }}</div>
+    <!-- Recent Jobs Sidebar -->
+    <div class="dashboard-sidebar">
+      <div class="card">
+        <div class="card-header">
+          <h3 class="card-title">Recent Jobs</h3>
+          <div class="card-subtitle">Latest production jobs</div>
+        </div>
+        
+        <div class="flex flex-col gap-3">
+          @for (job of getRecentJobs().slice(0, 8); track job.id) {
+            <div class="quote-card">
+              <div class="quote-client">{{ job.clientName }}</div>
+              <div class="quote-title">{{ job.material }}</div>
+              <div class="quote-details">{{ job.finishType }} • {{ job.quantity }} qty</div>
+              @if (job.size) {
+                <div class="quote-details">{{ job.size }}</div>
+              }
+              <div class="quote-price">{{ job.totalPrice | currency }}</div>
+              
+              <div class="flex items-center justify-between mt-3">
+                <span class="text-xs px-2 py-1 rounded bg-blue-500/20 text-blue-300">
+                  {{ job.stage }}
+                </span>
+                <div class="flex gap-2">
+                  <button class="btn btn-ghost" style="padding: 4px 8px; font-size: 12px;" 
+                          (click)="editJob(job)">
+                    Edit
+                  </button>
+                  <button class="btn btn-primary" style="padding: 4px 8px; font-size: 12px;"
+                          (click)="updateJobStage(job)">
+                    Update Stage
+                  </button>
+                </div>
+              </div>
             </div>
-            <div class="flex items-center gap-2">
-              <button 
-                class="inline-flex items-center gap-2 rounded-lg px-3 py-1 text-xs font-medium transition-all bg-transparent text-gray-300 hover:text-white hover:bg-neutral-800" 
-                (click)="updateJobStage(job, 'Approved')">
-                Approve
-              </button>
-              <button 
-                class="inline-flex items-center gap-2 rounded-lg px-3 py-1 text-xs font-medium transition-all bg-transparent text-gray-200 hover:bg-gray-800 border border-gray-600 hover:border-gray-500" 
-                (click)="deleteJob(job.id)">
-                Delete
-              </button>
+          } @empty {
+            <div class="text-center py-8 opacity-75">
+              <p class="mb-4">No jobs yet</p>
+              <p class="text-sm">Create your first job using the form</p>
             </div>
-          </div>
-        } @empty {
-          <div class="text-gray-400 text-center py-8">
-            No jobs yet.
-          </div>
-        }
+          }
+        </div>
+      </div>
+
+      <!-- Job Templates -->
+      <div class="card mt-6">
+        <div class="card-header">
+          <h3 class="card-title">Quick Templates</h3>
+          <div class="card-subtitle">Common job types</div>
+        </div>
+        
+        <div class="flex flex-col gap-2">
+          <button class="btn btn-ghost w-full justify-start" (click)="loadTemplate('business-cards')">
+            <span>💼</span>
+            Business Cards
+          </button>
+          <button class="btn btn-ghost w-full justify-start" (click)="loadTemplate('invitations')">
+            <span>💌</span>
+            Wedding Invitations
+          </button>
+          <button class="btn btn-ghost w-full justify-start" (click)="loadTemplate('menus')">
+            <span>📄</span>
+            Restaurant Menus
+          </button>
+          <button class="btn btn-ghost w-full justify-start" (click)="loadTemplate('posters')">
+            <span>🎨</span>
+            Posters & Prints
+          </button>
+        </div>
       </div>
     </div>
   </div>
-</section>
+
+  <!-- Detailed Jobs Table -->
+  <div class="card mt-8">
+    <div class="card-header">
+      <h3 class="card-title">All Jobs</h3>
+      <div class="flex gap-2">
+        <button class="btn btn-ghost">Filter by Client</button>
+        <button class="btn btn-ghost">Filter by Stage</button>
+        <button class="btn btn-ghost">Export Selected</button>
+      </div>
+    </div>
+    
+    <div class="overflow-x-auto">
+      <table class="w-full">
+        <thead>
+          <tr class="border-b border-white/10">
+            <th class="text-left p-4 font-medium text-neutral-400">Job ID</th>
+            <th class="text-left p-4 font-medium text-neutral-400">Client</th>
+            <th class="text-left p-4 font-medium text-neutral-400">Material</th>
+            <th class="text-left p-4 font-medium text-neutral-400">Process</th>
+            <th class="text-left p-4 font-medium text-neutral-400">Quantity</th>
+            <th class="text-left p-4 font-medium text-neutral-400">Stage</th>
+            <th class="text-left p-4 font-medium text-neutral-400">Total</th>
+            <th class="text-left p-4 font-medium text-neutral-400">Date</th>
+            <th class="text-left p-4 font-medium text-neutral-400">Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (job of jobs(); track job.id) {
+            <tr class="border-b border-white/5 hover:bg-white/2">
+              <td class="p-4 font-mono text-sm">{{ job.id.substring(0, 8) }}</td>
+              <td class="p-4">{{ job.clientName }}</td>
+              <td class="p-4">{{ job.material }}</td>
+              <td class="p-4">{{ job.finishType }}</td>
+              <td class="p-4">{{ job.quantity }}</td>
+              <td class="p-4">{{ job.stage }}</td>
+              <td class="p-4 font-semibold">{{ job.totalPrice | currency }}</td>
+              <td class="p-4 text-sm text-neutral-400">{{ job.jobDate | date:'shortDate' }}</td>
+              <td class="p-4">
+                <div class="flex gap-2">
+                  <button class="btn btn-ghost btn-sm" (click)="editJob(job)">
+                    Edit
+                  </button>
+                  <button class="btn btn-primary btn-sm" (click)="updateJobStage(job)">
+                    Update Stage
+                  </button>
+                  <button class="btn btn-outline btn-sm" (click)="deleteJob(job.id)">
+                    Delete
+                  </button>
+                </div>
+              </td>
+            </tr>
+          } @empty {
+            <tr>
+              <td colspan="9" class="text-center py-12 text-neutral-400">
+                <p class="mb-4">No jobs found</p>
+                <p class="text-sm">Start by creating your first job above</p>
+              </td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>

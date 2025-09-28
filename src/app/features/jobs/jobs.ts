@@ -1,6 +1,6 @@
-import { ChangeDetectionStrategy, Component, computed, inject } from '@angular/core';
+﻿import { ChangeDetectionStrategy, Component, computed, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { RouterLink } from '@angular/router';
+import { Router } from '@angular/router';
 import { JobsService } from './jobs.service';
 import { JobForm } from './components/job-form/job-form';
 import { Job } from '../../core/models/job.model';
@@ -8,58 +8,89 @@ import { Job } from '../../core/models/job.model';
 @Component({
   selector: 'app-jobs',
   standalone: true,
-  imports: [CommonModule, RouterLink, JobForm],
+  imports: [CommonModule, JobForm],
   changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './jobs.html',
 })
 export class Jobs {
-  private readonly service = inject(JobsService);
+  private readonly jobsService = inject(JobsService);
 
-  readonly jobs = this.service.jobs;
-  readonly error = this.service.error;
+  readonly jobs = this.jobsService.jobs;
 
   readonly stats = computed(() => {
     const allJobs = this.jobs();
+    const totalValue = allJobs.reduce((sum, job) => sum + job.totalPrice, 0);
+
     return {
-      total: allJobs.length,
-      draft: allJobs.filter((j) => j.stage === 'Draft').length,
-      approved: allJobs.filter((j) => j.stage === 'Approved').length,
-      production: allJobs.filter((j) => j.stage === 'Production').length,
-      completed: allJobs.filter((j) => j.stage === 'Sent').length,
+      totalJobs: allJobs.length,
+      totalValue,
+      draftCount: allJobs.filter((j) => j.stage === 'Draft').length,
+      avgJobValue: allJobs.length > 0 ? totalValue / allJobs.length : 0,
     };
   });
 
-  createJob(jobData: any) {
-    // Create job from form data
+  createJob(value: any) {
     const job: Job = {
       id: crypto.randomUUID(),
       jobDate: new Date(),
       stage: 'Draft',
-      jobType: jobData.jobType || 'Other',
-      clientId: jobData.clientId,
-      quoteId: jobData.quoteId || '',
-      clientName: jobData.clientName,
-      material: jobData.material,
-      quantity: jobData.quantity,
-      size: jobData.size || '',
-      finishType: jobData.finishType,
-      totalPrice: jobData.totalPrice || 0,
+      jobType: value.jobType || 'Other',
+      clientId: value.clientId,
+      quoteId: value.quoteId || '',
+      clientName: value.clientName,
+      material: value.material,
+      quantity: value.quantity,
+      size: value.size,
+      finishType: value.finishType,
+      totalPrice: value.totalPrice,
       stock: [],
       subJobs: [],
       tooling: [],
       printProcesses: [],
       productionNotes: '',
-      clientNotes: jobData.notes || '',
+      clientNotes: value.notes,
     };
-    this.service.addJob(job);
+
+    this.jobsService.addJob(job);
   }
 
-  updateJobStage(job: Job, newStage: any) {
-    const updatedJob = { ...job, stage: newStage };
-    this.service.updateJob(updatedJob);
+  editJob(job: Job) {
+    console.log('Edit job:', job.id);
+  }
+
+  updateJobStage(job: Job) {
+    const stages = ['Draft', 'Approved', 'Production', 'Sent'];
+    const currentIndex = stages.indexOf(job.stage);
+    const nextStage = stages[(currentIndex + 1) % stages.length] as any;
+    
+    const updatedJob = { ...job, stage: nextStage };
+    this.jobsService.updateJob(updatedJob);
   }
 
   deleteJob(jobId: string) {
-    this.service.deleteJob(jobId);
+    this.jobsService.deleteJob(jobId);
+  }
+
+  loadTemplate(templateType: string) {
+    console.log('Load template:', templateType);
+  }
+
+  getTotalValue(): number {
+    return this.jobs().reduce((sum, job) => sum + job.totalPrice, 0);
+  }
+
+  getDraftCount(): number {
+    return this.jobs().filter((j) => j.stage === 'Draft').length;
+  }
+
+  getAvgJobValue(): number {
+    const jobs = this.jobs();
+    return jobs.length > 0 ? this.getTotalValue() / jobs.length : 0;
+  }
+
+  getRecentJobs(): Job[] {
+    return [...this.jobs()]
+      .sort((a, b) => new Date(b.jobDate).getTime() - new Date(a.jobDate).getTime())
+      .slice(0, 10);
   }
 }

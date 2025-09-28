@@ -17,6 +17,7 @@ export class JobsService {
   constructor() {
     // Load and stream jobs if Firestore is configured
     this.fb.streamJobs().subscribe((items) => this.jobsSignal.set(items));
+    console.log('jobs', this.jobs());
   }
 
   createJobFromQuote(quote: Quote, jobType: string = 'Other'): Job {
