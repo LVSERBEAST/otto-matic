@@ -11,7 +11,6 @@ import { Job } from '../../core/models/job.model';
   imports: [CommonModule, RouterLink, JobForm],
   changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './jobs.html',
-  styleUrl: './jobs.scss',
 })
 export class Jobs {
   private readonly service = inject(JobsService);

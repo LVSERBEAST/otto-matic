@@ -22,7 +22,6 @@ interface QuoteFormValue {
   imports: [ReactiveFormsModule],
   changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './quote-form.html',
-  styleUrl: './quote-form.scss',
 })
 export class QuoteForm implements OnInit {
   private readonly fb = inject(FormBuilder);

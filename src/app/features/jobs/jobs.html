@@ -6,21 +6,21 @@
 
   <!-- Stats -->
   <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
-    <div class="bg-white/5 border border-white/10 rounded-lg p-6 text-center hover:shadow-lg hover:border-gray-600 transition-all duration-300">
-      <div class="text-2xl font-bold text-white mb-1">{{ stats().total }}</div>
-      <div class="text-xs text-gray-400 uppercase tracking-wide">Total Jobs</div>
+    <div class="rounded-lg p-6 text-center transition-all duration-300 hover:shadow-lg" style="background: var(--surface-medium); border: 1px solid var(--border-medium);">
+      <div class="text-2xl font-bold mb-1" style="color: var(--text-primary);">{{ stats().total }}</div>
+      <div class="text-xs uppercase tracking-wide" style="color: var(--text-tertiary);">Total Jobs</div>
     </div>
-    <div class="bg-white/5 border border-white/10 rounded-lg p-6 text-center hover:shadow-lg hover:border-gray-600 transition-all duration-300">
-      <div class="text-2xl font-bold text-white mb-1">{{ stats().draft }}</div>
-      <div class="text-xs text-gray-400 uppercase tracking-wide">Draft</div>
+    <div class="rounded-lg p-6 text-center transition-all duration-300 hover:shadow-lg" style="background: var(--surface-medium); border: 1px solid var(--border-medium);">
+      <div class="text-2xl font-bold mb-1" style="color: var(--text-primary);">{{ stats().draft }}</div>
+      <div class="text-xs uppercase tracking-wide" style="color: var(--text-tertiary);">Draft</div>
     </div>
-    <div class="bg-white/5 border border-white/10 rounded-lg p-6 text-center hover:shadow-lg hover:border-gray-600 transition-all duration-300">
-      <div class="text-2xl font-bold text-white mb-1">{{ stats().approved }}</div>
-      <div class="text-xs text-gray-400 uppercase tracking-wide">Ready to Start</div>
+    <div class="rounded-lg p-6 text-center transition-all duration-300 hover:shadow-lg" style="background: var(--surface-medium); border: 1px solid var(--border-medium);">
+      <div class="text-2xl font-bold mb-1" style="color: var(--text-primary);">{{ stats().approved }}</div>
+      <div class="text-xs uppercase tracking-wide" style="color: var(--text-tertiary);">Ready to Start</div>
     </div>
-    <div class="bg-white/5 border border-white/10 rounded-lg p-6 text-center hover:shadow-lg hover:border-gray-600 transition-all duration-300">
-      <div class="text-2xl font-bold text-white mb-1">{{ stats().production }}</div>
-      <div class="text-xs text-gray-400 uppercase tracking-wide">In Production</div>
+    <div class="rounded-lg p-6 text-center transition-all duration-300 hover:shadow-lg" style="background: var(--surface-medium); border: 1px solid var(--border-medium);">
+      <div class="text-2xl font-bold mb-1" style="color: var(--text-primary);">{{ stats().production }}</div>
+      <div class="text-xs uppercase tracking-wide" style="color: var(--text-tertiary);">In Production</div>
     </div>
   </div>
 
@@ -30,15 +30,15 @@
 
   <div class="grid md:grid-cols-2 gap-8">
     <!-- Job Form -->
-    <div class="bg-white/5 backdrop-blur-md border border-white/10 rounded-lg p-6">
+    <div class="rounded-lg p-6" style="background: var(--surface-medium); border: 1px solid var(--border-medium);">
       <h2 class="text-lg font-medium text-white mb-4">Create Job</h2>
       <app-job-form (submitted)="createJob($event)"></app-job-form>
     </div>
 
     <!-- Jobs List -->
-    <div class="bg-white/5 backdrop-blur-md border border-white/10 rounded-lg p-6">
+    <div class="rounded-lg p-6" style="background: var(--surface-medium); border: 1px solid var(--border-medium);">
       <h2 class="text-lg font-medium text-white mb-4">Active Jobs</h2>
-      <div class="divide-y divide-white/5">
+      <div class="divide-y" style="border-color: rgba(255, 255, 255, 0.05);">
         @for (job of jobs(); track job.id) {
           <div class="flex items-start justify-between py-4">
             <div class="flex-1">
@@ -48,12 +48,12 @@
             </div>
             <div class="flex items-center gap-2">
               <button 
-                class="inline-flex items-center gap-2 rounded-md px-3 py-1 text-xs font-medium transition-all text-gray-300 hover:text-white hover:bg-white/5" 
+                class="inline-flex items-center gap-2 rounded-lg px-3 py-1 text-xs font-medium transition-all bg-transparent text-gray-300 hover:text-white hover:bg-neutral-800" 
                 (click)="updateJobStage(job, 'Approved')">
                 Approve
               </button>
               <button 
-                class="inline-flex items-center gap-2 rounded-md px-3 py-1 text-xs font-medium transition-all border border-gray-600 text-gray-200 hover:bg-gray-800 hover:border-gray-500" 
+                class="inline-flex items-center gap-2 rounded-lg px-3 py-1 text-xs font-medium transition-all bg-transparent text-gray-200 hover:bg-gray-800 border border-gray-600 hover:border-gray-500" 
                 (click)="deleteJob(job.id)">
                 Delete
               </button>

@@ -16,7 +16,7 @@ import { AuthService } from '../../../core/auth.service';
   imports: [ReactiveFormsModule],
   changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './login-modal.html',
-  styleUrl: './login-modal.scss'})
+})
 export class LoginModal {
   private readonly auth = inject(AuthService);
   private readonly fb = inject(FormBuilder);

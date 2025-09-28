@@ -12,7 +12,7 @@ import { Quote } from '../../core/models/quote.model';
   imports: [CommonModule, QuoteForm],
   changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './quotes.html',
-  styleUrl: './quotes.scss'})
+})
 export class Quotes {
   private readonly quotesService = inject(QuotesService);
   private readonly jobsService = inject(JobsService);

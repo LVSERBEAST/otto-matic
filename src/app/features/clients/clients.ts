@@ -29,7 +29,7 @@ type ClientForm = FormGroup<{
   standalone: true,
   imports: [CommonModule, ReactiveFormsModule],
   templateUrl: './clients.html',
-  styleUrl: './clients.scss',changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class Clients {
   private readonly fb = inject(FormBuilder);
