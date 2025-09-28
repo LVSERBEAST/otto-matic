@@ -170,7 +170,11 @@ export class FirebaseService {
     const ref = collection(db, 'quotes');
     const q = query(ref, orderBy('createdAt', 'desc'));
     return from(getDocs(q)).pipe(
-      map((snap) => snap.docs.map((d: QueryDocumentSnapshot<DocumentData>) => this.convertFirebaseToQuote(d.data()))),
+      map((snap) =>
+        snap.docs.map((d: QueryDocumentSnapshot<DocumentData>) =>
+          this.convertFirebaseToQuote(d.data())
+        )
+      ),
       catchError(() => of([] as Quote[]))
     );
   }

@@ -5,7 +5,7 @@ import {
   computed,
   inject,
   signal,
-  effect
+  effect,
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterLink } from '@angular/router';
@@ -13,7 +13,7 @@ import {
   CdkDragDrop,
   DragDropModule,
   moveItemInArray,
-  transferArrayItem
+  transferArrayItem,
 } from '@angular/cdk/drag-drop';
 import { JobsService } from '../jobs/jobs.service';
 import { ClientsService } from '../clients/clients.service';
@@ -26,7 +26,8 @@ import { Job, JobStage } from '../../core/models/job.model';
   imports: [CommonModule, RouterLink, DragDropModule],
   changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './dashboard.html',
-  styleUrl: './dashboard.scss'})
+  styleUrl: './dashboard.scss',
+})
 export class Dashboard {
   private readonly jobsService = inject(JobsService);
   private readonly clientsService = inject(ClientsService);
@@ -62,7 +63,7 @@ export class Dashboard {
       drafts: this._draftJobs().length,
       approved: this._approvedJobs().length,
       production: this._productionJobs().length,
-      completed: this._completedJobs().length
+      completed: this._completedJobs().length,
     };
   });
 
@@ -134,7 +135,7 @@ export class Dashboard {
       'new-requests': 'Draft',
       'ready-to-start': 'Approved',
       'in-production': 'Production',
-      completed: 'Sent'
+      completed: 'Sent',
     };
     return stageMap[id];
   }

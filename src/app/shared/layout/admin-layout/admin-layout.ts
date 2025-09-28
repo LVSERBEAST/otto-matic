@@ -1,18 +1,17 @@
 import { ChangeDetectionStrategy, Component, computed, inject, signal } from '@angular/core';
-import { Router, NavigationEnd, RouterOutlet, RouterLink, RouterLinkActive } from '@angular/router';
-import { CommonModule, TitleCasePipe } from '@angular/common';
+import { Router, NavigationEnd } from '@angular/router';
+import { CommonModule } from '@angular/common';
 import { filter, map } from 'rxjs/operators';
-import { AuthService } from '../../core/auth.service';
-import { LoginModal } from '../auth/login-modal/login-modal';
+import { AuthService } from '../../../core/auth.service';
 
 @Component({
   selector: 'app-layout',
   standalone: true,
-  imports: [CommonModule, RouterOutlet, RouterLink, RouterLinkActive, LoginModal, TitleCasePipe],
+  imports: [CommonModule],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  templateUrl: './layout.html',
+  templateUrl: './admin-layout.html',
 })
-export class Layout {
+export class AdminLayout {
   private readonly auth = inject(AuthService);
   private readonly router = inject(Router);
 

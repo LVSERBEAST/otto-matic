@@ -46,10 +46,16 @@
               {
                 "glob": "**/*",
                 "input": "public"
-              }
+              },
+                "src/assets"
             ],
             "styles": [
-              "src/styles.css"
+              "src/styles.css",
+              "src/assets/css/ink.css"
+            ],
+            "scripts": [
+              "src/assets/js/jquery-2.1.4.js",
+              "src/assets/js/main.js"
             ]
           },
           "configurations": {

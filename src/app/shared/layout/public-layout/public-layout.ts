@@ -1,30 +1,42 @@
-import { ChangeDetectionStrategy, Component, inject, OnInit, OnDestroy, signal } from '@angular/core';
-import { Router } from '@angular/router';
-import { AuthService } from '../../core/auth.service';
-import { PublicLayout } from "../../shared/layout/public-layout/public-layout";
+import { ChangeDetectionStrategy, Component, inject, signal } from '@angular/core';
+import { NavigationEnd, Router, RouterOutlet } from '@angular/router';
+import { Footer } from '../footer/footer';
+import { Header } from '../header/header';
+import { filter } from 'rxjs';
 
 declare var $: any;
 
 @Component({
-  selector: 'app-landing',
+  selector: 'app-public-layout',
   standalone: true,
-  imports: [PublicLayout],
+  imports: [Header, Footer, RouterOutlet],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  templateUrl: './landing.html',
-  styleUrls: ['./landing.scss'],
+  templateUrl: './public-layout.html',
+  styleUrl: './public-layout.scss',
 })
-export class Landing implements OnInit, OnDestroy {
-  private readonly auth = inject(AuthService);
+export class PublicLayout {
   private readonly router = inject(Router);
 
   readonly showInitialScreen = signal(true);
   readonly showLogoStage = signal(false);
   readonly showEnterButton = signal(false);
   readonly showLandingPage = signal(false);
+  readonly showLayout = signal(false);
+  readonly adjustLogoZ = signal(false);
 
   ngOnInit() {
     this.initializeInkTransition();
     this.startEntrySequence();
+
+    this.router.events.pipe(filter((event) => event instanceof NavigationEnd)).subscribe(() => {
+      const logoStage = document.querySelector('.logo-stage');
+      if (this.router.url !== '/') {
+        logoStage?.classList.add('instant');
+        this.showLogoStage.set(false);
+      } else {
+        this.showLogoStage.set(true);
+      }
+    });
   }
 
   ngOnDestroy() {
@@ -33,6 +45,22 @@ export class Landing implements OnInit, OnDestroy {
       $('.modal-close').off();
       $(window).off('resize.inkAnimation');
     }
+  }
+
+  enterSite() {
+    const logoStage = document.querySelector('.logo-stage') as HTMLElement;
+    if (logoStage) {
+      logoStage.style.backgroundColor = 'transparent';
+    }
+
+    this.triggerInkOut();
+    this.showLayout.set(true);
+
+    setTimeout(() => {
+      this.showEnterButton.set(false);
+      this.showLandingPage.set(true);
+      this.adjustLogoZ.set(true);
+    }, 800);
   }
 
   private startEntrySequence() {
@@ -51,20 +79,6 @@ export class Landing implements OnInit, OnDestroy {
       this.showLogoStage.set(true);
       this.showEnterButton.set(true);
     }, 500);
-  }
-
-  enterSite() {
-    const logoStage = document.querySelector('.logo-stage') as HTMLElement;
-    if (logoStage) {
-      logoStage.style.backgroundColor = 'transparent';
-    }
-    this.triggerInkOut();
-    //this.router.navigate(['/home']);
-
-    setTimeout(() => {
-      this.showEnterButton.set(false);
-      this.showLandingPage.set(true);
-    }, 800);
   }
 
   private triggerInkOut() {

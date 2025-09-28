@@ -1,42 +1,35 @@
 import { Routes } from '@angular/router';
 import { authGuard } from './core/guards/auth.guard';
+import { Clients } from './features/clients/clients';
+import { Dashboard } from './features/dashboard/dashboard';
+import { Jobs } from './features/jobs/jobs';
+import { Landing } from './features/landing/landing';
+import { Quotes } from './features/quotes/quotes';
+import { PublicLayout } from './shared/layout/public-layout/public-layout';
+import { AdminLayout } from './shared/layout/admin-layout/admin-layout';
+import { About } from './features/about/about';
+import { Contact } from './features/contact/contact';
+import { Home } from './features/home/home';
 
 export const routes: Routes = [
   {
     path: '',
-    loadComponent: () => import('./shared/layout/layout').then((m) => m.Layout),
+    component: PublicLayout,
     children: [
-      {
-        path: '',
-        redirectTo: '/landing',
-        pathMatch: 'full',
-      },
-      {
-        path: 'landing',
-        loadComponent: () => import('./features/landing/landing').then((m) => m.Landing),
-      },
-      {
-        path: 'dashboard',
-        loadComponent: () => import('./features/dashboard/dashboard').then((m) => m.Dashboard),
-        canActivate: [authGuard],
-      },
-      {
-        path: 'quotes',
-        loadComponent: () => import('./features/quotes/quotes').then((m) => m.Quotes),
-        canActivate: [authGuard],
-      },
-            {
-        path: 'jobs',
-        loadComponent: () => import('./features/jobs/jobs').then((m) => m.Jobs),
-        canActivate: [authGuard],
-      },
-      {
-        path: 'clients',
-        loadComponent: () => import('./features/clients/clients').then((m) => m.Clients),
-        canActivate: [authGuard],
-      },
-      { path: '**', redirectTo: '/dashboard' },
+      { path: 'about', component: About },
+      { path: 'contact', component: Contact },
+    ],
+  },
+  {
+    path: 'admin',
+    component: AdminLayout,
+    canActivate: [authGuard],
+    children: [
+      { path: '', redirectTo: 'dashboard', pathMatch: 'full' },
+      { path: 'dashboard', component: Dashboard },
+      { path: 'quotes', component: Quotes },
+      { path: 'jobs', component: Jobs },
+      { path: 'clients', component: Clients },
     ],
   },
 ];
-

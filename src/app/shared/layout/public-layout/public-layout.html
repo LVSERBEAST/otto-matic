@@ -1,0 +1,23 @@
+<div class="initial-screen" [class.hidden]="!showInitialScreen()"></div>
+
+<div class="min-h-screen flex flex-col">
+  <app-header [class.visible]="showLayout()" />
+
+  <main class="flex-1 pt-20">
+    <router-outlet />
+    <div class="logo-stage" [class.visible]="showLogoStage()" [class.with-layout]="adjustLogoZ()">
+      <div class="text-center">
+        <img class="logo-large" src="assets/images/ottosplatline2.png" />
+        <button (click)="enterSite()" class="enter-btn" [class.visible]="showEnterButton()">
+          Enter
+        </button>
+      </div>
+    </div>
+  </main>
+
+  <app-footer [class.visible]="showLayout()" />
+</div>
+
+<div class="cd-transition-layer">
+  <div class="bg-layer"></div>
+</div>

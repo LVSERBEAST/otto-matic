@@ -28,7 +28,7 @@ export class Quotes {
       totalQuotes: allQuotes.length,
       totalValue,
       pendingCount: allQuotes.filter((q) => !q.isExported).length,
-      avgQuoteValue: allQuotes.length > 0 ? totalValue / allQuotes.length : 0
+      avgQuoteValue: allQuotes.length > 0 ? totalValue / allQuotes.length : 0,
     };
   });
 
@@ -48,7 +48,7 @@ export class Quotes {
       discountRate: value.discountRate,
       isExported: false,
       subTotal: 0,
-      totalPrice: 0
+      totalPrice: 0,
     };
 
     const calculatedQuote = this.quotesService.calculateQuote(quote);
@@ -85,7 +85,7 @@ export class Quotes {
         pricePerUnit: 0.5,
         size: '3.5 × 2 inches',
         finishType: 'Letterpress',
-        setupFee: 75
+        setupFee: 75,
       },
       invitations: {
         material: 'Crane Lettra 300gsm',
@@ -93,7 +93,7 @@ export class Quotes {
         pricePerUnit: 3.5,
         size: '5 × 7 inches',
         finishType: 'Letterpress + Foil',
-        setupFee: 125
+        setupFee: 125,
       },
       menus: {
         material: 'Cotton Paper 250gsm',
@@ -101,7 +101,7 @@ export class Quotes {
         pricePerUnit: 4.25,
         size: '8.5 × 11 inches',
         finishType: 'Letterpress',
-        setupFee: 85
+        setupFee: 85,
       },
       posters: {
         material: 'Fine Art Paper',
@@ -109,8 +109,8 @@ export class Quotes {
         pricePerUnit: 12.0,
         size: '18 × 24 inches',
         finishType: 'Letterpress',
-        setupFee: 150
-      }
+        setupFee: 150,
+      },
     };
 
     // This would populate the quote form with template values

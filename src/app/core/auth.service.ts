@@ -21,22 +21,6 @@ export class AuthService {
     return role === 'admin' || role === 'dev';
   });
 
-  login(role: 'admin' | 'dev'): void {
-    if (role === 'admin') {
-      // Testing-only path: set an admin user without Firebase.
-      const user: User = {
-        id: crypto.randomUUID(),
-        name: 'Admin User',
-        email: 'admin@example.com',
-        role: 'admin',
-      };
-      this.currentUserSignal.set(user);
-      void this.router.navigate(['/quotes']);
-      return;
-    }
-    this.loginWithGoogle();
-  }
-
   logout(): void {
     this.fb.signOut().subscribe({
       next: () => {
@@ -64,28 +48,13 @@ export class AuthService {
     };
   }
 
-  loginWithGoogle(): void {
-    this.authError.set(null);
-    this.fb.signInWithGoogle().subscribe({
-      next: (u) => {
-        if (u && u.uid) {
-          this.currentUserSignal.set(this.mapFirebaseUser(u));
-          void this.router.navigate(['/quotes']);
-        }
-      },
-      error: (e) => {
-        this.authError.set(this.formatAuthError(e));
-      },
-    });
-  }
-
   loginWithEmailPassword(email: string, password: string): void {
     this.authError.set(null);
     this.fb.signInWithEmailPassword(email, password).subscribe({
       next: (u) => {
         if (u && u.uid) {
           this.currentUserSignal.set(this.mapFirebaseUser(u));
-          void this.router.navigate(['/quotes']);
+          void this.router.navigate(['/admin/dashboard']);
         }
       },
       error: (e) => {

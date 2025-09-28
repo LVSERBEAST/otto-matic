@@ -1,32 +1,45 @@
 @if (open()) {
-<div class="fixed inset-0 z-[100] grid place-items-center p-4">
-  <div class="absolute inset-0 bg-black/60" (click)="onClose()"></div>
+<div class="fixed inset-0 z-[100] grid place-items-center p-4" style="background: rgba(0, 0, 0, 0.7);">
+  <div class="absolute inset-0" (click)="onClose()"></div>
   <div class="relative w-full max-w-md">
-    <div class="card w-full p-6 card-hover max-h-[80vh] overflow-auto">
-      <div class="flex items-start justify-between">
-        <h3 class="text-lg font-semibold text-white">Sign in</h3>
-        <button class="btn btn-ghost p-2 -mr-2" (click)="onClose()" aria-label="Close">✕</button>
+    <div class="w-full p-8 max-h-[80vh] overflow-auto" style="background: var(--surface-medium); border: 1px solid var(--border-medium); border-radius: 16px; box-shadow: var(--shadow-xl);">
+      <div class="flex items-start justify-between mb-6">
+        <h3 class="text-xl font-semibold" style="color: var(--text-primary);">Sign in</h3>
+        <button class="w-8 h-8 rounded-lg flex items-center justify-center transition-all hover:-translate-y-0.5" style="background: var(--surface-elevated); border: 1px solid var(--border-medium); color: var(--text-secondary);" (click)="onClose()" aria-label="Close">✕</button>
       </div>
-      <p class="mt-2 text-sm text-neutral-400">Use your email and password to continue.</p>
-
+      
       @if (error()) {
-      <div class="mt-3 text-sm text-red-400">{{ error() }}</div>
+      <div class="mb-4 text-sm" style="color: var(--brand-danger);">{{ error() }}</div>
       }
 
-      <form class="mt-6 grid gap-4" [formGroup]="form" (ngSubmit)="onSubmit()">
-        <div class="grid gap-2">
-          <label class="label" for="email">Email</label>
-          <input id="email" type="email" class="input" formControlName="email" />
+      <form class="space-y-6" [formGroup]="form" (ngSubmit)="onSubmit()">
+        <div class="space-y-2">
+          <label class="text-sm font-medium" style="color: var(--text-secondary);" for="email">Email</label>
+          <input 
+            id="email" 
+            type="email" 
+            class="w-full rounded-lg px-4 py-3 transition-all duration-200 outline-none"
+            style="background: var(--surface-dark); border: 1px solid var(--border-medium); color: var(--text-primary);"
+            formControlName="email"
+            onFocus="this.style.borderColor='var(--brand-primary)'; this.style.background='var(--surface-elevated)'"
+            onBlur="this.style.borderColor='var(--border-medium)'; this.style.background='var(--surface-dark)'" />
         </div>
-        <div class="grid gap-2">
-          <label class="label" for="password">Password</label>
-          <input id="password" type="password" class="input" formControlName="password" />
+        <div class="space-y-2">
+          <label class="text-sm font-medium" style="color: var(--text-secondary);" for="password">Password</label>
+          <input 
+            id="password" 
+            type="password" 
+            class="w-full rounded-lg px-4 py-3 transition-all duration-200 outline-none"
+            style="background: var(--surface-dark); border: 1px solid var(--border-medium); color: var(--text-primary);"
+            formControlName="password"
+            onFocus="this.style.borderColor='var(--brand-primary)'; this.style.background='var(--surface-elevated)'"
+            onBlur="this.style.borderColor='var(--border-medium)'; this.style.background='var(--surface-dark)'" />
         </div>
         <button
-          class="btn btn-primary w-full"
+          class="w-full inline-flex items-center justify-center gap-2 px-6 py-3 rounded-lg font-medium transition-all hover:-translate-y-0.5 hover:shadow-lg disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:transform-none"
+          style="background: linear-gradient(135deg, var(--brand-primary), var(--brand-secondary)); color: white; box-shadow: var(--shadow-md);"
           type="submit"
-          [disabled]="form.invalid || signingIn()"
-        >
+          [disabled]="form.invalid || signingIn()">
           {{ signingIn() ? 'Signing in…' : 'Sign in' }}
         </button>
       </form>
