@@ -1,22 +1,4 @@
 ﻿<div class="animate-fade-in">
-  <!-- Page Header -->
-  <div class="flex items-center justify-between mb-8">
-    <div>
-      <h1 style="font-size: 32px; font-weight: 700; margin-bottom: 8px;">Client Management</h1>
-      <p class="opacity-75">Manage your client directory and relationships</p>
-    </div>
-    <div class="flex gap-3">
-      <button class="btn btn-secondary">
-        <span>📊</span>
-        Export Clients
-      </button>
-      <button class="btn btn-secondary">
-        <span>📧</span>
-        Email Client
-      </button>
-    </div>
-  </div>
-
   <!-- Quick Stats -->
   <div class="stats-grid mb-8">
     <div class="stat-card">
@@ -34,6 +16,70 @@
     <div class="stat-card">
       <div class="stat-value">{{ getAvgDiscount() | percent:'1.0-1' }}</div>
       <div class="stat-label">Avg Discount Rate</div>
+    </div>
+  </div>
+
+  <!-- Detailed Clients Table -->
+  <div class="card mb-8">
+    <div class="card-header">
+      <h3 class="card-title">All Clients</h3>
+      <div class="flex gap-2">
+        <button class="btn btn-ghost">Filter by Location</button>
+        <button class="btn btn-ghost">Filter by Status</button>
+        <button class="btn btn-ghost">Export Selected</button>
+      </div>
+    </div>
+    
+    <div class="overflow-x-auto">
+      <table class="w-full">
+        <thead>
+          <tr class="border-b border-white/10">
+            <th class="text-left p-4 font-medium text-neutral-400">Name</th>
+            <th class="text-left p-4 font-medium text-neutral-400">Email</th>
+            <th class="text-left p-4 font-medium text-neutral-400">Phone</th>
+            <th class="text-left p-4 font-medium text-neutral-400">Location</th>
+            <th class="text-left p-4 font-medium text-neutral-400">Tax Status</th>
+            <th class="text-left p-4 font-medium text-neutral-400">Discount</th>
+            <th class="text-left p-4 font-medium text-neutral-400">Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (client of clients(); track client.id) {
+            <tr class="border-b border-white/5 hover:bg-white/2">
+              <td class="p-4">{{ client.name }}</td>
+              <td class="p-4">{{ client.email }}</td>
+              <td class="p-4">{{ client.phone }}</td>
+              <td class="p-4">{{ client.city }}, {{ client.state }}</td>
+              <td class="p-4">
+                <span class="text-xs px-2 py-1 rounded" [class]="client.isTaxExempt ? 'bg-green-500/20 text-green-300' : 'bg-blue-500/20 text-blue-300'">
+                  {{ client.isTaxExempt ? 'Tax Exempt' : 'Taxable' }}
+                </span>
+              </td>
+              <td class="p-4">{{ client.defaultDiscountRate | percent:'1.0-1' }}</td>
+              <td class="p-4">
+                <div class="flex gap-2">
+                  <button class="btn btn-ghost btn-sm" (click)="editClient(client)">
+                    Edit
+                  </button>
+                  <button class="btn btn-primary btn-sm" (click)="viewClientJobs(client)">
+                    View Jobs
+                  </button>
+                  <button class="btn btn-outline btn-sm" (click)="deleteClient(client.id)">
+                    Delete
+                  </button>
+                </div>
+              </td>
+            </tr>
+          } @empty {
+            <tr>
+              <td colspan="7" class="text-center py-12 text-neutral-400">
+                <p class="mb-4">No clients found</p>
+                <p class="text-sm">Start by adding your first client above</p>
+              </td>
+            </tr>
+          }
+        </tbody>
+      </table>
     </div>
   </div>
 
@@ -114,70 +160,6 @@
           </button>
         </div>
       </div>
-    </div>
-  </div>
-
-  <!-- Detailed Clients Table -->
-  <div class="card mt-8">
-    <div class="card-header">
-      <h3 class="card-title">All Clients</h3>
-      <div class="flex gap-2">
-        <button class="btn btn-ghost">Filter by Location</button>
-        <button class="btn btn-ghost">Filter by Status</button>
-        <button class="btn btn-ghost">Export Selected</button>
-      </div>
-    </div>
-    
-    <div class="overflow-x-auto">
-      <table class="w-full">
-        <thead>
-          <tr class="border-b border-white/10">
-            <th class="text-left p-4 font-medium text-neutral-400">Name</th>
-            <th class="text-left p-4 font-medium text-neutral-400">Email</th>
-            <th class="text-left p-4 font-medium text-neutral-400">Phone</th>
-            <th class="text-left p-4 font-medium text-neutral-400">Location</th>
-            <th class="text-left p-4 font-medium text-neutral-400">Tax Status</th>
-            <th class="text-left p-4 font-medium text-neutral-400">Discount</th>
-            <th class="text-left p-4 font-medium text-neutral-400">Actions</th>
-          </tr>
-        </thead>
-        <tbody>
-          @for (client of clients(); track client.id) {
-            <tr class="border-b border-white/5 hover:bg-white/2">
-              <td class="p-4">{{ client.name }}</td>
-              <td class="p-4">{{ client.email }}</td>
-              <td class="p-4">{{ client.phone }}</td>
-              <td class="p-4">{{ client.city }}, {{ client.state }}</td>
-              <td class="p-4">
-                <span class="text-xs px-2 py-1 rounded" [class]="client.isTaxExempt ? 'bg-green-500/20 text-green-300' : 'bg-blue-500/20 text-blue-300'">
-                  {{ client.isTaxExempt ? 'Tax Exempt' : 'Taxable' }}
-                </span>
-              </td>
-              <td class="p-4">{{ client.defaultDiscountRate | percent:'1.0-1' }}</td>
-              <td class="p-4">
-                <div class="flex gap-2">
-                  <button class="btn btn-ghost btn-sm" (click)="editClient(client)">
-                    Edit
-                  </button>
-                  <button class="btn btn-primary btn-sm" (click)="viewClientJobs(client)">
-                    View Jobs
-                  </button>
-                  <button class="btn btn-outline btn-sm" (click)="deleteClient(client.id)">
-                    Delete
-                  </button>
-                </div>
-              </td>
-            </tr>
-          } @empty {
-            <tr>
-              <td colspan="7" class="text-center py-12 text-neutral-400">
-                <p class="mb-4">No clients found</p>
-                <p class="text-sm">Start by adding your first client above</p>
-              </td>
-            </tr>
-          }
-        </tbody>
-      </table>
     </div>
   </div>
 </div>

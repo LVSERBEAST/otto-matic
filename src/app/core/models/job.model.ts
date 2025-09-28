@@ -46,7 +46,7 @@ export interface Job {
 
   // References
   clientId: string;
-  quoteId: string;
+  quoteIds: string[];
 
   // Derived from Quote (for display convenience)
   clientName: string;
@@ -70,4 +70,6 @@ export interface Job {
   quoteDeadline?: Date;
   productionDeadline?: Date;
   deliveryDeadline?: Date;
+
+  hasQuote?: boolean;
 }

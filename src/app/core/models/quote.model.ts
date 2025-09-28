@@ -3,6 +3,9 @@ export interface Quote {
   quoteId: string;
   quoteDate: Date;
 
+  // Job Details
+  jobId: string;
+
   // Client Details
   clientId: string;
   clientName: string;

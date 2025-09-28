@@ -1,22 +1,4 @@
 <div class="animate-fade-in">
-  <!-- Page Header -->
-  <div class="flex items-center justify-between mb-8">
-    <div>
-      <h1 style="font-size: 32px; font-weight: 700; margin-bottom: 8px;">Quote Management</h1>
-      <p class="opacity-75">Create and manage client quotes and pricing</p>
-    </div>
-    <div class="flex gap-3">
-      <button class="btn btn-secondary">
-        <span>📊</span>
-        Export Quotes
-      </button>
-      <button class="btn btn-secondary">
-        <span>📧</span>
-        Email Quote
-      </button>
-    </div>
-  </div>
-
   <!-- Quick Stats -->
   <div class="stats-grid mb-8">
     <div class="stat-card">
@@ -24,7 +6,7 @@
       <div class="stat-label">Total Quotes</div>
     </div>
     <div class="stat-card">
-      <div class="stat-value">{{ getTotalValue() | currency:'USD':'symbol':'1.0-0' }}</div>
+      <div class="stat-value">{{ getTotalValue() | currency : 'USD' : 'symbol' : '1.0-0' }}</div>
       <div class="stat-label">Total Value</div>
     </div>
     <div class="stat-card">
@@ -32,8 +14,68 @@
       <div class="stat-label">Pending Quotes</div>
     </div>
     <div class="stat-card">
-      <div class="stat-value">{{ getAvgQuoteValue() | currency:'USD':'symbol':'1.0-0' }}</div>
+      <div class="stat-value">{{ getAvgQuoteValue() | currency : 'USD' : 'symbol' : '1.0-0' }}</div>
       <div class="stat-label">Avg Quote Value</div>
+    </div>
+  </div>
+
+  <!-- Detailed Quotes Table -->
+  <div class="card mb-8">
+    <div class="card-header">
+      <h3 class="card-title">All Quotes</h3>
+      <div class="flex gap-2">
+        <button class="btn btn-ghost">Filter by Client</button>
+        <button class="btn btn-ghost">Filter by Date</button>
+        <button class="btn btn-ghost">Export Selected</button>
+      </div>
+    </div>
+
+    <div class="overflow-x-auto">
+      <table class="w-full">
+        <thead>
+          <tr class="border-b border-white/10">
+            <th class="text-left p-4 font-medium text-neutral-400">Quote ID</th>
+            <th class="text-left p-4 font-medium text-neutral-400">Client</th>
+            <th class="text-left p-4 font-medium text-neutral-400">Material</th>
+            <th class="text-left p-4 font-medium text-neutral-400">Process</th>
+            <th class="text-left p-4 font-medium text-neutral-400">Quantity</th>
+            <th class="text-left p-4 font-medium text-neutral-400">Total</th>
+            <th class="text-left p-4 font-medium text-neutral-400">Date</th>
+            <th class="text-left p-4 font-medium text-neutral-400">Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (quote of quotes(); track quote.quoteId) {
+          <tr class="border-b border-white/5 hover:bg-white/2">
+            <td class="p-4 font-mono text-sm">{{ quote.quoteId.substring(0, 8) }}</td>
+            <td class="p-4">{{ quote.clientName }}</td>
+            <td class="p-4">{{ quote.material }}</td>
+            <td class="p-4">{{ quote.finishType }}</td>
+            <td class="p-4">{{ quote.quantity }}</td>
+            <td class="p-4 font-semibold">{{ quote.totalPrice | currency }}</td>
+            <td class="p-4 text-sm text-neutral-400">{{ quote.quoteDate }}</td>
+            <td class="p-4">
+              <div class="flex gap-2">
+                <button class="btn btn-ghost btn-sm" (click)="editQuote(quote)">Edit</button>
+                <button class="btn btn-primary btn-sm" (click)="convertToJob(quote)">
+                  Create Job
+                </button>
+                <button class="btn btn-outline btn-sm" (click)="deleteQuote(quote.quoteId)">
+                  Delete
+                </button>
+              </div>
+            </td>
+          </tr>
+          } @empty {
+          <tr>
+            <td colspan="8" class="text-center py-12 text-neutral-400">
+              <p class="mb-4">No quotes found</p>
+              <p class="text-sm">Start by creating your first quote above</p>
+            </td>
+          </tr>
+          }
+        </tbody>
+      </table>
     </div>
   </div>
 
@@ -51,39 +93,43 @@
           <h3 class="card-title">Recent Quotes</h3>
           <div class="card-subtitle">Latest pricing requests</div>
         </div>
-        
+
         <div class="flex flex-col gap-3">
           @for (quote of getRecentQuotes().slice(0, 8); track quote.quoteId) {
-            <div class="quote-card">
-              <div class="quote-client">{{ quote.clientName }}</div>
-              <div class="quote-title">{{ quote.material }}</div>
-              <div class="quote-details">{{ quote.finishType }} • {{ quote.quantity }} qty</div>
-              @if (quote.size) {
-                <div class="quote-details">{{ quote.size }}</div>
-              }
-              <div class="quote-price">{{ quote.totalPrice | currency }}</div>
-              
-              <div class="flex items-center justify-between mt-3">
-                <span class="text-xs px-2 py-1 rounded bg-amber-500/20 text-amber-300">
-                  Quoted
-                </span>
-                <div class="flex gap-2">
-                  <button class="btn btn-ghost" style="padding: 4px 8px; font-size: 12px;" 
-                          (click)="editQuote(quote)">
-                    Edit
-                  </button>
-                  <button class="btn btn-primary" style="padding: 4px 8px; font-size: 12px;"
-                          (click)="convertToJob(quote)">
-                    Create Job
-                  </button>
-                </div>
+          <div class="quote-card">
+            <div class="quote-client">{{ quote.clientName }}</div>
+            <div class="quote-title">{{ quote.material }}</div>
+            <div class="quote-details">{{ quote.finishType }} • {{ quote.quantity }} qty</div>
+            @if (quote.size) {
+            <div class="quote-details">{{ quote.size }}</div>
+            }
+            <div class="quote-price">{{ quote.totalPrice | currency }}</div>
+
+            <div class="flex items-center justify-between mt-3">
+              <span class="text-xs px-2 py-1 rounded bg-amber-500/20 text-amber-300"> Quoted </span>
+              <div class="flex gap-2">
+                <button
+                  class="btn btn-ghost"
+                  style="padding: 4px 8px; font-size: 12px"
+                  (click)="editQuote(quote)"
+                >
+                  Edit
+                </button>
+                <button
+                  class="btn btn-primary"
+                  style="padding: 4px 8px; font-size: 12px"
+                  (click)="convertToJob(quote)"
+                >
+                  Create Job
+                </button>
               </div>
             </div>
+          </div>
           } @empty {
-            <div class="text-center py-8 opacity-75">
-              <p class="mb-4">No quotes yet</p>
-              <p class="text-sm">Create your first quote using the form</p>
-            </div>
+          <div class="text-center py-8 opacity-75">
+            <p class="mb-4">No quotes yet</p>
+            <p class="text-sm">Create your first quote using the form</p>
+          </div>
           }
         </div>
       </div>
@@ -94,9 +140,12 @@
           <h3 class="card-title">Quick Templates</h3>
           <div class="card-subtitle">Common quote types</div>
         </div>
-        
+
         <div class="flex flex-col gap-2">
-          <button class="btn btn-ghost w-full justify-start" (click)="loadTemplate('business-cards')">
+          <button
+            class="btn btn-ghost w-full justify-start"
+            (click)="loadTemplate('business-cards')"
+          >
             <span>💼</span>
             Business Cards
           </button>
@@ -114,68 +163,6 @@
           </button>
         </div>
       </div>
-    </div>
-  </div>
-
-  <!-- Detailed Quotes Table -->
-  <div class="card mt-8">
-    <div class="card-header">
-      <h3 class="card-title">All Quotes</h3>
-      <div class="flex gap-2">
-        <button class="btn btn-ghost">Filter by Client</button>
-        <button class="btn btn-ghost">Filter by Date</button>
-        <button class="btn btn-ghost">Export Selected</button>
-      </div>
-    </div>
-    
-    <div class="overflow-x-auto">
-      <table class="w-full">
-        <thead>
-          <tr class="border-b border-white/10">
-            <th class="text-left p-4 font-medium text-neutral-400">Quote ID</th>
-            <th class="text-left p-4 font-medium text-neutral-400">Client</th>
-            <th class="text-left p-4 font-medium text-neutral-400">Material</th>
-            <th class="text-left p-4 font-medium text-neutral-400">Process</th>
-            <th class="text-left p-4 font-medium text-neutral-400">Quantity</th>
-            <th class="text-left p-4 font-medium text-neutral-400">Total</th>
-            <th class="text-left p-4 font-medium text-neutral-400">Date</th>
-            <th class="text-left p-4 font-medium text-neutral-400">Actions</th>
-          </tr>
-        </thead>
-        <tbody>
-          @for (quote of quotes(); track quote.quoteId) {
-            <tr class="border-b border-white/5 hover:bg-white/2">
-              <td class="p-4 font-mono text-sm">{{ quote.quoteId.substring(0, 8) }}</td>
-              <td class="p-4">{{ quote.clientName }}</td>
-              <td class="p-4">{{ quote.material }}</td>
-              <td class="p-4">{{ quote.finishType }}</td>
-              <td class="p-4">{{ quote.quantity }}</td>
-              <td class="p-4 font-semibold">{{ quote.totalPrice | currency }}</td>
-              <td class="p-4 text-sm text-neutral-400">{{ quote.quoteDate | date:'shortDate' }}</td>
-              <td class="p-4">
-                <div class="flex gap-2">
-                  <button class="btn btn-ghost btn-sm" (click)="editQuote(quote)">
-                    Edit
-                  </button>
-                  <button class="btn btn-primary btn-sm" (click)="convertToJob(quote)">
-                    Create Job
-                  </button>
-                  <button class="btn btn-outline btn-sm" (click)="deleteQuote(quote.quoteId)">
-                    Delete
-                  </button>
-                </div>
-              </td>
-            </tr>
-          } @empty {
-            <tr>
-              <td colspan="8" class="text-center py-12 text-neutral-400">
-                <p class="mb-4">No quotes found</p>
-                <p class="text-sm">Start by creating your first quote above</p>
-              </td>
-            </tr>
-          }
-        </tbody>
-      </table>
     </div>
   </div>
 </div>

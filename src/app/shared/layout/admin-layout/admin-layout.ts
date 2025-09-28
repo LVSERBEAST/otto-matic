@@ -1,51 +1,38 @@
-import { ChangeDetectionStrategy, Component, computed, inject, signal } from '@angular/core';
-import { Router, NavigationEnd, RouterOutlet, RouterLink } from '@angular/router';
+import { ChangeDetectionStrategy, Component, inject, signal } from '@angular/core';
+import { RouterOutlet, RouterLink, Router, RouterLinkActive } from '@angular/router';
 import { CommonModule } from '@angular/common';
-import { filter, map } from 'rxjs/operators';
 import { AuthService } from '../../../core/auth.service';
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+import {
+  faGaugeHigh,
+  faPrint,
+  faCalculator,
+  faAddressBook,
+} from '@fortawesome/free-solid-svg-icons';
 
 @Component({
   selector: 'app-layout',
   standalone: true,
-  imports: [CommonModule, RouterLink, RouterOutlet],
+  imports: [CommonModule, RouterLink, RouterOutlet, RouterLinkActive, FontAwesomeModule],
   changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './admin-layout.html',
 })
 export class AdminLayout {
   private readonly auth = inject(AuthService);
-  // private readonly router = inject(Router);
+  readonly showActions = signal(false);
 
-  // readonly isLoggedIn = this.auth.isLoggedIn;
-  // readonly userRole = computed(() => this.auth.user()?.role ?? 'guest');
+  faGaugeHigh = faGaugeHigh;
+  faPrint = faPrint;
+  faCalculator = faCalculator;
+  faAddressBook = faAddressBook;
 
-  // // Modal state
-  // readonly openLogin = signal(false);
-  // readonly requestedRole = signal<'admin' | 'dev' | undefined>(undefined);
+  constructor(private router: Router) {
+    console.log('Current route:', this.router.url);
+  }
 
-  // // Current route for header title
-  // readonly currentRoute = signal('/dashboard');
-  // readonly showActions = signal(false);
-
-  // toggleActions() {
-  //   this.showActions.update((current) => !current);
-  // }
-
-  // constructor() {
-  //   // Track current route
-  //   this.router.events
-  //     .pipe(
-  //       filter((event) => event instanceof NavigationEnd),
-  //       map((event) => (event as NavigationEnd).url)
-  //     )
-  //     .subscribe((url) => {
-  //       this.currentRoute.set(url);
-  //     });
-  // }
-
-  // openModal(role: 'admin' | 'dev') {
-  //   this.requestedRole.set(role);
-  //   this.openLogin.set(true);
-  // }
+  toggleActions() {
+    this.showActions.update((current) => !current);
+  }
 
   logout() {
     this.auth.logout();

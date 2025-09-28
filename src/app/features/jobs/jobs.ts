@@ -1,9 +1,9 @@
 ﻿import { ChangeDetectionStrategy, Component, computed, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { Router } from '@angular/router';
 import { JobsService } from './jobs.service';
 import { JobForm } from './components/job-form/job-form';
 import { Job } from '../../core/models/job.model';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-jobs',
@@ -13,6 +13,7 @@ import { Job } from '../../core/models/job.model';
   templateUrl: './jobs.html',
 })
 export class Jobs {
+  private readonly router = inject(Router);
   private readonly jobsService = inject(JobsService);
 
   readonly jobs = this.jobsService.jobs;
@@ -36,7 +37,7 @@ export class Jobs {
       stage: 'Draft',
       jobType: value.jobType || 'Other',
       clientId: value.clientId,
-      quoteId: value.quoteId || '',
+      quoteIds: [value.quoteId],
       clientName: value.clientName,
       material: value.material,
       quantity: value.quantity,
@@ -62,7 +63,7 @@ export class Jobs {
     const stages = ['Draft', 'Approved', 'Production', 'Sent'];
     const currentIndex = stages.indexOf(job.stage);
     const nextStage = stages[(currentIndex + 1) % stages.length] as any;
-    
+
     const updatedJob = { ...job, stage: nextStage };
     this.jobsService.updateJob(updatedJob);
   }
@@ -92,5 +93,11 @@ export class Jobs {
     return [...this.jobs()]
       .sort((a, b) => new Date(b.jobDate).getTime() - new Date(a.jobDate).getTime())
       .slice(0, 10);
+  }
+
+  createQuoteFromJob(job: Job) {
+    this.router.navigate(['/admin/quotes'], {
+      queryParams: { fromJob: job.id, clientId: job.clientId },
+    });
   }
 }

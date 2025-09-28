@@ -72,7 +72,7 @@ export class QuotesService {
       stage: 'Draft',
       jobType: jobType as any,
       clientId: quote.clientId,
-      quoteId: quote.quoteId,
+      quoteIds: [quote.quoteId],
       clientName: quote.clientName,
       material: quote.material,
       quantity: quote.quantity,

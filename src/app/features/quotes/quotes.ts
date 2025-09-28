@@ -35,6 +35,7 @@ export class Quotes {
   createQuote(value: any) {
     const quote: Quote = {
       quoteId: crypto.randomUUID(),
+      jobId: value.jobId,
       quoteDate: new Date(),
       clientId: value.clientId,
       clientName: value.clientName,

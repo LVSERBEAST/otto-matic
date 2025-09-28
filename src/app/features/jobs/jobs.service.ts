@@ -3,10 +3,12 @@ import { FirebaseService } from '../../core/firebase.service';
 import { Job, JobStage } from '../../core/models/job.model';
 import { Quote } from '../../core/models/quote.model';
 import { take } from 'rxjs';
+import { QuotesService } from '../quotes/quotes.service';
 
 @Injectable({ providedIn: 'root' })
 export class JobsService {
   private readonly fb = inject(FirebaseService);
+  private readonly quotesService = inject(QuotesService);
 
   private readonly jobsSignal = signal<ReadonlyArray<Job>>([]);
   readonly jobs = computed(() => this.jobsSignal());
@@ -15,9 +17,18 @@ export class JobsService {
   readonly error = computed(() => this.errorSignal());
 
   constructor() {
-    // Load and stream jobs if Firestore is configured
-    this.fb.streamJobs().subscribe((items) => this.jobsSignal.set(items));
-    console.log('jobs', this.jobs());
+    this.fb.streamJobs().subscribe((items) => {
+      const quotes = this.quotesService.quotes();
+
+      const jobsMapped = items.map((job) => ({
+        ...job,
+        hasQuote: quotes.some((quote) => quote.jobId === job.id),
+      }));
+
+      console.log('jobsMapped', jobsMapped);
+
+      this.jobsSignal.set(jobsMapped);
+    });
   }
 
   createJobFromQuote(quote: Quote, jobType: string = 'Other'): Job {
@@ -27,7 +38,7 @@ export class JobsService {
       stage: 'Draft',
       jobType: jobType as any,
       clientId: quote.clientId,
-      quoteId: quote.quoteId,
+      quoteIds: [quote.quoteId],
       clientName: quote.clientName,
       material: quote.material,
       quantity: quote.quantity,
