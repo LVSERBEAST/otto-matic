@@ -27,19 +27,19 @@
     @if (!statsCollapsed()) {
     <div class="mt-3 stats-grid">
       <div class="stat-card">
-        <div class="stat-value">{{ clients().length }}</div>
+        <div class="stat-value">{{ stats().totalClients }}</div>
         <div class="stat-label">Total Clients</div>
       </div>
       <div class="stat-card">
-        <div class="stat-value">{{ getActiveClients() }}</div>
+        <div class="stat-value">{{ stats().activeClients }}</div>
         <div class="stat-label">Active Clients</div>
       </div>
       <div class="stat-card">
-        <div class="stat-value">{{ getTaxExemptCount() }}</div>
+        <div class="stat-value">{{ stats().taxExemptCount }}</div>
         <div class="stat-label">Tax Exempt</div>
       </div>
       <div class="stat-card">
-        <div class="stat-value">{{ getAvgDiscount() | percent : '1.0-1' }}</div>
+        <div class="stat-value">{{ stats().avgDiscountRate | percent : '1.0-1' }}</div>
         <div class="stat-label">Avg Discount Rate</div>
       </div>
     </div>

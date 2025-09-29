@@ -27,19 +27,19 @@
     @if (!statsCollapsed()) {
     <div class="mt-3 stats-grid">
       <div class="stat-card">
-        <div class="stat-value">{{ jobs().length }}</div>
+        <div class="stat-value">{{ stats().totalJobs }}</div>
         <div class="stat-label">Total Jobs</div>
       </div>
       <div class="stat-card">
-        <div class="stat-value">{{ getTotalValue() | currency : 'USD' : 'symbol' : '1.0-0' }}</div>
+        <div class="stat-value">{{ stats().totalValue | currency : 'USD' : 'symbol' : '1.0-0' }}</div>
         <div class="stat-label">Total Value</div>
       </div>
       <div class="stat-card">
-        <div class="stat-value">{{ getDraftCount() }}</div>
+        <div class="stat-value">{{ stats().draftCount }}</div>
         <div class="stat-label">Draft Jobs</div>
       </div>
       <div class="stat-card">
-        <div class="stat-value">{{ getAvgJobValue() | currency : 'USD' : 'symbol' : '1.0-0' }}</div>
+        <div class="stat-value">{{ stats().avgJobValue | currency : 'USD' : 'symbol' : '1.0-0' }}</div>
         <div class="stat-label">Avg Job Value</div>
       </div>
     </div>

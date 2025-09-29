@@ -20,6 +20,7 @@ import {
 })
 export class AdminLayout {
   private readonly auth = inject(AuthService);
+  private readonly router = inject(Router);
   readonly showActions = signal(false);
 
   faGaugeHigh = faGaugeHigh;
@@ -27,10 +28,6 @@ export class AdminLayout {
   faCalculator = faCalculator;
   faAddressBook = faAddressBook;
   faEnvelope = faEnvelope;
-
-  constructor(private router: Router) {
-    console.log('Current route:', this.router.url);
-  }
 
   toggleActions() {
     this.showActions.update((current) => !current);

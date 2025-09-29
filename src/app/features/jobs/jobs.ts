@@ -1,9 +1,10 @@
-import { ChangeDetectionStrategy, Component, computed, inject, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { Router } from '@angular/router';
 import { JobsService } from './jobs.service';
 import { JobForm } from './components/job-form/job-form';
 import { Job } from '../../core/models/job.model';
-import { Router } from '@angular/router';
+import { StatsService } from '../../core/services/stats.service';
 
 @Component({
   selector: 'app-jobs',
@@ -15,21 +16,11 @@ import { Router } from '@angular/router';
 export class Jobs {
   private readonly router = inject(Router);
   private readonly jobsService = inject(JobsService);
+  private readonly statsService = inject(StatsService);
 
   readonly jobs = this.jobsService.jobs;
-
   readonly statsCollapsed = signal(false);
-  readonly stats = computed(() => {
-    const allJobs = this.jobs();
-    const totalValue = allJobs.reduce((sum, job) => sum + job.totalPrice, 0);
-
-    return {
-      totalJobs: allJobs.length,
-      totalValue,
-      draftCount: allJobs.filter((j) => j.stage === 'Draft').length,
-      avgJobValue: allJobs.length > 0 ? totalValue / allJobs.length : 0,
-    };
-  });
+  readonly stats = this.statsService.createReactiveJobStats(this.jobs);
 
   createJob(value: any) {
     const job: Job = {
@@ -76,19 +67,6 @@ export class Jobs {
 
   loadTemplate(templateType: string) {
     console.log('Load template:', templateType);
-  }
-
-  getTotalValue(): number {
-    return this.jobs().reduce((sum, job) => sum + job.totalPrice, 0);
-  }
-
-  getDraftCount(): number {
-    return this.jobs().filter((j) => j.stage === 'Draft').length;
-  }
-
-  getAvgJobValue(): number {
-    const jobs = this.jobs();
-    return jobs.length > 0 ? this.getTotalValue() / jobs.length : 0;
   }
 
   getRecentJobs(): Job[] {

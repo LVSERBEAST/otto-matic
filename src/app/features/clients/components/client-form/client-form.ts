@@ -1,5 +1,6 @@
-﻿import { ChangeDetectionStrategy, Component, OnInit, inject, output, signal } from '@angular/core';
-import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
+﻿import { ChangeDetectionStrategy, Component, output } from '@angular/core';
+import { ReactiveFormsModule, Validators } from '@angular/forms';
+import { BaseFormComponent } from '../../../../shared/components/base-form/base-form.component';
 
 interface ClientFormValue {
   name: string;
@@ -22,9 +23,7 @@ interface ClientFormValue {
   changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './client-form.html',
 })
-export class ClientForm implements OnInit {
-  private readonly fb = inject(FormBuilder);
-
+export class ClientForm extends BaseFormComponent<ClientFormValue> {
   readonly form = this.fb.nonNullable.group({
     name: this.fb.nonNullable.control<string>('', { validators: [Validators.required] }),
     email: this.fb.nonNullable.control<string>('', { validators: [Validators.required, Validators.email] }),
@@ -40,18 +39,6 @@ export class ClientForm implements OnInit {
     }),
     notes: this.fb.nonNullable.control<string>(''),
   });
-
-  readonly submitted = output<ClientFormValue>();
-
-  ngOnInit(): void {}
-
-  onSubmit() {
-    if (this.form.invalid) return;
-
-    const formValue = this.form.getRawValue();
-    this.submitted.emit(formValue);
-    this.resetForm();
-  }
 
   resetForm() {
     this.form.reset({

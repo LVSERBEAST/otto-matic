@@ -1,7 +1,8 @@
-import { ChangeDetectionStrategy, Component, OnInit, inject, output, signal } from '@angular/core';
-import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
+import { ChangeDetectionStrategy, Component, inject, signal } from '@angular/core';
+import { ReactiveFormsModule, Validators } from '@angular/forms';
 import { FirebaseService } from '../../../../core/firebase.service';
 import { Client } from '../../../../core/models/client.model';
+import { BaseFormComponent } from '../../../../shared/components/base-form/base-form.component';
 
 interface QuoteFormValue {
   clientId: string;
@@ -23,8 +24,7 @@ interface QuoteFormValue {
   changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './quote-form.html',
 })
-export class QuoteForm implements OnInit {
-  private readonly fb = inject(FormBuilder);
+export class QuoteForm extends BaseFormComponent<QuoteFormValue> {
   private readonly firebase = inject(FirebaseService);
 
   readonly clients = signal<ReadonlyArray<Client>>([]);
@@ -49,9 +49,8 @@ export class QuoteForm implements OnInit {
     }),
   });
 
-  readonly submitted = output<QuoteFormValue>();
-
-  ngOnInit(): void {
+  constructor() {
+    super();
     this.firebase.fetchClients().subscribe((list) => this.clients.set(list));
 
     // Update clientName when clientId changes
@@ -59,14 +58,6 @@ export class QuoteForm implements OnInit {
       const match = this.clients().find((c) => c.id === id);
       this.form.controls.clientName.setValue(match?.name ?? '', { emitEvent: false });
     });
-  }
-
-  onSubmit() {
-    if (this.form.invalid) return;
-
-    const formValue = this.form.getRawValue();
-    this.submitted.emit(formValue);
-    this.resetForm();
   }
 
   resetForm() {

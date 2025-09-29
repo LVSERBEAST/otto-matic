@@ -1,9 +1,10 @@
-import { ChangeDetectionStrategy, Component, computed, inject, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
 import { ClientsService } from './clients.service';
 import { ClientForm } from './components/client-form/client-form';
 import { Client } from '../../core/models/client.model';
+import { StatsService } from '../../core/services/stats.service';
 
 @Component({
   selector: 'app-clients',
@@ -14,26 +15,13 @@ import { Client } from '../../core/models/client.model';
 })
 export class Clients {
   private readonly clientsService = inject(ClientsService);
+  private readonly statsService = inject(StatsService);
   private readonly router = inject(Router);
 
   readonly clients = this.clientsService.clients;
   readonly error = this.clientsService.error;
-
   readonly statsCollapsed = signal(false);
-  readonly stats = computed(() => {
-    const allClients = this.clients();
-    const taxExempt = allClients.filter(c => c.isTaxExempt).length;
-    const avgDiscount = allClients.length > 0 
-      ? allClients.reduce((sum, c) => sum + c.defaultDiscountRate, 0) / allClients.length 
-      : 0;
-
-    return {
-      totalClients: allClients.length,
-      activeClients: allClients.length, // Could add logic for "active" determination
-      taxExemptCount: taxExempt,
-      avgDiscount,
-    };
-  });
+  readonly stats = this.statsService.createReactiveClientStats(this.clients);
 
   createClient(value: any) {
     const client: Omit<Client, 'id'> = {

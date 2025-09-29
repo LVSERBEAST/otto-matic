@@ -1,10 +1,11 @@
-import { ChangeDetectionStrategy, Component, computed, inject, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
 import { QuotesService } from './quotes.service';
 import { JobsService } from '../jobs/jobs.service';
 import { QuoteForm } from './components/quote-form/quote-form';
 import { Quote } from '../../core/models/quote.model';
+import { StatsService } from '../../core/services/stats.service';
 
 @Component({
   selector: 'app-quotes',
@@ -16,22 +17,12 @@ import { Quote } from '../../core/models/quote.model';
 export class Quotes {
   private readonly quotesService = inject(QuotesService);
   private readonly jobsService = inject(JobsService);
+  private readonly statsService = inject(StatsService);
   private readonly router = inject(Router);
 
   readonly quotes = this.quotesService.quotes;
-
   readonly statsCollapsed = signal(false);
-  readonly stats = computed(() => {
-    const allQuotes = this.quotes();
-    const totalValue = allQuotes.reduce((sum, quote) => sum + quote.totalPrice, 0);
-
-    return {
-      totalQuotes: allQuotes.length,
-      totalValue,
-      pendingCount: allQuotes.filter((q) => !q.isExported).length,
-      avgQuoteValue: allQuotes.length > 0 ? totalValue / allQuotes.length : 0,
-    };
-  });
+  readonly stats = this.statsService.createReactiveQuoteStats(this.quotes);
 
   createQuote(value: any) {
     const quote: Quote = {
