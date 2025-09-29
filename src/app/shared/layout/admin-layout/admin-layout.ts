@@ -37,5 +37,3 @@ export class AdminLayout {
     this.auth.logout();
   }
 }
-
-

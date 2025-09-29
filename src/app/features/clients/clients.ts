@@ -62,13 +62,13 @@ export class Clients {
   }
 
   getTaxExemptCount(): number {
-    return this.clients().filter(c => c.isTaxExempt).length;
+    return this.clients().filter((c) => c.isTaxExempt).length;
   }
 
   getAvgDiscount(): number {
     const clients = this.clients();
-    return clients.length > 0 
-      ? clients.reduce((sum, c) => sum + c.defaultDiscountRate, 0) / clients.length 
+    return clients.length > 0
+      ? clients.reduce((sum, c) => sum + c.defaultDiscountRate, 0) / clients.length
       : 0;
   }
 
@@ -76,4 +76,3 @@ export class Clients {
     return [...this.clients()].slice(0, 10); // Could add date sorting if createdAt field exists
   }
 }
-

@@ -31,7 +31,9 @@
         <div class="stat-label">Total Jobs</div>
       </div>
       <div class="stat-card">
-        <div class="stat-value">{{ stats().totalValue | currency : 'USD' : 'symbol' : '1.0-0' }}</div>
+        <div class="stat-value">
+          {{ stats().totalValue | currency : 'USD' : 'symbol' : '1.0-0' }}
+        </div>
         <div class="stat-label">Total Value</div>
       </div>
       <div class="stat-card">
@@ -39,7 +41,9 @@
         <div class="stat-label">Draft Jobs</div>
       </div>
       <div class="stat-card">
-        <div class="stat-value">{{ stats().avgJobValue | currency : 'USD' : 'symbol' : '1.0-0' }}</div>
+        <div class="stat-value">
+          {{ stats().avgJobValue | currency : 'USD' : 'symbol' : '1.0-0' }}
+        </div>
         <div class="stat-label">Avg Job Value</div>
       </div>
     </div>

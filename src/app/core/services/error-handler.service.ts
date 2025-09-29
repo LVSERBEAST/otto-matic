@@ -8,23 +8,22 @@ export interface ApiError {
 }
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class ErrorHandlerService {
-  
   handleApiError(error: any, context: string): string {
     console.error(`[${context}] API Error:`, error);
-    
+
     // Firebase errors
     if (error?.code) {
       return this.formatFirebaseError(error);
     }
-    
+
     // HTTP errors
     if (error?.status) {
       return this.formatHttpError(error);
     }
-    
+
     // Generic error
     return error?.message || 'An unexpected error occurred. Please try again.';
   }

@@ -6,6 +6,6 @@ import { ChangeDetectionStrategy, Component } from '@angular/core';
   imports: [],
   changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './contact.html',
-  styleUrl: './contact.scss'
+  styleUrl: './contact.scss',
 })
 export class Contact {}

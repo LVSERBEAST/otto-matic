@@ -30,12 +30,12 @@ export abstract class BaseFormComponent<T> {
   }
 
   protected markAllFieldsAsTouched(): void {
-    Object.keys(this.form.controls).forEach(key => {
+    Object.keys(this.form.controls).forEach((key) => {
       const control = this.form.get(key);
       control?.markAsTouched();
     });
   }
-  
+
   protected getFieldError(fieldName: string): string | null {
     const control = this.form.get(fieldName);
     if (control?.errors && control.touched) {
@@ -43,9 +43,9 @@ export abstract class BaseFormComponent<T> {
     }
     return null;
   }
-  
+
   protected getFieldDisplayName(fieldName: string): string {
     // Convert camelCase to Title Case
-    return fieldName.replace(/([A-Z])/g, ' $1').replace(/^./, str => str.toUpperCase());
+    return fieldName.replace(/([A-Z])/g, ' $1').replace(/^./, (str) => str.toUpperCase());
   }
 }

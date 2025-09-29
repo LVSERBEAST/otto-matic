@@ -26,7 +26,9 @@ interface ClientFormValue {
 export class ClientForm extends BaseFormComponent<ClientFormValue> {
   readonly form = this.fb.nonNullable.group({
     name: this.fb.nonNullable.control<string>('', { validators: [Validators.required] }),
-    email: this.fb.nonNullable.control<string>('', { validators: [Validators.required, Validators.email] }),
+    email: this.fb.nonNullable.control<string>('', {
+      validators: [Validators.required, Validators.email],
+    }),
     phone: this.fb.nonNullable.control<string>('', { validators: [Validators.required] }),
     website: this.fb.nonNullable.control<string>(''),
     street: this.fb.nonNullable.control<string>(''),

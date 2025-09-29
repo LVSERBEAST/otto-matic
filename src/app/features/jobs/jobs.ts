@@ -42,7 +42,7 @@ export class Jobs {
       printProcesses: [],
       productionNotes: '',
       clientNotes: value.notes,
-      hasQuote: false
+      hasQuote: false,
     };
 
     this.jobsService.addJob(job);
@@ -81,4 +81,3 @@ export class Jobs {
     });
   }
 }
-

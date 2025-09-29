@@ -130,4 +130,3 @@ export class Quotes {
       .slice(0, 10);
   }
 }
-

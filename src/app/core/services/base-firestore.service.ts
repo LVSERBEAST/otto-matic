@@ -1,24 +1,24 @@
 import { Injectable, inject } from '@angular/core';
 import { Observable, from, of, catchError } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { 
-  collection, 
-  doc, 
-  addDoc, 
+import {
+  collection,
+  doc,
+  addDoc,
   setDoc,
-  updateDoc, 
-  deleteDoc, 
-  getDocs, 
-  query, 
+  updateDoc,
+  deleteDoc,
+  getDocs,
+  query,
   orderBy as firestoreOrderBy,
   onSnapshot,
   Timestamp,
-  getFirestore
+  getFirestore,
 } from 'firebase/firestore';
 import { ErrorHandlerService } from './error-handler.service';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class BaseFirestoreService {
   private readonly errorHandler = inject(ErrorHandlerService);
@@ -27,24 +27,27 @@ export class BaseFirestoreService {
    * Generic method to fetch all documents from a collection
    */
   protected fetchCollection<T>(
-    collectionName: string, 
+    collectionName: string,
     orderByField?: string,
     orderDirection: 'asc' | 'desc' = 'desc'
   ): Observable<T[]> {
     try {
       const db = getFirestore();
       const collectionRef = collection(db, collectionName);
-      
-      const q = orderByField 
+
+      const q = orderByField
         ? query(collectionRef, firestoreOrderBy(orderByField, orderDirection))
         : collectionRef;
-      
+
       return from(getDocs(q)).pipe(
-        map(snapshot => 
-          snapshot.docs.map((doc: any) => ({ 
-            id: doc.id, 
-            ...this.convertFirebaseData(doc.data()) 
-          } as T))
+        map((snapshot) =>
+          snapshot.docs.map(
+            (doc: any) =>
+              ({
+                id: doc.id,
+                ...this.convertFirebaseData(doc.data()),
+              } as T)
+          )
         ),
         catchError(this.errorHandler.handleErrorSafely<T[]>([]))
       );
@@ -62,29 +65,30 @@ export class BaseFirestoreService {
     orderByField?: string,
     orderDirection: 'asc' | 'desc' = 'desc'
   ): Observable<T[]> {
-    return new Observable<T[]>(observer => {
+    return new Observable<T[]>((observer) => {
       try {
         const db = getFirestore();
         const collectionRef = collection(db, collectionName);
-        
-        const q = orderByField 
+
+        const q = orderByField
           ? query(collectionRef, firestoreOrderBy(orderByField, orderDirection))
           : collectionRef;
-        
-        const unsubscribe = onSnapshot(q, 
-          snapshot => {
+
+        const unsubscribe = onSnapshot(
+          q,
+          (snapshot) => {
             const data = snapshot.docs.map((doc: any) => ({
               id: doc.id,
-              ...this.convertFirebaseData(doc.data())
+              ...this.convertFirebaseData(doc.data()),
             })) as T[];
             observer.next(data);
           },
-          error => {
+          (error) => {
             console.error(`Error streaming ${collectionName}:`, error);
             observer.next([]);
           }
         );
-        
+
         return () => unsubscribe();
       } catch (error) {
         console.error(`Error setting up ${collectionName} stream:`, error);
@@ -99,18 +103,20 @@ export class BaseFirestoreService {
    * Generic method to create a document
    */
   protected createDocument<T extends Record<string, any>>(
-    collectionName: string, 
+    collectionName: string,
     data: T
   ): Observable<string> {
     const db = getFirestore();
     const collectionRef = collection(db, collectionName);
-    
-    return from(addDoc(collectionRef, {
-      ...data,
-      createdAt: new Date()
-    })).pipe(
-      map(docRef => docRef.id),
-      catchError(error => {
+
+    return from(
+      addDoc(collectionRef, {
+        ...data,
+        createdAt: new Date(),
+      })
+    ).pipe(
+      map((docRef) => docRef.id),
+      catchError((error) => {
         const message = this.errorHandler.handleApiError(error, `Create ${collectionName}`);
         throw new Error(message);
       })
@@ -121,18 +127,20 @@ export class BaseFirestoreService {
    * Generic method to set a document with a specific ID
    */
   protected setDocument<T extends Record<string, any>>(
-    collectionName: string, 
+    collectionName: string,
     documentId: string,
     data: T
   ): Observable<void> {
     const db = getFirestore();
     const docRef = doc(db, collectionName, documentId);
-    
-    return from(setDoc(docRef, {
-      ...data,
-      createdAt: new Date()
-    })).pipe(
-      catchError(error => {
+
+    return from(
+      setDoc(docRef, {
+        ...data,
+        createdAt: new Date(),
+      })
+    ).pipe(
+      catchError((error) => {
         const message = this.errorHandler.handleApiError(error, `Set ${collectionName}`);
         throw new Error(message);
       })
@@ -143,18 +151,20 @@ export class BaseFirestoreService {
    * Generic method to update a document
    */
   protected updateDocument<T extends Record<string, any>>(
-    collectionName: string, 
-    documentId: string, 
+    collectionName: string,
+    documentId: string,
     data: Partial<T>
   ): Observable<void> {
     const db = getFirestore();
     const docRef = doc(db, collectionName, documentId);
-    
-    return from(updateDoc(docRef, {
-      ...data,
-      updatedAt: new Date()
-    })).pipe(
-      catchError(error => {
+
+    return from(
+      updateDoc(docRef, {
+        ...data,
+        updatedAt: new Date(),
+      })
+    ).pipe(
+      catchError((error) => {
         const message = this.errorHandler.handleApiError(error, `Update ${collectionName}`);
         throw new Error(message);
       })
@@ -167,9 +177,9 @@ export class BaseFirestoreService {
   protected deleteDocument(collectionName: string, documentId: string): Observable<void> {
     const db = getFirestore();
     const docRef = doc(db, collectionName, documentId);
-    
+
     return from(deleteDoc(docRef)).pipe(
-      catchError(error => {
+      catchError((error) => {
         const message = this.errorHandler.handleApiError(error, `Delete ${collectionName}`);
         throw new Error(message);
       })
@@ -189,7 +199,7 @@ export class BaseFirestoreService {
     }
 
     if (Array.isArray(data)) {
-      return data.map(item => this.convertFirebaseData(item));
+      return data.map((item) => this.convertFirebaseData(item));
     }
 
     if (typeof data === 'object') {
