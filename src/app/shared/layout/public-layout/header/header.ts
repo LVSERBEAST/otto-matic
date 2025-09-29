@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, computed, inject, signal } from '@angular/core';
 import { RouterLink, RouterLinkActive } from '@angular/router';
-import { LoginModal } from '../../auth/login-modal/login-modal';
+import { LoginModal } from '../../../auth/login-modal/login-modal';
 
 @Component({
   selector: 'app-header',

@@ -1,18 +1,3 @@
-<app-confirm-dialog
-  [open]="showStageChangeConfirm()"
-  title="Change Job Stage"
-  [message]="
-    pendingStageChange()
-      ? 'Move ' +
-        pendingStageChange()?.job?.material +
-        ' to ' +
-        pendingStageChange()?.newStage +
-        '?'
-      : 'Change job stage?'
-  "
-  confirmText="Move Job"
-  [dangerMode]="false"
-/>
 <div class="animate-fade-in">
   <!-- Stats Overview -->
   <div class="stats-grid">

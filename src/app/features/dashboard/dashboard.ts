@@ -1,6 +1,5 @@
 import {
   ChangeDetectionStrategy,
-  ChangeDetectorRef,
   Component,
   computed,
   inject,
@@ -18,12 +17,11 @@ import { JobsService } from '../jobs/jobs.service';
 import { ClientsService } from '../clients/clients.service';
 import { AuthService } from '../../core/auth.service';
 import { Job, JobStage } from '../../core/models/job.model';
-import { ConfirmDialog } from '../../shared/components';
 
 @Component({
   selector: 'app-dashboard',
   standalone: true,
-  imports: [CommonModule, DragDropModule, ConfirmDialog],
+  imports: [CommonModule, DragDropModule],
   changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './dashboard.html',
   styleUrl: './dashboard.scss',

@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component, inject, signal } from '@angular/core';
 import { NavigationEnd, Router, RouterOutlet } from '@angular/router';
-import { Footer } from '../footer/footer';
-import { Header } from '../header/header';
+import { Footer } from './footer/footer';
+import { Header } from './header/header';
 import { filter } from 'rxjs';
 
 declare var $: any;
